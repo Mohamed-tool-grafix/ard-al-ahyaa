@@ -1,647 +1,698 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>الأحياء | أرض الأحياء</title>
-  <meta name="description" content="دروس ووحدات واختبارات مادة الأحياء - أرض الأحياء">
+<title>أرض الأحياء | منصة تعليمية</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Tahoma, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Tahoma,sans-serif;
+}
 
-    body {
-      background: #f5f8f7;
-      color: #17352d;
-    }
+body{
+  background:#f4f7f6;
+  color:#18352e;
+}
 
-    /* الهيدر */
-    header {
-      background: #075e4d;
-      color: white;
-      padding: 16px 7%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 3px 12px rgba(0,0,0,.15);
-    }
+/* القائمة الجانبية */
 
-    .logo {
-      color: white;
-      text-decoration: none;
-      font-size: 24px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
+.sidebar{
+  position:fixed;
+  right:0;
+  top:0;
+  width:270px;
+  height:100vh;
+  background:#075e4d;
+  color:white;
+  padding:25px 18px;
+  z-index:1000;
+  box-shadow:-4px 0 20px rgba(0,0,0,.12);
+}
 
-    nav {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+.logo{
+  text-align:center;
+  font-size:25px;
+  font-weight:bold;
+  padding:10px;
+  margin-bottom:30px;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 15px;
-    }
+.logo span{
+  display:block;
+  font-size:45px;
+  margin-bottom:8px;
+}
 
-    nav a:hover {
-      color: #a8f0d8;
-    }
+.menu-title{
+  color:#a9d9cd;
+  font-size:13px;
+  margin:20px 12px 10px;
+}
 
-    .home-btn {
-      background: white;
-      color: #075e4d;
-      text-decoration: none;
-      padding: 9px 17px;
-      border-radius: 20px;
-      font-weight: bold;
-      white-space: nowrap;
-    }
+.menu a{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  color:white;
+  text-decoration:none;
+  padding:13px 15px;
+  border-radius:12px;
+  margin-bottom:5px;
+  transition:.2s;
+}
 
-    /* العنوان */
-    .hero {
-      background: linear-gradient(135deg, #075e4d, #0b8069);
-      color: white;
-      padding: 60px 7%;
-      text-align: center;
-    }
+.menu a:hover,
+.menu a.active{
+  background:rgba(255,255,255,.14);
+}
 
-    .hero-icon {
-      font-size: 70px;
-      margin-bottom: 15px;
-    }
+.menu-icon{
+  font-size:21px;
+}
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
+/* المحتوى */
 
-    .hero p {
-      color: #d8f4eb;
-      font-size: 18px;
-      line-height: 1.8;
-    }
+.content{
+  margin-right:270px;
+  min-height:100vh;
+}
 
-    /* البحث */
-    .search-box {
-      max-width: 650px;
-      margin: -25px auto 40px;
-      padding: 0 20px;
-      position: relative;
-      z-index: 5;
-    }
+/* الشريط العلوي */
 
-    .search-box input {
-      width: 100%;
-      border: none;
-      outline: none;
-      padding: 18px 22px;
-      border-radius: 35px;
-      font-size: 16px;
-      box-shadow: 0 8px 25px rgba(0,0,0,.12);
-      direction: rtl;
-    }
+.topbar{
+  height:75px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 35px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
 
-    /* المحتوى */
-    main {
-      padding: 20px 7% 70px;
-    }
+.page-title{
+  font-size:21px;
+  font-weight:bold;
+}
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+.profile{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-    .section-title h2 {
-      color: #075e4d;
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
+.profile-icon{
+  width:42px;
+  height:42px;
+  background:#dff4ec;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+}
 
-    .section-title p {
-      color: #71817c;
-    }
+/* زر القائمة للموبايل */
 
-    /* الوحدات */
-    .units {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin-bottom: 65px;
-    }
+.menu-button{
+  display:none;
+  border:0;
+  background:#075e4d;
+  color:white;
+  font-size:24px;
+  padding:8px 12px;
+  border-radius:9px;
+}
 
-    .unit {
-      background: white;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.07);
-      border: 1px solid #e4eeeb;
-    }
+/* المحتوى الرئيسي */
 
-    .unit-number {
-      display: inline-block;
-      background: #dff4ec;
-      color: #075e4d;
-      padding: 7px 13px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 13px;
-    }
+main{
+  padding:35px;
+}
 
-    .unit h3 {
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
+/* الترحيب */
 
-    .unit-description {
-      color: #71817c;
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
+.welcome{
+  background:linear-gradient(135deg,#075e4d,#0a8069);
+  color:white;
+  border-radius:22px;
+  padding:35px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:30px;
+}
 
-    /* الدروس */
-    .lesson-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+.welcome h1{
+  font-size:32px;
+  margin-bottom:12px;
+}
 
-    .lesson {
-      background: #f7faf9;
-      border-radius: 12px;
-      padding: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
+.welcome p{
+  color:#d8f4eb;
+  line-height:1.8;
+  font-size:16px;
+}
 
-    .lesson-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+.welcome-icon{
+  font-size:90px;
+}
 
-    .lesson-icon {
-      font-size: 25px;
-    }
+/* العناوين */
 
-    .lesson-name {
-      font-weight: bold;
-    }
+.section-title{
+  margin:35px 0 18px;
+}
 
-    .lesson-btn {
-      background: #075e4d;
-      color: white;
-      text-decoration: none;
-      padding: 7px 12px;
-      border-radius: 15px;
-      font-size: 13px;
-      white-space: nowrap;
-    }
+.section-title h2{
+  color:#075e4d;
+  font-size:25px;
+}
 
-    /* الاختبارات */
-    .tests {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 20px;
-    }
+.section-title p{
+  color:#74827e;
+  margin-top:6px;
+}
 
-    .test {
-      background: white;
-      padding: 25px;
-      border-radius: 18px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,.07);
-    }
+/* الكروت */
 
-    .test-icon {
-      font-size: 45px;
-      margin-bottom: 12px;
-    }
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
 
-    .test h3 {
-      margin-bottom: 8px;
-    }
+.card{
+  background:white;
+  border-radius:18px;
+  padding:23px;
+  box-shadow:0 5px 18px rgba(0,0,0,.06);
+  transition:.2s;
+}
 
-    .test p {
-      color: #71817c;
-      margin-bottom: 17px;
-    }
+.card:hover{
+  transform:translateY(-4px);
+}
 
-    .test-btn {
-      display: inline-block;
-      background: #075e4d;
-      color: white;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 22px;
-    }
+.card-icon{
+  font-size:40px;
+  margin-bottom:15px;
+}
 
-    /* الفوتر */
-    footer {
-      background: #12342d;
-      color: white;
-      text-align: center;
-      padding: 35px 7%;
-    }
+.card h3{
+  margin-bottom:8px;
+}
 
-    footer p {
-      color: #c5d8d3;
-      margin-top: 10px;
-    }
+.card p{
+  color:#71817c;
+  line-height:1.6;
+  font-size:14px;
+}
 
-    /* الموبايل */
-    @media (max-width: 700px) {
-      header {
-        flex-direction: column;
-      }
+.card a{
+  display:inline-block;
+  margin-top:15px;
+  color:#075e4d;
+  font-weight:bold;
+  text-decoration:none;
+}
 
-      .hero h1 {
-        font-size: 34px;
-      }
+/* آخر الدروس */
 
-      .hero p {
-        font-size: 16px;
-      }
+.lessons{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
 
-      .lesson {
-        align-items: flex-start;
-      }
+.lesson{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 5px 18px rgba(0,0,0,.06);
+}
 
-      .lesson-btn {
-        padding: 6px 9px;
-      }
-    }
-  </style>
+.lesson-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:13px;
+}
+
+.lesson-icon{
+  width:50px;
+  height:50px;
+  background:#e3f5ef;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+}
+
+.lesson p{
+  color:#71817c;
+  line-height:1.7;
+  font-size:14px;
+}
+
+.lesson button{
+  margin-top:15px;
+  border:0;
+  background:#075e4d;
+  color:white;
+  padding:9px 17px;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+/* الفوتر */
+
+footer{
+  margin-top:50px;
+  background:#12342d;
+  color:white;
+  text-align:center;
+  padding:25px;
+}
+
+footer p{
+  color:#bfd4ce;
+  margin-top:8px;
+}
+
+/* الموبايل */
+
+@media(max-width:1000px){
+
+  .cards{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .lessons{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  .sidebar{
+    right:-280px;
+    transition:.3s;
+  }
+
+  .sidebar.open{
+    right:0;
+  }
+
+  .content{
+    margin-right:0;
+  }
+
+  .topbar{
+    padding:0 15px;
+  }
+
+  .menu-button{
+    display:block;
+  }
+
+  main{
+    padding:20px 15px;
+  }
+
+  .welcome{
+    padding:25px;
+  }
+
+  .welcome h1{
+    font-size:25px;
+  }
+
+  .welcome-icon{
+    font-size:60px;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .lessons{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- الهيدر -->
-  <header>
+<!-- القائمة اليمنى -->
 
-    <a href="../index.html" class="logo">
-      🧬 أرض الأحياء
-    </a>
+<aside class="sidebar" id="sidebar">
 
-    <nav>
-      <a href="../index.html">الرئيسية</a>
-      <a href="#units">الوحدات</a>
-      <a href="#tests">الاختبارات</a>
-    </nav>
+  <div class="logo">
+    <span>🧬</span>
+    أرض الأحياء
+  </div>
 
-    <a href="../index.html" class="home-btn">
+  <div class="menu">
+
+    <div class="menu-title">
+      القائمة الرئيسية
+    </div>
+
+    <a href="index.html" class="active">
+      <span class="menu-icon">🏠</span>
       الرئيسية
     </a>
+
+    <a href="biology/index.html">
+      <span class="menu-icon">📚</span>
+      الدروس
+    </a>
+
+    <a href="#">
+      <span class="menu-icon">🎥</span>
+      الفيديوهات
+    </a>
+
+    <a href="#">
+      <span class="menu-icon">📝</span>
+      الاختبارات
+    </a>
+
+    <a href="#">
+      <span class="menu-icon">📄</span>
+      المذكرات
+    </a>
+
+
+    <div class="menu-title">
+      المجتمع
+    </div>
+
+    <a href="#">
+      <span class="menu-icon">💬</span>
+      المنتدى
+    </a>
+
+    <a href="#">
+      <span class="menu-icon">🏆</span>
+      المتصدرون
+    </a>
+
+
+    <div class="menu-title">
+      حسابي
+    </div>
+
+    <a href="#">
+      <span class="menu-icon">👤</span>
+      حسابي
+    </a>
+
+    <a href="#">
+      <span class="menu-icon">⚙️</span>
+      الإعدادات
+    </a>
+
+  </div>
+
+</aside>
+
+
+<!-- المحتوى -->
+
+<div class="content">
+
+  <!-- الشريط العلوي -->
+
+  <header class="topbar">
+
+    <button class="menu-button" onclick="toggleMenu()">
+      ☰
+    </button>
+
+    <div class="page-title">
+      لوحة التحكم
+    </div>
+
+    <div class="profile">
+
+      <span>
+        مرحبًا بك 👋
+      </span>
+
+      <div class="profile-icon">
+        👤
+      </div>
+
+    </div>
 
   </header>
 
 
-  <!-- مقدمة المادة -->
-  <section class="hero">
-
-    <div class="hero-icon">🧬</div>
-
-    <h1>مادة الأحياء</h1>
-
-    <p>
-      ابدأ رحلتك في عالم الأحياء
-      وتعلم بطريقة سهلة ومنظمة.
-    </p>
-
-  </section>
-
-
-  <!-- البحث -->
-  <div class="search-box">
-
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="🔎 ابحث عن درس أو وحدة..."
-      onkeyup="searchLessons()"
-    >
-
-  </div>
-
-
   <main>
 
-    <!-- الوحدات -->
-    <section id="units">
+    <!-- الترحيب -->
 
-      <div class="section-title">
+    <section class="welcome">
 
-        <h2>📚 وحدات الأحياء</h2>
+      <div>
+
+        <h1>
+          أهلاً بك في أرض الأحياء 🧬
+        </h1>
 
         <p>
-          اختر الوحدة التي تريد دراستها
+          منصتك التعليمية لفهم الأحياء بطريقة بسيطة
+          ومنظمة وممتعة.
         </p>
 
       </div>
 
-
-      <div class="units">
-
-        <!-- الوحدة الأولى -->
-        <div class="unit searchable">
-
-          <span class="unit-number">
-            الوحدة الأولى
-          </span>
-
-          <h3>الدعامة والحركة</h3>
-
-          <p class="unit-description">
-            تعرف على الدعامة في الكائنات الحية
-            وكيف تساعدها على الحفاظ على شكلها.
-          </p>
-
-          <div class="lesson-list">
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">🌱</span>
-                <span class="lesson-name">
-                  الدعامة في النبات
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">🌿</span>
-                <span class="lesson-name">
-                  أنواع الدعامة
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">🦴</span>
-                <span class="lesson-name">
-                  الدعامة في الحيوان
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- الوحدة الثانية -->
-        <div class="unit searchable">
-
-          <span class="unit-number">
-            الوحدة الثانية
-          </span>
-
-          <h3>الخلية</h3>
-
-          <p class="unit-description">
-            تعرف على الخلية ومكوناتها
-            ووظائف الأجزاء المختلفة.
-          </p>
-
-          <div class="lesson-list">
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">🧫</span>
-                <span class="lesson-name">
-                  تركيب الخلية
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">🔬</span>
-                <span class="lesson-name">
-                  عضيات الخلية
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">⚙️</span>
-                <span class="lesson-name">
-                  وظائف العضيات
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- الوحدة الثالثة -->
-        <div class="unit searchable">
-
-          <span class="unit-number">
-            الوحدة الثالثة
-          </span>
-
-          <h3>الوراثة</h3>
-
-          <p class="unit-description">
-            مقدمة لفهم الصفات الوراثية
-            وانتقالها بين الأجيال.
-          </p>
-
-          <div class="lesson-list">
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">🧬</span>
-                <span class="lesson-name">
-                  أساسيات الوراثة
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">🔬</span>
-                <span class="lesson-name">
-                  الكروموسومات
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-
-            <div class="lesson searchable">
-
-              <div class="lesson-info">
-                <span class="lesson-icon">🧬</span>
-                <span class="lesson-name">
-                  الجينات
-                </span>
-              </div>
-
-              <a href="#" class="lesson-btn">
-                ابدأ
-              </a>
-
-            </div>
-
-          </div>
-
-        </div>
-
+      <div class="welcome-icon">
+        🧬
       </div>
 
     </section>
 
 
-    <!-- الاختبارات -->
-    <section id="tests">
+    <!-- الأقسام -->
 
-      <div class="section-title">
+    <div class="section-title">
 
-        <h2>📝 الاختبارات</h2>
+      <h2>
+        ابدأ التعلم
+      </h2>
+
+      <p>
+        اختر ما تريد أن تبدأ به
+      </p>
+
+    </div>
+
+
+    <div class="cards">
+
+      <div class="card">
+
+        <div class="card-icon">
+          📚
+        </div>
+
+        <h3>
+          الدروس
+        </h3>
 
         <p>
-          اختبر معلوماتك بعد دراسة الدروس
+          شاهد دروس الأحياء مرتبة حسب الوحدات.
         </p>
 
-      </div>
-
-
-      <div class="tests">
-
-        <div class="test">
-
-          <div class="test-icon">🌱</div>
-
-          <h3>اختبار الدعامة</h3>
-
-          <p>
-            اختبار قصير على درس الدعامة.
-          </p>
-
-          <a href="#" class="test-btn">
-            ابدأ الاختبار
-          </a>
-
-        </div>
-
-
-        <div class="test">
-
-          <div class="test-icon">🧫</div>
-
-          <h3>اختبار الخلية</h3>
-
-          <p>
-            اختبر فهمك لمكونات الخلية.
-          </p>
-
-          <a href="#" class="test-btn">
-            ابدأ الاختبار
-          </a>
-
-        </div>
-
-
-        <div class="test">
-
-          <div class="test-icon">🧬</div>
-
-          <h3>اختبار الوراثة</h3>
-
-          <p>
-            أسئلة متنوعة على الوراثة.
-          </p>
-
-          <a href="#" class="test-btn">
-            ابدأ الاختبار
-          </a>
-
-        </div>
+        <a href="biology/index.html">
+          استكشف الدروس ←
+        </a>
 
       </div>
 
-    </section>
+
+      <div class="card">
+
+        <div class="card-icon">
+          🎥
+        </div>
+
+        <h3>
+          الفيديوهات
+        </h3>
+
+        <p>
+          شاهد شرح الدروس بطريقة سهلة.
+        </p>
+
+        <a href="#">
+          مشاهدة الفيديوهات ←
+        </a>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-icon">
+          📝
+        </div>
+
+        <h3>
+          الاختبارات
+        </h3>
+
+        <p>
+          اختبر معلوماتك واعرف مستواك.
+        </p>
+
+        <a href="#">
+          ابدأ اختبارًا ←
+        </a>
+
+      </div>
+
+
+      <div class="card">
+
+        <div class="card-icon">
+          📄
+        </div>
+
+        <h3>
+          المذكرات
+        </h3>
+
+        <p>
+          حمل المذكرات والمراجعات التعليمية.
+        </p>
+
+        <a href="#">
+          تصفح المذكرات ←
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- أحدث الدروس -->
+
+    <div class="section-title">
+
+      <h2>
+        أحدث الدروس
+      </h2>
+
+      <p>
+        تابع أحدث المحتوى التعليمي
+      </p>
+
+    </div>
+
+
+    <div class="lessons">
+
+      <div class="lesson">
+
+        <div class="lesson-top">
+
+          <div class="lesson-icon">
+            🌱
+          </div>
+
+          <h3>
+            الدعامة في النبات
+          </h3>
+
+        </div>
+
+        <p>
+          تعرف على مفهوم الدعامة وأهميتها
+          وأنواعها في النبات.
+        </p>
+
+        <button>
+          مشاهدة الدرس
+        </button>
+
+      </div>
+
+
+      <div class="lesson">
+
+        <div class="lesson-top">
+
+          <div class="lesson-icon">
+            🧫
+          </div>
+
+          <h3>
+            تركيب الخلية
+          </h3>
+
+        </div>
+
+        <p>
+          تعرف على الخلية ومكوناتها
+          ووظائفها المختلفة.
+        </p>
+
+        <button>
+          مشاهدة الدرس
+        </button>
+
+      </div>
+
+
+      <div class="lesson">
+
+        <div class="lesson-top">
+
+          <div class="lesson-icon">
+            🧬
+          </div>
+
+          <h3>
+            أساسيات الوراثة
+          </h3>
+
+        </div>
+
+        <p>
+          مقدمة بسيطة لفهم الجينات
+          والصفات الوراثية.
+        </p>
+
+        <button>
+          مشاهدة الدرس
+        </button>
+
+      </div>
+
+    </div>
 
   </main>
 
 
-  <!-- الفوتر -->
   <footer>
 
-    <h2>🧬 أرض الأحياء</h2>
+    <h3>
+      🧬 أرض الأحياء
+    </h3>
 
     <p>
       تعلم الأحياء بطريقة أسهل وأمتع.
@@ -653,33 +704,21 @@
 
   </footer>
 
+</div>
 
-  <script>
 
-    function searchLessons() {
+<script>
 
-      const input =
-        document.getElementById("searchInput").value.toLowerCase();
+function toggleMenu(){
 
-      const items =
-        document.querySelectorAll(".searchable");
+  const sidebar =
+    document.getElementById("sidebar");
 
-      items.forEach(function(item) {
+  sidebar.classList.toggle("open");
 
-        const text =
-          item.innerText.toLowerCase();
+}
 
-        if (text.includes(input)) {
-          item.style.display = "";
-        } else {
-          item.style.display = "none";
-        }
-
-      });
-
-    }
-
-  </script>
+</script>
 
 </body>
 </html>
