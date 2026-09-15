@@ -25,16 +25,16 @@
 
     .login-box {
       width: 100%;
-      max-width: 420px;
+      max-width: 430px;
       background: white;
       padding: 35px 25px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
     }
 
     .logo {
       text-align: center;
-      font-size: 45px;
+      font-size: 48px;
       margin-bottom: 10px;
     }
 
@@ -86,15 +86,21 @@
       background: #064d40;
     }
 
+    button:disabled {
+      opacity: 0.6;
+    }
+
     .message {
-      margin-top: 15px;
+      margin-top: 18px;
       text-align: center;
       font-weight: bold;
+      line-height: 1.7;
     }
 
     .register {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 22px;
+      color: #555;
     }
 
     .register a {
@@ -103,8 +109,6 @@
       font-weight: bold;
     }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="auth.js"></script>
 </head>
 
 <body>
@@ -127,6 +131,7 @@
         type="email"
         id="email"
         placeholder="example@email.com"
+        autocomplete="email"
         required
       >
 
@@ -135,11 +140,12 @@
       <input
         type="password"
         id="password"
-        placeholder="أدخل كلمة المرور"
+        placeholder="اكتب كلمة المرور"
+        autocomplete="current-password"
         required
       >
 
-      <button type="submit">
+      <button type="submit" id="loginButton">
         🔐 تسجيل الدخول
       </button>
 
@@ -153,6 +159,104 @@
     </div>
 
   </div>
+
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://gvehygqxjqucxwussaye.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const message =
+      document.getElementById("message");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+
+    loginForm.addEventListener(
+      "submit",
+      async function(e) {
+
+        e.preventDefault();
+
+        const email =
+          document.getElementById("email").value.trim();
+
+        const password =
+          document.getElementById("password").value;
+
+
+        message.textContent =
+          "⏳ جاري تسجيل الدخول...";
+
+        loginButton.disabled = true;
+
+
+        try {
+
+          const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+
+              email: email,
+
+              password: password
+
+            });
+
+
+          if (error) {
+
+            message.textContent =
+              "❌ " + error.message;
+
+            loginButton.disabled = false;
+
+            return;
+          }
+
+
+          message.textContent =
+            "✅ تم تسجيل الدخول بنجاح";
+
+
+          setTimeout(function() {
+
+            window.location.href = "../index.html";
+
+          }, 1000);
+
+
+        } catch(error) {
+
+          message.textContent =
+            "❌ حدث خطأ في الاتصال";
+
+          loginButton.disabled = false;
+
+          console.error(error);
+
+        }
+
+      }
+    );
+
+  </script>
 
 </body>
 </html>
