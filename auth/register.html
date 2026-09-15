@@ -25,16 +25,16 @@
 
     .register-box {
       width: 100%;
-      max-width: 420px;
-      background: white;
+      max-width: 430px;
+      background: #ffffff;
       padding: 35px 25px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
     }
 
     .logo {
       text-align: center;
-      font-size: 45px;
+      font-size: 48px;
       margin-bottom: 10px;
     }
 
@@ -65,10 +65,12 @@
       margin-bottom: 17px;
       font-size: 16px;
       outline: none;
+      direction: rtl;
     }
 
     input:focus {
       border-color: #075e4d;
+      box-shadow: 0 0 0 2px rgba(7, 94, 77, 0.08);
     }
 
     button {
@@ -92,15 +94,16 @@
     }
 
     .message {
-      margin-top: 15px;
+      margin-top: 18px;
       text-align: center;
       font-weight: bold;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .login {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 22px;
+      color: #555;
     }
 
     .login a {
@@ -131,6 +134,7 @@
         type="text"
         id="name"
         placeholder="اكتب اسمك"
+        autocomplete="name"
         required
       >
 
@@ -140,6 +144,7 @@
         type="email"
         id="email"
         placeholder="example@email.com"
+        autocomplete="email"
         required
       >
 
@@ -150,6 +155,7 @@
         id="password"
         placeholder="6 أحرف أو أكثر"
         minlength="6"
+        autocomplete="new-password"
         required
       >
 
@@ -168,11 +174,108 @@
 
   </div>
 
+
   <!-- مكتبة Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- ملف تسجيل الدخول والتسجيل -->
-  <script src="auth.js"></script>
+  <script>
+    const SUPABASE_URL =
+      "https://gvehygqxjqucxwussaye.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    const registerForm =
+      document.getElementById("registerForm");
+
+    const message =
+      document.getElementById("message");
+
+    const registerButton =
+      document.getElementById("registerButton");
+
+
+    registerForm.addEventListener(
+      "submit",
+      async function (e) {
+
+        e.preventDefault();
+
+        const name =
+          document.getElementById("name").value.trim();
+
+        const email =
+          document.getElementById("email").value.trim();
+
+        const password =
+          document.getElementById("password").value;
+
+
+        message.textContent =
+          "⏳ جاري إنشاء الحساب...";
+
+        registerButton.disabled = true;
+
+
+        try {
+
+          const { data, error } =
+            await supabaseClient.auth.signUp({
+
+              email: email,
+
+              password: password,
+
+              options: {
+                data: {
+                  full_name: name
+                }
+              }
+
+            });
+
+
+          if (error) {
+
+            message.textContent =
+              "❌ " + error.message;
+
+            registerButton.disabled = false;
+
+            return;
+          }
+
+
+          message.textContent =
+            "✅ تم إنشاء الحساب بنجاح!";
+
+
+          registerForm.reset();
+
+          registerButton.disabled = false;
+
+
+        } catch (error) {
+
+          message.textContent =
+            "❌ حدث خطأ في الاتصال بـ Supabase";
+
+          registerButton.disabled = false;
+
+          console.error(error);
+
+        }
+
+      }
+    );
+  </script>
 
 </body>
 </html>
