@@ -1,293 +1,130 @@
-```javascript
-/* =====================================================
-   تكنومسار
-   نظام الموقع الأساسي
-===================================================== */
+/* =========================================
+   أرض الأحياء - JavaScript
+========================================= */
 
 
-/* ================= بيانات الألعاب ================= */
+/* =========================================
+   القائمة الجانبية في الموبايل
+========================================= */
 
-const games = [
+function toggleMenu() {
 
-    {
-        name: "Mafia 2",
-        image: "games/mafia2.jpg",
-        category: "action",
-        categoryName: "أكشن",
-        rating: "5.0",
-        description: "لعبة أكشن ومغامرات تدور أحداثها في عالم مفتوح.",
-        link: "games/mafia-2.html"
-    },
+  const sidebar = document.getElementById("sidebar");
 
-    {
-        name: "GTA San Andreas",
-        image: "games/gta-sa.jpg",
-        category: "action",
-        categoryName: "أكشن",
-        rating: "4.9",
-        description: "واحدة من أشهر ألعاب العالم المفتوح.",
-        link: "games/gta-san-andreas.html"
-    },
+  if (!sidebar) return;
 
-    {
-        name: "PES 2013",
-        image: "games/pes-2013.jpg",
-        category: "sports",
-        categoryName: "رياضة",
-        rating: "4.8",
-        description: "لعبة كرة قدم كلاسيكية محبوبة.",
-        link: "games/pes-2013.html"
-    },
-
-    {
-        name: "Truck Simulator",
-        image: "games/truck-simulator.jpg",
-        category: "simulation",
-        categoryName: "محاكاة",
-        rating: "4.7",
-        description: "تجربة قيادة الشاحنات ومحاكاة الطرق.",
-        link: "games/truck-simulator.html"
-    },
-
-    {
-        name: "Minecraft",
-        image: "games/minecraft.jpg",
-        category: "adventure",
-        categoryName: "مغامرات",
-        rating: "4.9",
-        description: "استكشف عالمًا مفتوحًا وابنِ عالمك الخاص.",
-        link: "games/minecraft.html"
-    },
-
-    {
-        name: "FIFA 14",
-        image: "games/fifa-14.jpg",
-        category: "sports",
-        categoryName: "رياضة",
-        rating: "4.7",
-        description: "لعبة كرة قدم شهيرة من سلسلة FIFA.",
-        link: "games/fifa-14.html"
-    }
-
-];
-
-
-/* ================= إنشاء كارت اللعبة ================= */
-
-function createGameCard(game) {
-
-    return `
-        <article class="game-card">
-
-            <div class="game-image">
-
-                <img
-                    src="${game.image}"
-                    alt="${game.name}"
-                    loading="lazy"
-                    onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'game-placeholder\\'>🎮</span>';"
-                >
-
-            </div>
-
-            <div class="game-info">
-
-                <h3>${game.name}</h3>
-
-                <p class="game-description">
-                    ${game.description}
-                </p>
-
-                <div class="game-meta">
-
-                    <span>
-                        ${game.categoryName}
-                    </span>
-
-                    <span class="rating">
-                        ⭐ ${game.rating}
-                    </span>
-
-                </div>
-
-                <a
-                    href="${game.link}"
-                    class="game-btn"
-                >
-                    🎮 تفاصيل اللعبة
-                </a>
-
-            </div>
-
-        </article>
-    `;
+  sidebar.classList.toggle("open");
 }
 
 
-/* ================= الألعاب المميزة ================= */
+/* إغلاق القائمة عند الضغط على أي رابط */
 
-function showFeaturedGames() {
+document.addEventListener("DOMContentLoaded", function () {
 
-    const container =
-        document.getElementById("featuredGames");
+  const sidebar = document.getElementById("sidebar");
 
-    if (!container) return;
+  if (!sidebar) return;
 
-    container.innerHTML =
-        games
-        .slice(0, 6)
-        .map(createGameCard)
-        .join("");
-}
+  const menuLinks = sidebar.querySelectorAll("a");
 
+  menuLinks.forEach(function (link) {
 
-/* ================= البحث ================= */
+    link.addEventListener("click", function () {
 
-const searchInput =
-    document.getElementById("searchInput");
-
-const searchResults =
-    document.getElementById("searchResults");
-
-
-if (searchInput) {
-
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            const value =
-                this.value.trim().toLowerCase();
-
-            if (!value) {
-
-                searchResults.innerHTML = "";
-
-                return;
-            }
-
-            const results =
-                games.filter(game =>
-                    game.name
-                        .toLowerCase()
-                        .includes(value)
-                );
-
-
-            if (results.length === 0) {
-
-                searchResults.innerHTML = `
-                    <div class="game-card" style="padding:20px;">
-                        ❌ لم يتم العثور على اللعبة
-                    </div>
-                `;
-
-                return;
-            }
-
-
-            searchResults.innerHTML =
-                results
-                .map(game => `
-                    <a
-                        href="${game.link}"
-                        class="game-card"
-                        style="
-                            display:block;
-                            padding:16px;
-                            margin-bottom:8px;
-                        "
-                    >
-                        🎮 ${game.name}
-                        <small style="color:#9ba8ba;">
-                            — ${game.categoryName}
-                        </small>
-                    </a>
-                `)
-                .join("");
-
-        }
-    );
-
-}
-
-
-/* ================= قائمة الهاتف ================= */
-
-const menuBtn =
-    document.getElementById("menuBtn");
-
-const menu =
-    document.querySelector(".menu");
-
-
-if (menuBtn && menu) {
-
-    menuBtn.addEventListener(
-        "click",
-        () => {
-
-            menu.classList.toggle("show");
-
-        }
-    );
-
-}
-
-
-/* ================= التصنيفات ================= */
-
-document
-    .querySelectorAll(".category-card")
-    .forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                const category =
-                    button.dataset.category;
-
-                const filtered =
-                    games.filter(
-                        game =>
-                            game.category === category
-                    );
-
-                if (!filtered.length) {
-
-                    alert("لا توجد ألعاب في هذا التصنيف حاليًا.");
-
-                    return;
-                }
-
-                const container =
-                    document.getElementById("featuredGames");
-
-                if (!container) return;
-
-                container.innerHTML =
-                    filtered
-                    .map(createGameCard)
-                    .join("");
-
-                document
-                    .getElementById("featuredGames")
-                    .scrollIntoView({
-                        behavior: "smooth"
-                    });
-
-            }
-        );
+      if (window.innerWidth <= 700) {
+        sidebar.classList.remove("open");
+      }
 
     });
 
+  });
 
-/* ================= تشغيل الموقع ================= */
+});
 
-showFeaturedGames();
 
-console.log(
-    "🎮 تكنومسار يعمل بنجاح!"
-);
-```
+/* =========================================
+   زر الرجوع لأعلى الصفحة
+========================================= */
+
+window.addEventListener("scroll", function () {
+
+  const topButton = document.getElementById("topButton");
+
+  if (!topButton) return;
+
+  if (window.scrollY > 300) {
+    topButton.classList.add("show");
+  } else {
+    topButton.classList.remove("show");
+  }
+
+});
+
+
+function goTop() {
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* =========================================
+   البحث في الدروس
+========================================= */
+
+function searchLessons() {
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  if (!searchInput) return;
+
+  const searchText =
+    searchInput.value.trim().toLowerCase();
+
+  const lessons =
+    document.querySelectorAll(".searchable");
+
+  lessons.forEach(function (lesson) {
+
+    const text =
+      lesson.innerText.toLowerCase();
+
+    if (text.includes(searchText)) {
+
+      lesson.style.display = "";
+
+    } else {
+
+      lesson.style.display = "none";
+
+    }
+
+  });
+
+}
+
+
+/* =========================================
+   رسالة ترحيب بسيطة
+========================================= */
+
+function showWelcome() {
+
+  console.log("مرحبًا بك في منصة أرض الأحياء 🧬");
+
+}
+
+
+/* =========================================
+   تشغيل الموقع
+========================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  showWelcome();
+
+});
