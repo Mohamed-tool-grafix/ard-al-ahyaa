@@ -1,270 +1,586 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>تكنومسار | عالم الألعاب</title>
+  <title>أرض الأحياء | منصة تعليمية</title>
+  <meta name="description" content="أرض الأحياء - منصة تعليمية متخصصة في مادة الأحياء">
 
-    <meta name="description" content="تكنومسار - عالم الألعاب والتحميلات">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Tahoma, sans-serif;
+    }
 
-    <link rel="stylesheet" href="style.css">
+    body {
+      background: #f5f8f7;
+      color: #17352d;
+    }
+
+    /* الشريط العلوي */
+    header {
+      background: #075e4d;
+      color: white;
+      padding: 15px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    nav {
+      display: flex;
+      gap: 22px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: .3s;
+    }
+
+    nav a:hover {
+      color: #a8f0d8;
+    }
+
+    .login-btn {
+      background: white;
+      color: #075e4d;
+      padding: 9px 18px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* الهيرو */
+    .hero {
+      min-height: 500px;
+      padding: 70px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      background: linear-gradient(135deg, #e1f7ef, #f8fffc);
+    }
+
+    .hero-text {
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      color: #075e4d;
+      margin-bottom: 20px;
+    }
+
+    .hero h2 {
+      font-size: 27px;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      color: #58716a;
+      font-size: 18px;
+      line-height: 1.9;
+      margin-bottom: 28px;
+    }
+
+    .main-btn {
+      display: inline-block;
+      background: #075e4d;
+      color: white;
+      text-decoration: none;
+      padding: 14px 30px;
+      border-radius: 30px;
+      font-size: 17px;
+      font-weight: bold;
+      box-shadow: 0 6px 18px rgba(7,94,77,.25);
+    }
+
+    .main-btn:hover {
+      background: #064c3f;
+    }
+
+    .hero-icon {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 130px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.12);
+    }
+
+    /* الأقسام */
+    section {
+      padding: 65px 7%;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      color: #075e4d;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #70847e;
+    }
+
+    /* المواد */
+    .subjects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    .subject {
+      background: white;
+      padding: 28px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+      transition: .3s;
+    }
+
+    .subject:hover {
+      transform: translateY(-7px);
+    }
+
+    .subject-icon {
+      font-size: 50px;
+      margin-bottom: 15px;
+    }
+
+    .subject h3 {
+      margin-bottom: 10px;
+      color: #17352d;
+    }
+
+    .subject p {
+      color: #748780;
+      margin-bottom: 18px;
+    }
+
+    .subject a {
+      color: #075e4d;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* المميزات */
+    .features {
+      background: #075e4d;
+      color: white;
+    }
+
+    .features .section-title h2 {
+      color: white;
+    }
+
+    .features .section-title p {
+      color: #d0eee5;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    .feature {
+      background: rgba(255,255,255,.1);
+      padding: 28px;
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    .feature div {
+      font-size: 45px;
+      margin-bottom: 15px;
+    }
+
+    .feature h3 {
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #d7eee8;
+      line-height: 1.7;
+    }
+
+    /* آخر الدروس */
+    .lessons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 22px;
+    }
+
+    .lesson {
+      background: white;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+    }
+
+    .lesson-image {
+      height: 140px;
+      background: #dff4ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 65px;
+    }
+
+    .lesson-content {
+      padding: 20px;
+    }
+
+    .lesson-content h3 {
+      margin-bottom: 10px;
+    }
+
+    .lesson-content p {
+      color: #71817c;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .lesson-content a {
+      color: #075e4d;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* الفوتر */
+    footer {
+      background: #12342d;
+      color: white;
+      padding: 35px 7%;
+      text-align: center;
+    }
+
+    footer h2 {
+      margin-bottom: 10px;
+    }
+
+    footer p {
+      color: #c5d8d3;
+      margin: 8px 0;
+    }
+
+    .copyright {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,.15);
+      font-size: 14px;
+    }
+
+    /* الموبايل */
+    @media (max-width: 700px) {
+
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 50px;
+      }
+
+      .hero h1 {
+        font-size: 38px;
+      }
+
+      .hero h2 {
+        font-size: 23px;
+      }
+
+      .hero-icon {
+        width: 200px;
+        height: 200px;
+        font-size: 90px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <!-- ================= HEADER ================= -->
+  <!-- الهيدر -->
+  <header>
 
-    <header class="header">
+    <div class="logo">
+      🧬 أرض الأحياء
+    </div>
 
-        <div class="container nav">
+    <nav>
+      <a href="#">الرئيسية</a>
+      <a href="#subjects">الدروس</a>
+      <a href="#features">مميزاتنا</a>
+      <a href="#lessons">أحدث الدروس</a>
+    </nav>
 
-            <a href="index.html" class="logo">
-                <span class="logo-icon">🎮</span>
-                <span>تكنومسار</span>
-            </a>
+    <a href="#" class="login-btn">تسجيل الدخول</a>
 
-            <nav class="menu">
-                <a href="index.html" class="active">الرئيسية</a>
-                <a href="games/games.html">الألعاب</a>
-                <a href="#categories">التصنيفات</a>
-                <a href="#about">عن الموقع</a>
-            </nav>
+  </header>
 
-            <button class="menu-btn" id="menuBtn">
-                ☰
-            </button>
+
+  <!-- الواجهة الرئيسية -->
+  <section class="hero">
+
+    <div class="hero-text">
+
+      <h1>أرض الأحياء 🧬</h1>
+
+      <h2>افهم الأحياء... بدل ما تحفظها</h2>
+
+      <p>
+        منصة تعليمية تساعدك على فهم مادة الأحياء بطريقة بسيطة
+        ومنظمة، من خلال الدروس والفيديوهات والاختبارات.
+      </p>
+
+      <a href="#subjects" class="main-btn">
+        ابدأ التعلم الآن
+      </a>
+
+    </div>
+
+    <div class="hero-icon">
+      🧬
+    </div>
+
+  </section>
+
+
+  <!-- المواد -->
+  <section id="subjects">
+
+    <div class="section-title">
+
+      <h2>المواد الدراسية</h2>
+
+      <p>
+        اختر المادة التي تريد البدء فيها
+      </p>
+
+    </div>
+
+    <div class="subjects">
+
+      <div class="subject">
+        <div class="subject-icon">🧬</div>
+        <h3>الأحياء</h3>
+        <p>دروس وشرح واختبارات الأحياء</p>
+        <a href="#">دخول المادة ←</a>
+      </div>
+
+      <div class="subject">
+        <div class="subject-icon">🧪</div>
+        <h3>الكيمياء</h3>
+        <p>شرح مبسط ومراجعات</p>
+        <a href="#">دخول المادة ←</a>
+      </div>
+
+      <div class="subject">
+        <div class="subject-icon">⚡</div>
+        <h3>الفيزياء</h3>
+        <p>فهم القوانين وحل المسائل</p>
+        <a href="#">دخول المادة ←</a>
+      </div>
+
+      <div class="subject">
+        <div class="subject-icon">📐</div>
+        <h3>الرياضيات</h3>
+        <p>شرح وتدريبات واختبارات</p>
+        <a href="#">دخول المادة ←</a>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- المميزات -->
+  <section class="features" id="features">
+
+    <div class="section-title">
+
+      <h2>لماذا أرض الأحياء؟</h2>
+
+      <p>
+        كل ما تحتاجه لتتعلم بشكل أفضل
+      </p>
+
+    </div>
+
+    <div class="feature-grid">
+
+      <div class="feature">
+        <div>🎥</div>
+        <h3>شرح بالفيديو</h3>
+        <p>
+          دروس تعليمية تساعدك على فهم المعلومة بسهولة.
+        </p>
+      </div>
+
+      <div class="feature">
+        <div>📝</div>
+        <h3>اختبارات</h3>
+        <p>
+          اختبر نفسك بعد كل درس واعرف مستواك.
+        </p>
+      </div>
+
+      <div class="feature">
+        <div>📚</div>
+        <h3>مذكرات</h3>
+        <p>
+          ملخصات ومذكرات تساعدك على المراجعة.
+        </p>
+      </div>
+
+      <div class="feature">
+        <div>📊</div>
+        <h3>متابعة مستواك</h3>
+        <p>
+          تابع تقدمك واعرف الدروس التي أنجزتها.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- أحدث الدروس -->
+  <section id="lessons">
+
+    <div class="section-title">
+
+      <h2>أحدث الدروس</h2>
+
+      <p>
+        ابدأ بأحدث محتوى على المنصة
+      </p>
+
+    </div>
+
+    <div class="lessons">
+
+      <div class="lesson">
+
+        <div class="lesson-image">
+          🌱
+        </div>
+
+        <div class="lesson-content">
+
+          <h3>الدعامة في النبات</h3>
+
+          <p>
+            تعرف على مفهوم الدعامة وأهميتها وأنواعها في النبات.
+          </p>
+
+          <a href="#">
+            مشاهدة الدرس ←
+          </a>
 
         </div>
 
-    </header>
+      </div>
 
 
-    <!-- ================= HERO ================= -->
+      <div class="lesson">
 
-    <main>
+        <div class="lesson-image">
+          🧫
+        </div>
 
-        <section class="hero">
+        <div class="lesson-content">
 
-            <div class="container hero-content">
+          <h3>الخلية</h3>
 
-                <div class="hero-text">
+          <p>
+            تعرف على الخلية ومكوناتها ووظائفها الأساسية.
+          </p>
 
-                    <div class="badge">
-                        🎮 مرحبًا بك في تكنومسار
-                    </div>
-
-                    <h1>
-                        عالم الألعاب
-                        <span>بين يديك</span>
-                    </h1>
-
-                    <p>
-                        اكتشف أفضل الألعاب، تصفح التصنيفات،
-                        وابحث عن اللعبة التي تريدها بسهولة.
-                    </p>
-
-                    <div class="hero-buttons">
-
-                        <a href="games/games.html" class="primary-btn">
-                            🎮 تصفح الألعاب
-                        </a>
-
-                        <a href="#categories" class="secondary-btn">
-                            اكتشف التصنيفات
-                        </a>
-
-                    </div>
-
-                </div>
-
-                <div class="hero-game">
-
-                    <div class="game-orbit orbit-1"></div>
-                    <div class="game-orbit orbit-2"></div>
-
-                    <div class="controller">
-                        🎮
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= SEARCH ================= -->
-
-        <section class="search-section">
-
-            <div class="container">
-
-                <div class="search-box">
-
-                    <span>🔎</span>
-
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="ابحث عن لعبة..."
-                        autocomplete="off"
-                    >
-
-                </div>
-
-                <div id="searchResults" class="search-results"></div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= FEATURED ================= -->
-
-        <section class="section">
-
-            <div class="container">
-
-                <div class="section-title">
-
-                    <div>
-                        <span class="small-title">مختارات تكنومسار</span>
-                        <h2>🔥 ألعاب مميزة</h2>
-                    </div>
-
-                    <a href="games/games.html">
-                        عرض كل الألعاب ←
-                    </a>
-
-                </div>
-
-                <div id="featuredGames" class="games-grid"></div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= CATEGORIES ================= -->
-
-        <section class="section categories-section" id="categories">
-
-            <div class="container">
-
-                <div class="section-title center">
-
-                    <div>
-                        <span class="small-title">اختر ما يناسبك</span>
-                        <h2>🎯 تصنيفات الألعاب</h2>
-                    </div>
-
-                </div>
-
-                <div class="categories-grid">
-
-                    <button class="category-card" data-category="action">
-                        <span>🔫</span>
-                        <strong>أكشن</strong>
-                        <small>ألعاب الحركة والقتال</small>
-                    </button>
-
-                    <button class="category-card" data-category="adventure">
-                        <span>🗺️</span>
-                        <strong>مغامرات</strong>
-                        <small>استكشاف وعالم مفتوح</small>
-                    </button>
-
-                    <button class="category-card" data-category="sports">
-                        <span>⚽</span>
-                        <strong>رياضة</strong>
-                        <small>كرة القدم والرياضات</small>
-                    </button>
-
-                    <button class="category-card" data-category="simulation">
-                        <span>🚛</span>
-                        <strong>محاكاة</strong>
-                        <small>تجارب محاكاة متنوعة</small>
-                    </button>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= ABOUT ================= -->
-
-        <section class="about-section" id="about">
-
-            <div class="container about-content">
-
-                <div class="about-icon">
-                    🎮
-                </div>
-
-                <div>
-
-                    <span class="small-title">
-                        عن تكنومسار
-                    </span>
-
-                    <h2>
-                        مكان واحد لعالم الألعاب
-                    </h2>
-
-                    <p>
-                        تكنومسار هو مشروع عربي يهتم بعالم الألعاب
-                        ويهدف إلى تقديم تجربة بسيطة وسريعة للعثور
-                        على الألعاب والمعلومات الخاصة بها.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer class="footer">
-
-        <div class="container footer-content">
-
-            <div>
-                <div class="footer-logo">
-                    🎮 تكنومسار
-                </div>
-
-                <p>
-                    عالم الألعاب بين يديك.
-                </p>
-            </div>
-
-            <div>
-                <h3>روابط</h3>
-
-                <a href="index.html">الرئيسية</a>
-                <a href="games/games.html">الألعاب</a>
-                <a href="#categories">التصنيفات</a>
-            </div>
+          <a href="#">
+            مشاهدة الدرس ←
+          </a>
 
         </div>
 
-        <div class="copyright">
-            © 2026 تكنومسار — جميع الحقوق محفوظة
+      </div>
+
+
+      <div class="lesson">
+
+        <div class="lesson-image">
+          🧬
         </div>
 
-    </footer>
+        <div class="lesson-content">
+
+          <h3>الوراثة</h3>
+
+          <p>
+            مقدمة مبسطة لفهم أساسيات علم الوراثة.
+          </p>
+
+          <a href="#">
+            مشاهدة الدرس ←
+          </a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
-    <script src="script.js"></script>
+  <!-- الفوتر -->
+  <footer>
+
+    <h2>🧬 أرض الأحياء</h2>
+
+    <p>
+      منصة تعليمية تساعدك على فهم الأحياء بطريقة أسهل.
+    </p>
+
+    <div class="copyright">
+      © 2026 أرض الأحياء - جميع الحقوق محفوظة
+    </div>
+
+  </footer>
 
 </body>
 </html>
-```
