@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>المنتدى | منصة أرض الأحياء</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Tahoma, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 70px;
+      background: #0f766e;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .name {
+      background: rgba(255,255,255,.15);
+      padding: 8px 13px;
+      border-radius: 20px;
+    }
+
+    .logout {
+      background: #b91c1c;
+      color: white;
+      border: 0;
+      border-radius: 9px;
+      padding: 9px 12px;
+      cursor: pointer;
+    }
+
+    aside {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      width: 230px;
+      height: calc(100vh - 70px);
+      background: #123b3a;
+      padding: 20px 12px;
+    }
+
+    aside a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 14px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+    }
+
+    aside a:hover,
+    aside a.active {
+      background: #0f766e;
+    }
+
+    main {
+      margin-right: 230px;
+      padding: 100px 30px 40px;
+      max-width: 1100px;
+    }
+
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    h1,
+    h2 {
+      color: #0f766e;
+      margin-bottom: 12px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      resize: vertical;
+      font-size: 16px;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: #0f766e;
+    }
+
+    .post-btn {
+      margin-top: 12px;
+      background: #0f766e;
+      color: white;
+      border: 0;
+      padding: 12px 22px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #message {
+      margin-top: 10px;
+    }
+
+    .post {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.06);
+    }
+
+    .post-top {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .author {
+      color: #0f766e;
+      font-weight: bold;
+    }
+
+    .date {
+      color: #999;
+      font-size: 13px;
+    }
+
+    .content {
+      white-space: pre-wrap;
+      line-height: 1.8;
+    }
+
+    .delete {
+      margin-top: 12px;
+      border: 0;
+      background: #f3f4f6;
+      color: #b91c1c;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+      background: white;
+      border-radius: 15px;
+    }
+
+    @media(max-width:700px) {
+      header {
+        padding: 0 8px;
+      }
+
+      .logo {
+        font-size: 15px;
+      }
+
+      .name {
+        font-size: 12px;
+      }
+
+      .logout {
+        font-size: 12px;
+        padding: 7px;
+      }
+
+      aside {
+        width: 70px;
+      }
+
+      aside a {
+        font-size: 0;
+        text-align: center;
+      }
+
+      aside a::first-letter {
+        font-size: 22px;
+      }
+
+      main {
+        margin-right: 70px;
+        padding: 90px 12px 30px;
+      }
+
+      .post-top {
+        display: block;
+      }
+
+      .date {
+        margin-top: 5px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
+    🧬 منصة أرض الأحياء
+  </div>
+
+  <div class="user">
+
+    <div class="name">
+      👤 <span id="studentName">الطالب</span>
+    </div>
+
+    <button class="logout" onclick="logout()">
+      🚪 خروج
+    </button>
+
+  </div>
+
+</header>
+
+
+<aside>
+
+  <a href="../index.html">
+    🏠 الرئيسية
+  </a>
+
+  <a href="../videos/index.html">
+    🎥 الفيديوهات
+  </a>
+
+  <a href="index.html" class="active">
+    💬 المنتدى
+  </a>
+
+  <a href="../notes/index.html">
+    📚 المذكرات
+  </a>
+
+</aside>
+
+
+<main>
+
+  <div class="box">
+
+    <h1>
+      💬 منتدى أرض الأحياء
+    </h1>
+
+    <p>
+      اكتب سؤالك أو شارك معلومة مع باقي الطلاب.
+    </p>
+
+  </div>
+
+
+  <div class="box">
+
+    <h2>
+      ✏️ اكتب منشورًا
+    </h2>
+
+    <textarea
+      id="postContent"
+      placeholder="اكتب منشورك هنا..."
+    ></textarea>
+
+    <button
+      class="post-btn"
+      onclick="addPost()"
+    >
+      نشر المنشور
+    </button>
+
+    <div id="message"></div>
+
+  </div>
+
+
+  <h2>
+    📢 أحدث المنشورات
+  </h2>
+
+  <div id="posts">
+    جاري تحميل المنشورات...
+  </div>
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://gvehygqxjqucxwussaye.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+let currentUser = null;
+
+
+/* تشغيل المنتدى */
+
+async function start() {
+
+  const {
+    data,
+    error
+  } = await supabaseClient.auth.getUser();
+
+  if (error || !data.user) {
+
+    window.location.href = "../index.html";
+
+    return;
+  }
+
+  currentUser = data.user;
+
+
+  const name =
+    currentUser.user_metadata?.name ||
+    currentUser.user_metadata?.full_name ||
+    currentUser.email?.split("@")[0] ||
+    "الطالب";
+
+
+  document.getElementById(
+    "studentName"
+  ).textContent = name;
+
+
+  loadPosts();
+}
+
+
+/* تحميل المنشورات */
+
+async function loadPosts() {
+
+  const container =
+    document.getElementById("posts");
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("forum_posts")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+  if (error) {
+
+    container.innerHTML =
+      '<div class="empty">حدث خطأ في تحميل المنشورات.</div>';
+
+    console.error(error);
+
+    return;
+  }
+
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      '<div class="empty">💬 لا توجد منشورات حتى الآن.</div>';
+
+    return;
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(post => {
+
+    const article =
+      document.createElement("article");
+
+    article.className = "post";
+
+
+    const date =
+      new Date(
+        post.created_at
+      ).toLocaleString("ar-EG");
+
+
+    let deleteButton = "";
+
+
+    if (
+      currentUser &&
+      post.user_id === currentUser.id
+    ) {
+
+      deleteButton = `
+        <button
+          class="delete"
+          onclick="deletePost(${post.id})"
+        >
+          🗑️ حذف
+        </button>
+      `;
+    }
+
+
+    article.innerHTML = `
+
+      <div class="post-top">
+
+        <div class="author">
+          👤 ${escapeHtml(post.author_name)}
+        </div>
+
+        <div class="date">
+          ${date}
+        </div>
+
+      </div>
+
+      <div class="content">
+        ${escapeHtml(post.content)}
+      </div>
+
+      ${deleteButton}
+
+    `;
+
+
+    container.appendChild(article);
+
+  });
+
+}
+
+
+/* إضافة منشور */
+
+async function addPost() {
+
+  const textarea =
+    document.getElementById("postContent");
+
+  const message =
+    document.getElementById("message");
+
+
+  const content =
+    textarea.value.trim();
+
+
+  if (!content) {
+
+    message.style.color = "#b91c1c";
+
+    message.textContent =
+      "اكتب المنشور أولًا.";
+
+    return;
+  }
+
+
+  const name =
+    currentUser.user_metadata?.name ||
+    currentUser.user_metadata?.full_name ||
+    currentUser.email?.split("@")[0] ||
+    "الطالب";
+
+
+  message.style.color = "#777";
+
+  message.textContent =
+    "جاري النشر...";
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("forum_posts")
+      .insert({
+
+        user_id: currentUser.id,
+
+        author_name: name,
+
+        content: content
+
+      });
+
+
+  if (error) {
+
+    message.style.color = "#b91c1c";
+
+    message.textContent =
+      "حدث خطأ أثناء نشر المنشور.";
+
+    console.error(error);
+
+    return;
+  }
+
+
+  textarea.value = "";
+
+  message.style.color = "#16803c";
+
+  message.textContent =
+    "تم نشر المنشور بنجاح ✅";
+
+
+  loadPosts();
+
+}
+
+
+/* حذف منشور */
+
+async function deletePost(id) {
+
+  if (
+    !confirm("هل تريد حذف المنشور؟")
+  ) {
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("forum_posts")
+      .delete()
+      .eq("id", id);
+
+
+  if (error) {
+
+    alert("حدث خطأ أثناء الحذف.");
+
+    console.error(error);
+
+    return;
+  }
+
+
+  loadPosts();
+
+}
+
+
+/* تسجيل الخروج */
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "../index.html";
+
+}
+
+
+/* حماية النص */
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+}
+
+
+start();
+
+</script>
+
+</body>
+</html>
