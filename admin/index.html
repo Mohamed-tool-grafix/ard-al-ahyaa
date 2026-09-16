@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>لوحة تحكم المدير | منصة أرض الأحياء</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7f6;
+      color: #17221d;
+    }
+
+    header {
+      background: #073b2a;
+      color: white;
+      padding: 18px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    }
+
+    header h1 {
+      font-size: 21px;
+    }
+
+    .back-btn,
+    .logout-btn {
+      border: none;
+      color: white;
+      padding: 9px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .back-btn {
+      background: #08794f;
+      margin-left: 7px;
+    }
+
+    .logout-btn {
+      background: #c0392b;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .welcome {
+      background: linear-gradient(135deg, #08794f, #0b9b68);
+      color: white;
+      padding: 25px;
+      border-radius: 16px;
+      margin-bottom: 25px;
+    }
+
+    .welcome h2 {
+      margin-bottom: 8px;
+    }
+
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.06);
+      margin-bottom: 25px;
+    }
+
+    .box h2 {
+      color: #075c40;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      margin-bottom: 16px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #08794f;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .upload-btn {
+      width: 100%;
+      border: none;
+      background: #08794f;
+      color: white;
+      padding: 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .upload-btn:hover {
+      background: #065f3e;
+    }
+
+    .upload-btn:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 8px;
+      display: none;
+      line-height: 1.7;
+    }
+
+    .success {
+      background: #e7f7ee;
+      color: #08794f;
+    }
+
+    .error {
+      background: #fdeaea;
+      color: #c0392b;
+    }
+
+    .content-item {
+      border: 1px solid #e1e6e3;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: #fafcfb;
+    }
+
+    .content-item h3 {
+      color: #075c40;
+      margin-bottom: 7px;
+    }
+
+    .content-type {
+      display: inline-block;
+      background: #e7f5ef;
+      color: #075c40;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .content-description {
+      color: #666;
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    .content-link {
+      display: inline-block;
+      color: #08794f;
+      text-decoration: none;
+      margin-left: 8px;
+    }
+
+    .delete-btn {
+      border: none;
+      background: #c0392b;
+      color: white;
+      padding: 7px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .empty {
+      text-align: center;
+      color: #777;
+      padding: 25px;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 40px;
+      color: #075c40;
+      font-size: 18px;
+    }
+
+    @media (max-width: 650px) {
+      header {
+        padding: 14px;
+      }
+
+      header h1 {
+        font-size: 16px;
+      }
+
+      .back-btn,
+      .logout-btn {
+        padding: 7px 9px;
+        font-size: 12px;
+      }
+
+      .box {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <h1>🧬 لوحة تحكم أرض الأحياء</h1>
+
+  <div>
+    <a href="../index.html" class="back-btn">
+      🏠 الموقع
+    </a>
+
+    <button class="logout-btn" onclick="logout()">
+      خروج
+    </button>
+  </div>
+
+</header>
+
+
+<main>
+
+  <section class="welcome">
+
+    <h2>مرحبًا بك في لوحة المدير 👋</h2>
+
+    <p>
+      من هنا يمكنك إضافة الفيديوهات والمذكرات والصور إلى المنصة.
+    </p>
+
+  </section>
+
+
+  <!-- إضافة محتوى -->
+
+  <section class="box">
+
+    <h2>➕ إضافة محتوى جديد</h2>
+
+    <label for="title">
+      عنوان المحتوى
+    </label>
+
+    <input
+      type="text"
+      id="title"
+      placeholder="مثال: شرح الدعامة في النبات"
+    >
+
+
+    <label for="description">
+      وصف المحتوى
+    </label>
+
+    <textarea
+      id="description"
+      placeholder="اكتب وصفًا مختصرًا للمحتوى..."
+    ></textarea>
+
+
+    <label for="type">
+      نوع المحتوى
+    </label>
+
+    <select id="type" onchange="updateFileAccept()">
+
+      <option value="video">
+        🎥 فيديو
+      </option>
+
+      <option value="pdf">
+        📚 مذكرة PDF
+      </option>
+
+      <option value="image">
+        🖼️ صورة
+      </option>
+
+    </select>
+
+
+    <label for="file">
+      اختر الملف
+    </label>
+
+    <input
+      type="file"
+      id="file"
+      accept="video/*"
+    >
+
+
+    <button
+      class="upload-btn"
+      id="uploadButton"
+      onclick="uploadContent()"
+    >
+      🚀 رفع ونشر المحتوى
+    </button>
+
+
+    <div id="message"></div>
+
+  </section>
+
+
+  <!-- المحتوى الموجود -->
+
+  <section class="box">
+
+    <h2>📚 المحتوى المنشور</h2>
+
+    <div id="loading">
+      جاري تحميل المحتوى...
+    </div>
+
+    <div id="contentList"></div>
+
+  </section>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+  /* =========================
+     SUPABASE
+  ========================= */
+
+  const SUPABASE_URL =
+    "https://gvehygqxjqucxwussaye.supabase.co";
+
+  const SUPABASE_ANON_KEY =
+    "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY
+    );
+
+
+  let currentUser = null;
+
+
+  /* =========================
+     START
+  ========================= */
+
+  checkAdmin();
+
+
+  /* =========================
+     CHECK ADMIN
+  ========================= */
+
+  async function checkAdmin() {
+
+    const {
+      data,
+      error
+    } = await supabaseClient.auth.getUser();
+
+    if (error || !data.user) {
+
+      window.location.href = "../index.html";
+
+      return;
+
+    }
+
+    currentUser = data.user;
+
+
+    const {
+      data: adminData,
+      error: adminError
+    } = await supabaseClient
+      .from("admins")
+      .select("user_id")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+
+    if (adminError || !adminData) {
+
+      alert("ليس لديك صلاحية الدخول إلى لوحة المدير.");
+
+      window.location.href = "../index.html";
+
+      return;
+
+    }
+
+
+    loadContent();
+
+  }
+
+
+  /* =========================
+     FILE TYPE
+  ========================= */
+
+  function updateFileAccept() {
+
+    const type =
+      document.getElementById("type").value;
+
+    const file =
+      document.getElementById("file");
+
+
+    if (type === "video") {
+
+      file.accept = "video/*";
+
+    }
+
+    else if (type === "pdf") {
+
+      file.accept = "application/pdf";
+
+    }
+
+    else if (type === "image") {
+
+      file.accept = "image/*";
+
+    }
+
+  }
+
+
+  /* =========================
+     MESSAGE
+  ========================= */
+
+  function showMessage(text, success = true) {
+
+    const message =
+      document.getElementById("message");
+
+    message.textContent = text;
+
+    message.style.display = "block";
+
+    message.className =
+      success ? "success" : "error";
+
+  }
+
+
+  /* =========================
+     UPLOAD
+  ========================= */
+
+  async function uploadContent() {
+
+    const title =
+      document.getElementById("title").value.trim();
+
+    const description =
+      document.getElementById("description").value.trim();
+
+    const type =
+      document.getElementById("type").value;
+
+    const fileInput =
+      document.getElementById("file");
+
+    const file =
+      fileInput.files[0];
+
+    const button =
+      document.getElementById("uploadButton");
+
+
+    if (!title) {
+
+      showMessage(
+        "اكتب عنوان المحتوى أولًا.",
+        false
+      );
+
+      return;
+
+    }
+
+
+    if (!file) {
+
+      showMessage(
+        "اختر الملف أولًا.",
+        false
+      );
+
+      return;
+
+    }
+
+
+    /* فحص نوع الملف */
+
+    if (type === "pdf" &&
+        file.type !== "application/pdf") {
+
+      showMessage(
+        "يجب اختيار ملف PDF.",
+        false
+      );
+
+      return;
+
+    }
+
+
+    if (type === "image" &&
+        !file.type.startsWith("image/")) {
+
+      showMessage(
+        "يجب اختيار صورة.",
+        false
+      );
+
+      return;
+
+    }
+
+
+    if (type === "video" &&
+        !file.type.startsWith("video/")) {
+
+      showMessage(
+        "يجب اختيار فيديو.",
+        false
+      );
+
+      return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+      "⏳ جاري الرفع...";
+
+
+    try {
+
+      /*
+        اختيار الـ Bucket
+      */
+
+      let bucket = "";
+
+      if (type === "video") {
+        bucket = "videos";
+      }
+
+      else if (type === "pdf") {
+        bucket = "notes";
+      }
+
+      else if (type === "image") {
+        bucket = "images";
+      }
+
+
+      /*
+        اسم آمن للملف
+      */
+
+      const extension =
+        file.name.includes(".")
+          ? file.name.split(".").pop()
+          : "";
+
+
+      const safeName =
+        Date.now() +
+        "_" +
+        Math.random()
+          .toString(36)
+          .substring(2, 10) +
+        (extension ? "." + extension : "");
+
+
+      /*
+        وضع الملف داخل مجلد خاص بالمدير
+      */
+
+      const filePath =
+        currentUser.id +
+        "/" +
+        safeName;
+
+
+      /*
+        رفع الملف
+      */
+
+      const {
+        error: uploadError
+      } = await supabaseClient
+        .storage
+        .from(bucket)
+        .upload(
+          filePath,
+          file,
+          {
+            cacheControl: "3600",
+            upsert: false
+          }
+        );
+
+
+      if (uploadError) {
+
+        throw uploadError;
+
+      }
+
+
+      /*
+        الحصول على الرابط العام
+      */
+
+      const {
+        data: publicData
+      } = supabaseClient
+        .storage
+        .from(bucket)
+        .getPublicUrl(filePath);
+
+
+      const fileUrl =
+        publicData.publicUrl;
+
+
+      /*
+        حفظ بيانات المحتوى في قاعدة البيانات
+      */
+
+      const {
+        error: insertError
+      } = await supabaseClient
+        .from("content")
+        .insert({
+
+          title: title,
+
+          description: description,
+
+          type: type,
+
+          file_url: fileUrl
+
+        });
+
+
+      if (insertError) {
+
+        /*
+          لو قاعدة البيانات فشلت،
+          نحاول حذف الملف الذي تم رفعه.
+        */
+
+        await supabaseClient
+          .storage
+          .from(bucket)
+          .remove([filePath]);
+
+        throw insertError;
+
+      }
+
+
+      showMessage(
+        "✅ تم رفع المحتوى ونشره بنجاح."
+      );
+
+
+      /*
+        تنظيف النموذج
+      */
+
+      document.getElementById("title").value = "";
+
+      document.getElementById("description").value = "";
+
+      document.getElementById("file").value = "";
+
+
+      loadContent();
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        "حدث خطأ أثناء الرفع: " +
+        (error.message || "خطأ غير معروف"),
+        false
+      );
+
+    }
+
+
+    button.disabled = false;
+
+    button.textContent =
+      "🚀 رفع ونشر المحتوى";
+
+  }
+
+
+  /* =========================
+     LOAD CONTENT
+  ========================= */
+
+  async function loadContent() {
+
+    const loading =
+      document.getElementById("loading");
+
+    const list =
+      document.getElementById("contentList");
+
+
+    loading.style.display = "block";
+
+    list.innerHTML = "";
+
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("content")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+
+    loading.style.display = "none";
+
+
+    if (error) {
+
+      list.innerHTML =
+        '<div class="empty">تعذر تحميل المحتوى.</div>';
+
+      console.error(error);
+
+      return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+      list.innerHTML =
+        '<div class="empty">لا يوجد محتوى منشور حتى الآن.</div>';
+
+      return;
+
+    }
+
+
+    data.forEach(item => {
+
+      const div =
+        document.createElement("div");
+
+      div.className =
+        "content-item";
+
+
+      let typeText = "";
+
+      if (item.type === "video") {
+        typeText = "🎥 فيديو";
+      }
+
+      else if (item.type === "pdf") {
+        typeText = "📚 مذكرة PDF";
+      }
+
+      else if (item.type === "image") {
+        typeText = "🖼️ صورة";
+      }
+
+
+      div.innerHTML = `
+
+        <span class="content-type">
+          ${typeText}
+        </span>
+
+        <h3>
+          ${escapeHtml(item.title)}
+        </h3>
+
+        <div class="content-description">
+          ${escapeHtml(item.description || "")}
+        </div>
+
+        <a
+          class="content-link"
+          href="${item.file_url}"
+          target="_blank"
+          rel="noopener"
+        >
+          👁️ فتح
+        </a>
+
+        <button
+          class="delete-btn"
+          onclick="deleteContent(${item.id}, '${escapeJs(item.file_url)}', '${item.type}')"
+        >
+          🗑️ حذف
+        </button>
+
+      `;
+
+
+      list.appendChild(div);
+
+    });
+
+  }
+
+
+  /* =========================
+     DELETE
+  ========================= */
+
+  async function deleteContent(
+    id,
+    fileUrl,
+    type
+  ) {
+
+    const confirmed =
+      confirm(
+        "هل أنت متأكد من حذف هذا المحتوى؟"
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    try {
+
+      /*
+        حذف السجل من قاعدة البيانات
+      */
+
+      const {
+        error: deleteError
+      } = await supabaseClient
+        .from("content")
+        .delete()
+        .eq("id", id);
+
+
+      if (deleteError) {
+
+        throw deleteError;
+
+      }
+
+
+      /*
+        إعادة تحميل القائمة
+      */
+
+      showMessage(
+        "تم حذف المحتوى من المنصة."
+      );
+
+
+      loadContent();
+
+    }
+
+    catch (error) {
+
+      console.error(error);
+
+      showMessage(
+        "تعذر حذف المحتوى: " +
+        error.message,
+        false
+      );
+
+    }
+
+  }
+
+
+  /* =========================
+     ESCAPE HTML
+  ========================= */
+
+  function escapeHtml(text) {
+
+    return String(text)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* =========================
+     ESCAPE JS
+  ========================= */
+
+  function escapeJs(text) {
+
+    return String(text)
+      .replace(/\\/g, "\\\\")
+      .replace(/'/g, "\\'");
+
+  }
+
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href =
+      "../index.html";
+
+  }
+
+</script>
+
+</body>
+</html>
