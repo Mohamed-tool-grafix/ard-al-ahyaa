@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>الفيديوهات | منصة أرض الأحياء</title>
 
-  <meta name="description" content="شاهد دروس وشروحات الأحياء على منصة أرض الأحياء">
+  <meta name="description"
+        content="مكتبة الفيديوهات التعليمية في منصة أرض الأحياء">
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -22,50 +25,90 @@
       min-height: 100vh;
     }
 
-    /* ===== الهيدر ===== */
+
+    /* =========================
+       الشريط العلوي
+    ========================= */
 
     header {
       background: linear-gradient(135deg, #064e3b, #087f5b);
       color: white;
-      padding: 18px 20px;
       box-shadow: 0 4px 18px rgba(0,0,0,.15);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
     }
 
-    .header {
+    .navbar {
       max-width: 1150px;
       margin: auto;
+      min-height: 70px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      padding: 10px 18px;
       gap: 20px;
     }
 
-    .logo {
-      font-size: 23px;
-      font-weight: bold;
-    }
 
-    .home-btn {
+    /* اسم المنصة */
+
+    .logo {
       color: white;
       text-decoration: none;
-      background: rgba(255,255,255,.15);
-      padding: 10px 17px;
-      border-radius: 12px;
+      font-size: 21px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+
+    /* روابط الشريط */
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+
+      padding: 10px 13px;
+      border-radius: 10px;
+
+      font-size: 14px;
+
       transition: .2s;
     }
 
-    .home-btn:hover {
-      background: rgba(255,255,255,.28);
+    .nav-links a:hover {
+      background: rgba(255,255,255,.16);
     }
 
-    /* ===== البانر ===== */
+
+    /* الصفحة الحالية */
+
+    .nav-links .active {
+      background: rgba(255,255,255,.22);
+      font-weight: bold;
+    }
+
+
+    /* =========================
+       البانر
+    ========================= */
 
     .hero {
       background:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,.15), transparent 30%),
+        radial-gradient(
+          circle at 10% 20%,
+          rgba(255,255,255,.15),
+          transparent 30%
+        ),
         linear-gradient(135deg, #0b7655, #0d9b6b);
 
       color: white;
@@ -91,16 +134,19 @@
     .hero p {
       font-size: 17px;
       line-height: 1.8;
-      opacity: .95;
     }
 
-    /* ===== المحتوى ===== */
+
+    /* =========================
+       المحتوى
+    ========================= */
 
     .container {
       max-width: 1150px;
       margin: auto;
       padding: 35px 18px 60px;
     }
+
 
     /* البحث */
 
@@ -112,16 +158,25 @@
 
     .search input {
       width: 100%;
+
       padding: 17px 22px;
+
       border: none;
       border-radius: 15px;
+
       font-size: 16px;
       outline: none;
-      box-shadow: 0 8px 25px rgba(0,0,0,.12);
+
       background: white;
+
+      box-shadow:
+        0 8px 25px rgba(0,0,0,.12);
     }
 
-    /* العناوين */
+
+    /* =========================
+       عنوان القسم
+    ========================= */
 
     .section-title {
       font-size: 25px;
@@ -129,28 +184,44 @@
       margin-bottom: 20px;
     }
 
-    /* ===== الأقسام ===== */
+
+    /* =========================
+       الأقسام
+    ========================= */
 
     .categories {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
       gap: 16px;
+
       margin-bottom: 45px;
     }
 
     .category {
       background: white;
+
       border-radius: 16px;
+
       padding: 22px 15px;
+
       text-align: center;
-      box-shadow: 0 5px 18px rgba(0,0,0,.07);
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.07);
+
       border: 1px solid #e5ece9;
+
       transition: .25s;
     }
 
     .category:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,.11);
+
+      box-shadow:
+        0 10px 25px rgba(0,0,0,.11);
     }
 
     .category-icon {
@@ -169,14 +240,23 @@
       font-size: 13px;
     }
 
-    /* ===== مكان الفيديوهات ===== */
+
+    /* =========================
+       مكان الفيديوهات
+    ========================= */
 
     .empty-box {
       background: white;
+
       border-radius: 20px;
+
       padding: 55px 20px;
+
       text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+
+      box-shadow:
+        0 5px 20px rgba(0,0,0,.07);
+
       border: 1px dashed #cbd8d3;
     }
 
@@ -193,35 +273,54 @@
 
     .empty-box p {
       color: #718079;
+
       line-height: 1.8;
+
       max-width: 600px;
+
       margin: auto;
     }
 
     .coming {
       display: inline-block;
+
       margin-top: 22px;
+
       background: #e8f7f1;
       color: #087653;
+
       padding: 10px 18px;
+
       border-radius: 10px;
+
       font-weight: bold;
+
       font-size: 14px;
     }
 
-    /* ===== كروت الفيديو مستقبلاً ===== */
+
+    /* =========================
+       الفيديوهات مستقبلًا
+    ========================= */
 
     .videos-grid {
       display: none;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+
       gap: 22px;
     }
 
     .video-card {
       background: white;
+
       border-radius: 16px;
+
       overflow: hidden;
-      box-shadow: 0 5px 18px rgba(0,0,0,.08);
+
+      box-shadow:
+        0 5px 18px rgba(0,0,0,.08);
     }
 
     .video-card video {
@@ -245,13 +344,20 @@
       font-size: 14px;
     }
 
-    /* ===== الفوتر ===== */
+
+    /* =========================
+       الفوتر
+    ========================= */
 
     footer {
       background: #10241e;
+
       color: #dce8e3;
+
       text-align: center;
+
       padding: 28px 15px;
+
       margin-top: 40px;
     }
 
@@ -263,12 +369,35 @@
       margin: 6px;
     }
 
-    /* ===== الموبايل ===== */
+
+    /* =========================
+       الموبايل
+    ========================= */
 
     @media (max-width: 800px) {
 
+      .navbar {
+        flex-direction: column;
+
+        padding: 14px 10px;
+      }
+
+      .nav-links {
+        width: 100%;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+      }
+
+      .nav-links a {
+        font-size: 13px;
+        padding: 9px 10px;
+      }
+
       .categories {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+          repeat(2, 1fr);
       }
 
       .hero h1 {
@@ -280,14 +409,13 @@
       }
     }
 
+
     @media (max-width: 500px) {
 
-      .header {
-        flex-direction: column;
-      }
-
       .categories {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+          repeat(2, 1fr);
+
         gap: 10px;
       }
 
@@ -304,31 +432,67 @@
       }
 
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- ===== الهيدر ===== -->
+
+  <!-- =========================
+       شريط التنقل
+  ========================= -->
 
   <header>
 
-    <div class="header">
+    <nav class="navbar">
 
-      <div class="logo">
+      <a href="../index.html" class="logo">
         🧬 منصة أرض الأحياء
-      </div>
-
-      <a href="../index.html" class="home-btn">
-        🏠 الرئيسية
       </a>
 
-    </div>
+
+      <ul class="nav-links">
+
+        <li>
+          <a href="../index.html">
+            🏠 الرئيسية
+          </a>
+        </li>
+
+
+        <li>
+          <a href="index.html" class="active">
+            🎬 الفيديوهات
+          </a>
+        </li>
+
+
+        <li>
+          <a href="../index.html#lessons">
+            📚 الدروس
+          </a>
+        </li>
+
+
+        <li>
+          <a href="../index.html#about">
+            ℹ️ عن المنصة
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
 
   </header>
 
 
-  <!-- ===== البانر ===== -->
+
+  <!-- =========================
+       البانر
+  ========================= -->
 
   <section class="hero">
 
@@ -345,7 +509,7 @@
       <p>
         دروس وشروحات الأحياء بطريقة بسيطة ومنظمة
         <br>
-        تعلّم، راجع، واستعد للامتحان
+        تعلّم • راجع • استعد للامتحان
       </p>
 
     </div>
@@ -353,7 +517,10 @@
   </section>
 
 
-  <!-- ===== المحتوى ===== -->
+
+  <!-- =========================
+       المحتوى
+  ========================= -->
 
   <main class="container">
 
@@ -364,11 +531,12 @@
 
       <input
         type="text"
-        placeholder="🔎 ابحث عن درس أو فيديو..."
         id="searchInput"
+        placeholder="🔎 ابحث عن درس أو فيديو..."
       >
 
     </div>
+
 
 
     <!-- الأقسام -->
@@ -398,6 +566,7 @@
       </div>
 
 
+
       <div class="category">
 
         <div class="category-icon">
@@ -415,6 +584,7 @@
       </div>
 
 
+
       <div class="category">
 
         <div class="category-icon">
@@ -430,6 +600,7 @@
         </p>
 
       </div>
+
 
 
       <div class="category">
@@ -452,36 +623,45 @@
     </div>
 
 
-    <!-- ===== الفيديوهات ===== -->
+
+    <!-- =========================
+         أحدث الفيديوهات
+    ========================= -->
 
     <h2 class="section-title">
       🎥 أحدث الفيديوهات
     </h2>
 
 
-    <!-- ستظهر هنا الفيديوهات عندما نضيفها -->
-
-    <div class="videos-grid" id="videosGrid">
+    <div
+      class="videos-grid"
+      id="videosGrid">
     </div>
 
 
-    <!-- الصفحة الفارغة -->
 
-    <div class="empty-box" id="emptyBox">
+    <!-- الصفحة فارغة حاليًا -->
+
+    <div
+      class="empty-box"
+      id="emptyBox">
 
       <div class="empty-icon">
         🎬
       </div>
 
+
       <h2>
         لا توجد فيديوهات حتى الآن
       </h2>
 
+
       <p>
         سيتم إضافة الدروس والشروحات التعليمية
         إلى مكتبة الفيديوهات قريبًا.
-        تابع المنصة لمعرفة كل جديد.
+        تابع منصة أرض الأحياء لمعرفة كل جديد.
       </p>
+
 
       <span class="coming">
         🚀 الفيديوهات قادمة قريبًا
@@ -493,7 +673,10 @@
   </main>
 
 
-  <!-- ===== الفوتر ===== -->
+
+  <!-- =========================
+       الفوتر
+  ========================= -->
 
   <footer>
 
@@ -514,33 +697,21 @@
     const searchInput =
       document.getElementById("searchInput");
 
-    const emptyBox =
-      document.getElementById("emptyBox");
+    searchInput.addEventListener(
+      "input",
+      function () {
 
-    const videosGrid =
-      document.getElementById("videosGrid");
-
-
-    searchInput.addEventListener("input", function () {
-
-      const text =
-        this.value.trim();
-
-      /*
-        عندما نضيف الفيديوهات لاحقًا،
-        سيتم تشغيل البحث عليها هنا.
-      */
-
-      if (text !== "") {
-
-        // لا توجد فيديوهات حاليًا
-        emptyBox.style.display = "block";
+        /*
+          البحث سيتم تفعيله تلقائيًا
+          عندما نضيف الفيديوهات.
+        */
 
       }
-
-    });
+    );
 
   </script>
 
+
 </body>
+
 </html>
