@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>منصة أرض الأحياء</title>
-  <meta name="description" content="منصة أرض الأحياء التعليمية - محاضرات ومذكرات ومنتدى للطلاب">
+
+  <meta
+    name="description"
+    content="منصة أرض الأحياء التعليمية - محاضرات ومذكرات الأحياء"
+  >
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -22,7 +26,10 @@
       color: #172033;
     }
 
-    /* شاشة تسجيل الدخول */
+    /* =========================
+       تسجيل الدخول
+    ========================= */
+
     #loginScreen {
       min-height: 100vh;
       display: flex;
@@ -107,7 +114,23 @@
       font-size: 14px;
     }
 
-    /* الموقع */
+    #registerArea {
+      display: none;
+    }
+
+    .back-login {
+      margin-top: 15px;
+      border: none;
+      background: transparent;
+      color: #0f766e;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* =========================
+       الموقع
+    ========================= */
+
     #site {
       display: none;
     }
@@ -156,6 +179,10 @@
       font-size: 14px;
     }
 
+    /* =========================
+       القائمة
+    ========================= */
+
     .sidebar {
       position: fixed;
       top: 70px;
@@ -181,20 +208,9 @@
       background: #0f766e;
     }
 
-    .sidebar-logout {
-      position: absolute;
-      bottom: 20px;
-      right: 12px;
-      left: 12px;
-      width: calc(100% - 24px);
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      background: #b91c1c;
-      color: white;
-      cursor: pointer;
-      font-size: 15px;
-    }
+    /* =========================
+       المحتوى
+    ========================= */
 
     main {
       margin-right: 230px;
@@ -279,19 +295,9 @@
       color: #777;
     }
 
-    /* التسجيل */
-    #registerArea {
-      display: none;
-    }
-
-    .back-login {
-      margin-top: 15px;
-      border: none;
-      background: transparent;
-      color: #0f766e;
-      cursor: pointer;
-      font-size: 14px;
-    }
+    /* =========================
+       موبايل
+    ========================= */
 
     @media (max-width: 700px) {
 
@@ -327,16 +333,6 @@
         font-size: 22px;
       }
 
-      .sidebar-logout {
-        font-size: 0;
-        padding: 13px 5px;
-      }
-
-      .sidebar-logout::before {
-        content: "🚪";
-        font-size: 20px;
-      }
-
       main {
         margin-right: 72px;
         padding: 90px 15px 30px;
@@ -363,21 +359,26 @@
 
 <body>
 
-  <!-- ========================= -->
-  <!-- شاشة تسجيل الدخول -->
-  <!-- ========================= -->
+  <!-- =========================
+       شاشة الدخول
+  ========================= -->
 
   <section id="loginScreen">
 
     <div class="login-box">
 
-      <div class="login-logo">🧬</div>
+      <div class="login-logo">
+        🧬
+      </div>
 
-      <h1>منصة أرض الأحياء</h1>
+      <h1>
+        منصة أرض الأحياء
+      </h1>
 
       <p id="loginTitle">
         سجل الدخول للوصول إلى المنصة
       </p>
+
 
       <!-- تسجيل الدخول -->
 
@@ -412,6 +413,7 @@
         </button>
 
       </div>
+
 
       <!-- إنشاء حساب -->
 
@@ -453,6 +455,7 @@
 
       </div>
 
+
       <div id="loginMessage"></div>
 
     </div>
@@ -460,9 +463,9 @@
   </section>
 
 
-  <!-- ========================= -->
-  <!-- الموقع الرئيسي -->
-  <!-- ========================= -->
+  <!-- =========================
+       الموقع الرئيسي
+  ========================= -->
 
   <div id="site">
 
@@ -505,25 +508,18 @@
         🎥 الفيديوهات
       </a>
 
-      <a href="forum/index.html">
+      <a href="#">
         💬 المنتدى
       </a>
 
-      <a href="notes/index.html">
+      <a href="#">
         📚 المذكرات
       </a>
-
-      <button
-        class="sidebar-logout"
-        onclick="logout()"
-      >
-        🚪 تسجيل الخروج
-      </button>
 
     </aside>
 
 
-    <!-- المحتوى -->
+    <!-- المحتوى الرئيسي -->
 
     <main>
 
@@ -535,7 +531,7 @@
 
         <p>
           منصة تعليمية لمساعدة الطلاب على دراسة الأحياء
-          ومتابعة المحاضرات والمذكرات والتواصل مع باقي الطلاب.
+          ومتابعة المحاضرات والمذكرات والتعلم بطريقة سهلة.
         </p>
 
       </section>
@@ -547,6 +543,9 @@
 
 
       <section class="cards">
+
+
+        <!-- الفيديوهات -->
 
         <a
           href="videos/index.html"
@@ -568,10 +567,9 @@
         </a>
 
 
-        <a
-          href="forum/index.html"
-          class="card"
-        >
+        <!-- المنتدى مؤقتًا -->
+
+        <div class="card">
 
           <div class="card-icon">
             💬
@@ -582,16 +580,15 @@
           </h3>
 
           <p>
-            اطرح أسئلتك وشارك المعلومات مع باقي الطلاب.
+            المنتدى سيتم تفعيله قريبًا.
           </p>
 
-        </a>
+        </div>
 
 
-        <a
-          href="notes/index.html"
-          class="card"
-        >
+        <!-- المذكرات مؤقتًا -->
+
+        <div class="card">
 
           <div class="card-icon">
             📚
@@ -602,33 +599,35 @@
           </h3>
 
           <p>
-            الوصول إلى المذكرات والملخصات الخاصة بمادة الأحياء.
+            قسم المذكرات سيتم تفعيله قريبًا.
           </p>
 
-        </a>
+        </div>
 
 
-        <a
-          href="forum/index.html"
-          class="card"
-        >
+        <!-- قسم إضافي -->
+
+        <div class="card">
 
           <div class="card-icon">
             🧪
           </div>
 
           <h3>
-            أسئلة ومناقشات
+            أسئلة الأحياء
           </h3>
 
           <p>
-            ناقش الدروس والأسئلة مع زملائك في المنتدى.
+            قريبًا سيتم إضافة بنك أسئلة ومراجعات لمادة الأحياء.
           </p>
 
-        </a>
+        </div>
+
 
       </section>
 
+
+      <!-- عن المنصة -->
 
       <section class="about">
 
@@ -639,7 +638,7 @@
         <p>
           منصة أرض الأحياء هي مساحة تعليمية تهدف إلى
           تسهيل دراسة مادة الأحياء من خلال المحاضرات
-          والمذكرات والمنتدى التعليمي.
+          والمذكرات والمراجعات التعليمية.
         </p>
 
       </section>
@@ -654,9 +653,9 @@
   </div>
 
 
-  <!-- ========================= -->
-  <!-- Supabase + JavaScript -->
-  <!-- ========================= -->
+  <!-- =========================
+       Supabase
+  ========================= -->
 
   <script>
 
@@ -666,6 +665,7 @@
     const SUPABASE_ANON_KEY =
       "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
 
+
     const supabaseClient =
       window.supabase.createClient(
         SUPABASE_URL,
@@ -673,16 +673,16 @@
       );
 
 
-    /* =========================
-       التحقق من تسجيل الدخول
-    ========================= */
+    /* التحقق من المستخدم */
 
     async function checkUser() {
 
       const {
         data,
         error
-      } = await supabaseClient.auth.getUser();
+      } =
+        await supabaseClient.auth.getUser();
+
 
       if (
         error ||
@@ -696,20 +696,20 @@
 
       }
 
+
       showSite(data.user);
 
     }
 
 
-    /* =========================
-       إظهار الموقع
-    ========================= */
+    /* إظهار الموقع */
 
     function showSite(user) {
 
       document.getElementById(
         "loginScreen"
       ).style.display = "none";
+
 
       document.getElementById(
         "site"
@@ -731,9 +731,7 @@
     }
 
 
-    /* =========================
-       تسجيل الدخول
-    ========================= */
+    /* تسجيل الدخول */
 
     async function login() {
 
@@ -741,6 +739,7 @@
         document.getElementById(
           "loginEmail"
         ).value.trim();
+
 
       const password =
         document.getElementById(
@@ -777,8 +776,11 @@
         error
       } =
         await supabaseClient.auth.signInWithPassword({
+
           email: email,
+
           password: password
+
         });
 
 
@@ -796,20 +798,12 @@
       }
 
 
-      message.style.color = "#16803c";
-
-      message.textContent =
-        "تم تسجيل الدخول بنجاح ✅";
-
-
       showSite(data.user);
 
     }
 
 
-    /* =========================
-       إنشاء حساب
-    ========================= */
+    /* إنشاء الحساب */
 
     async function register() {
 
@@ -818,10 +812,12 @@
           "registerName"
         ).value.trim();
 
+
       const email =
         document.getElementById(
           "registerEmail"
         ).value.trim();
+
 
       const password =
         document.getElementById(
@@ -895,8 +891,7 @@
         message.style.color = "#d32f2f";
 
         message.textContent =
-          "حدث خطأ أثناء إنشاء الحساب: " +
-          error.message;
+          "حدث خطأ أثناء إنشاء الحساب.";
 
         console.error(error);
 
@@ -904,11 +899,6 @@
 
       }
 
-
-      /*
-       إذا كان تأكيد البريد الإلكتروني
-       مفعلاً في Supabase
-      */
 
       if (
         data.user &&
@@ -927,11 +917,6 @@
 
       if (data.user) {
 
-        message.style.color = "#16803c";
-
-        message.textContent =
-          "تم إنشاء الحساب بنجاح ✅";
-
         showSite(data.user);
 
       }
@@ -939,9 +924,7 @@
     }
 
 
-    /* =========================
-       إظهار تسجيل الدخول
-    ========================= */
+    /* عرض تسجيل الدخول */
 
     function showLogin() {
 
@@ -949,22 +932,27 @@
         "loginScreen"
       ).style.display = "flex";
 
+
       document.getElementById(
         "site"
       ).style.display = "none";
+
 
       document.getElementById(
         "loginArea"
       ).style.display = "block";
 
+
       document.getElementById(
         "registerArea"
       ).style.display = "none";
+
 
       document.getElementById(
         "loginTitle"
       ).textContent =
         "سجل الدخول للوصول إلى المنصة";
+
 
       document.getElementById(
         "loginMessage"
@@ -973,9 +961,7 @@
     }
 
 
-    /* =========================
-       إظهار التسجيل
-    ========================= */
+    /* عرض التسجيل */
 
     function showRegister() {
 
@@ -983,14 +969,17 @@
         "loginArea"
       ).style.display = "none";
 
+
       document.getElementById(
         "registerArea"
       ).style.display = "block";
+
 
       document.getElementById(
         "loginTitle"
       ).textContent =
         "إنشاء حساب طالب جديد";
+
 
       document.getElementById(
         "loginMessage"
@@ -999,9 +988,7 @@
     }
 
 
-    /* =========================
-       تسجيل الخروج
-    ========================= */
+    /* تسجيل الخروج */
 
     async function logout() {
 
@@ -1012,9 +999,7 @@
     }
 
 
-    /* =========================
-       تشغيل الموقع
-    ========================= */
+    /* تشغيل */
 
     checkUser();
 
