@@ -1,724 +1,915 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>أرض الأحياء | منصة تعليمية</title>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Tahoma,sans-serif;
-}
-
-body{
-  background:#f4f7f6;
-  color:#18352e;
-}
-
-/* القائمة الجانبية */
-
-.sidebar{
-  position:fixed;
-  right:0;
-  top:0;
-  width:270px;
-  height:100vh;
-  background:#075e4d;
-  color:white;
-  padding:25px 18px;
-  z-index:1000;
-  box-shadow:-4px 0 20px rgba(0,0,0,.12);
-}
-
-.logo{
-  text-align:center;
-  font-size:25px;
-  font-weight:bold;
-  padding:10px;
-  margin-bottom:30px;
-}
-
-.logo span{
-  display:block;
-  font-size:45px;
-  margin-bottom:8px;
-}
-
-.menu-title{
-  color:#a9d9cd;
-  font-size:13px;
-  margin:20px 12px 10px;
-}
-
-.menu a{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  color:white;
-  text-decoration:none;
-  padding:13px 15px;
-  border-radius:12px;
-  margin-bottom:5px;
-  transition:.2s;
-}
-
-.menu a:hover,
-.menu a.active{
-  background:rgba(255,255,255,.14);
-}
-
-.menu-icon{
-  font-size:21px;
-}
-
-/* المحتوى */
-
-.content{
-  margin-right:270px;
-  min-height:100vh;
-}
-
-/* الشريط العلوي */
-
-.topbar{
-  height:75px;
-  background:white;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 35px;
-  box-shadow:0 2px 12px rgba(0,0,0,.06);
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-
-.page-title{
-  font-size:21px;
-  font-weight:bold;
-}
-
-.profile{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.profile-icon{
-  width:42px;
-  height:42px;
-  background:#dff4ec;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:21px;
-}
-
-/* زر القائمة للموبايل */
-
-.menu-button{
-  display:none;
-  border:0;
-  background:#075e4d;
-  color:white;
-  font-size:24px;
-  padding:8px 12px;
-  border-radius:9px;
-}
-
-/* المحتوى الرئيسي */
-
-main{
-  padding:35px;
-}
-
-/* الترحيب */
-
-.welcome{
-  background:linear-gradient(135deg,#075e4d,#0a8069);
-  color:white;
-  border-radius:22px;
-  padding:35px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  margin-bottom:30px;
-}
-
-.welcome h1{
-  font-size:32px;
-  margin-bottom:12px;
-}
-
-.welcome p{
-  color:#d8f4eb;
-  line-height:1.8;
-  font-size:16px;
-}
-
-.welcome-icon{
-  font-size:90px;
-}
-
-/* العناوين */
-
-.section-title{
-  margin:35px 0 18px;
-}
-
-.section-title h2{
-  color:#075e4d;
-  font-size:25px;
-}
-
-.section-title p{
-  color:#74827e;
-  margin-top:6px;
-}
-
-/* الكروت */
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-}
-
-.card{
-  background:white;
-  border-radius:18px;
-  padding:23px;
-  box-shadow:0 5px 18px rgba(0,0,0,.06);
-  transition:.2s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
-}
-
-.card-icon{
-  font-size:40px;
-  margin-bottom:15px;
-}
-
-.card h3{
-  margin-bottom:8px;
-}
-
-.card p{
-  color:#71817c;
-  line-height:1.6;
-  font-size:14px;
-}
-
-.card a{
-  display:inline-block;
-  margin-top:15px;
-  color:#075e4d;
-  font-weight:bold;
-  text-decoration:none;
-}
-
-/* آخر الدروس */
-
-.lessons{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.lesson{
-  background:white;
-  border-radius:18px;
-  padding:22px;
-  box-shadow:0 5px 18px rgba(0,0,0,.06);
-}
-
-.lesson-top{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:13px;
-}
-
-.lesson-icon{
-  width:50px;
-  height:50px;
-  background:#e3f5ef;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-}
-
-.lesson p{
-  color:#71817c;
-  line-height:1.7;
-  font-size:14px;
-}
-
-.lesson button{
-  margin-top:15px;
-  border:0;
-  background:#075e4d;
-  color:white;
-  padding:9px 17px;
-  border-radius:20px;
-  cursor:pointer;
-}
-
-/* الفوتر */
-
-footer{
-  margin-top:50px;
-  background:#12342d;
-  color:white;
-  text-align:center;
-  padding:25px;
-}
-
-footer p{
-  color:#bfd4ce;
-  margin-top:8px;
-}
-
-/* الموبايل */
-
-@media(max-width:1000px){
-
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .lessons{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-@media(max-width:700px){
-
-  .sidebar{
-    right:-280px;
-    transition:.3s;
-  }
-
-  .sidebar.open{
-    right:0;
-  }
-
-  .content{
-    margin-right:0;
-  }
-
-  .topbar{
-    padding:0 15px;
-  }
-
-  .menu-button{
-    display:block;
-  }
-
-  main{
-    padding:20px 15px;
-  }
-
-  .welcome{
-    padding:25px;
-  }
-
-  .welcome h1{
-    font-size:25px;
-  }
-
-  .welcome-icon{
-    font-size:60px;
-  }
-
-  .cards{
-    grid-template-columns:1fr;
-  }
-
-  .lessons{
-    grid-template-columns:1fr;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>منصة أرض الأحياء | منصة تعليمية</title>
+  <meta name="description" content="منصة أرض الأحياء التعليمية - دروس أحياء وفيديوهات واختبارات ومذكرات للطلاب.">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Tahoma, sans-serif;
+      background: #f3f7f5;
+      color: #17221d;
+    }
+
+    /* شاشة تسجيل الدخول */
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #063d2c, #0b6b4b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      border-radius: 22px;
+      padding: 35px 25px;
+      text-align: center;
+      box-shadow: 0 15px 50px rgba(0,0,0,.3);
+    }
+
+    .login-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #0b6b4b;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 18px;
+    }
+
+    .login-box h1 {
+      color: #075536;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .login-box p {
+      color: #666;
+      margin-bottom: 25px;
+      line-height: 1.7;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      margin-bottom: 12px;
+      outline: none;
+      text-align: center;
+    }
+
+    .login-box input:focus {
+      border-color: #0b6b4b;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      border: 0;
+      border-radius: 12px;
+      background: #0b6b4b;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .login-btn:hover {
+      background: #075536;
+    }
+
+    #otpSection {
+      display: none;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .success {
+      color: #087443;
+    }
+
+    .error {
+      color: #c62828;
+    }
+
+    .change-phone {
+      margin-top: 15px;
+      border: 0;
+      background: none;
+      color: #075536;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* الموقع */
+    #siteContent {
+      display: none;
+    }
+
+    .sidebar {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 270px;
+      height: 100vh;
+      background: #063d2c;
+      color: white;
+      padding: 25px 15px;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 23px;
+      font-weight: bold;
+      padding: 15px 5px 30px;
+    }
+
+    .logo span {
+      display: block;
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .menu {
+      list-style: none;
+    }
+
+    .menu li {
+      margin-bottom: 7px;
+    }
+
+    .menu a {
+      display: block;
+      color: #e8f5ef;
+      text-decoration: none;
+      padding: 13px 15px;
+      border-radius: 10px;
+      transition: .2s;
+    }
+
+    .menu a:hover {
+      background: #0b6b4b;
+    }
+
+    .logout-btn {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.3);
+      background: transparent;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .logout-btn:hover {
+      background: #a92828;
+    }
+
+    .main {
+      margin-right: 270px;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 75px;
+      background: white;
+      border-bottom: 1px solid #e2e8e4;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: sticky;
+      top: 0;
+      z-index: 500;
+    }
+
+    .topbar h2 {
+      color: #075536;
+    }
+
+    .profile {
+      color: #555;
+      font-weight: bold;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .welcome {
+      background: linear-gradient(135deg, #0b6b4b, #0d8b62);
+      color: white;
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(11,107,75,.2);
+    }
+
+    .welcome h1 {
+      margin-bottom: 12px;
+      font-size: 30px;
+    }
+
+    .welcome p {
+      line-height: 1.8;
+      opacity: .95;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 35px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+      transition: .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 35px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      color: #075536;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      margin-bottom: 18px;
+      color: #075536;
+      font-size: 24px;
+    }
+
+    .lessons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .lesson {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .lesson h3 {
+      color: #075536;
+      margin-bottom: 10px;
+    }
+
+    .lesson p {
+      color: #666;
+      line-height: 1.7;
+    }
+
+    .lesson a {
+      display: inline-block;
+      margin-top: 15px;
+      background: #0b6b4b;
+      color: white;
+      padding: 9px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+      margin-top: 30px;
+    }
+
+    @media (max-width: 1000px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .lessons {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+      }
+
+      .main {
+        margin-right: 0;
+      }
+
+      .topbar {
+        padding: 0 15px;
+      }
+
+      .content {
+        padding: 15px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome {
+        padding: 25px;
+      }
+
+      .welcome h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- القائمة اليمنى -->
+  <!-- =========================
+       شاشة تسجيل الدخول
+  ========================== -->
+  <div id="loginScreen">
 
-<aside class="sidebar" id="sidebar">
+    <div class="login-box">
 
-  <div class="logo">
-    <span>🧬</span>
-    أرض الأحياء
-  </div>
+      <div class="login-logo">🧬</div>
 
-  <div class="menu">
+      <h1>منصة أرض الأحياء</h1>
 
-    <div class="menu-title">
-      القائمة الرئيسية
+      <p>
+        سجّل الدخول برقم هاتفك للوصول إلى المنصة التعليمية.
+      </p>
+
+      <!-- رقم الهاتف -->
+      <div id="phoneSection">
+
+        <input
+          type="tel"
+          id="phone"
+          placeholder="+201xxxxxxxxx"
+          autocomplete="tel"
+        >
+
+        <button
+          class="login-btn"
+          onclick="sendOTP()"
+        >
+          📱 إرسال رمز التحقق
+        </button>
+
+      </div>
+
+      <!-- رمز OTP -->
+      <div id="otpSection">
+
+        <input
+          type="text"
+          id="otp"
+          placeholder="اكتب رمز التحقق"
+          inputmode="numeric"
+          maxlength="6"
+        >
+
+        <button
+          class="login-btn"
+          onclick="verifyOTP()"
+        >
+          🔐 تسجيل الدخول
+        </button>
+
+        <button
+          class="change-phone"
+          onclick="changePhone()"
+        >
+          تغيير رقم الهاتف
+        </button>
+
+      </div>
+
+      <div id="message"></div>
+
     </div>
-
-    <a href="index.html" class="active">
-      <span class="menu-icon">🏠</span>
-      الرئيسية
-    </a>
-
-    <a href="biology/index.html">
-      <span class="menu-icon">📚</span>
-      الدروس
-    </a>
-
-    <a href="#">
-      <span class="menu-icon">🎥</span>
-      الفيديوهات
-    </a>
-
-    <a href="#">
-      <span class="menu-icon">📝</span>
-      الاختبارات
-    </a>
-
-    <a href="#">
-      <span class="menu-icon">📄</span>
-      المذكرات
-    </a>
-
-
-    <div class="menu-title">
-      المجتمع
-    </div>
-
-    <a href="#">
-      <span class="menu-icon">💬</span>
-      المنتدى
-    </a>
-
-    <a href="#">
-      <span class="menu-icon">🏆</span>
-      المتصدرون
-    </a>
-
-
-    <div class="menu-title">
-      حسابي
-    </div>
-
-    <a href="#">
-      <span class="menu-icon">👤</span>
-      حسابي
-    </a>
-
-    <a href="#">
-      <span class="menu-icon">⚙️</span>
-      الإعدادات
-    </a>
 
   </div>
 
-</aside>
 
+  <!-- =========================
+       الموقع
+  ========================== -->
+  <div id="siteContent">
 
-<!-- المحتوى -->
+    <aside class="sidebar">
 
-<div class="content">
-
-  <!-- الشريط العلوي -->
-
-  <header class="topbar">
-
-    <button class="menu-button" onclick="toggleMenu()">
-      ☰
-    </button>
-
-    <div class="page-title">
-      لوحة التحكم
-    </div>
-
-    <div class="profile">
-
-      <span>
-        مرحبًا بك 👋
-      </span>
-
-      <div class="profile-icon">
-        👤
+      <div class="logo">
+        <span>🧬</span>
+        منصة أرض الأحياء
       </div>
 
-    </div>
+      <ul class="menu">
 
-  </header>
+        <li>
+          <a href="index.html">🏠 الرئيسية</a>
+        </li>
+
+        <li>
+          <a href="biology/index.html">📚 الدروس</a>
+        </li>
+
+        <li>
+          <a href="#">🎥 الفيديوهات</a>
+        </li>
+
+        <li>
+          <a href="#">📝 الاختبارات</a>
+        </li>
+
+        <li>
+          <a href="#">📖 المذكرات</a>
+        </li>
+
+        <li>
+          <a href="#">💬 المنتدى</a>
+        </li>
+
+        <li>
+          <a href="#">🏆 المتصدرون</a>
+        </li>
+
+        <li>
+          <a href="#">👤 حسابي</a>
+        </li>
+
+        <li>
+          <a href="#">⚙️ الإعدادات</a>
+        </li>
+
+      </ul>
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        🚪 تسجيل الخروج
+      </button>
+
+    </aside>
 
 
-  <main>
+    <main class="main">
 
-    <!-- الترحيب -->
+      <header class="topbar">
 
-    <section class="welcome">
+        <h2>منصة أرض الأحياء</h2>
 
-      <div>
-
-        <h1>
-          أهلاً بك في أرض الأحياء 🧬
-        </h1>
-
-        <p>
-          منصتك التعليمية لفهم الأحياء بطريقة بسيطة
-          ومنظمة وممتعة.
-        </p>
-
-      </div>
-
-      <div class="welcome-icon">
-        🧬
-      </div>
-
-    </section>
-
-
-    <!-- الأقسام -->
-
-    <div class="section-title">
-
-      <h2>
-        ابدأ التعلم
-      </h2>
-
-      <p>
-        اختر ما تريد أن تبدأ به
-      </p>
-
-    </div>
-
-
-    <div class="cards">
-
-      <div class="card">
-
-        <div class="card-icon">
-          📚
+        <div class="profile">
+          مرحبًا بك 👋
         </div>
 
-        <h3>
-          الدروس
-        </h3>
-
-        <p>
-          شاهد دروس الأحياء مرتبة حسب الوحدات.
-        </p>
-
-        <a href="biology/index.html">
-          استكشف الدروس ←
-        </a>
-
-      </div>
+      </header>
 
 
-      <div class="card">
+      <div class="content">
 
-        <div class="card-icon">
-          🎥
-        </div>
+        <section class="welcome">
 
-        <h3>
-          الفيديوهات
-        </h3>
+          <h1>
+            أهلاً بك في منصة أرض الأحياء 🧬
+          </h1>
 
-        <p>
-          شاهد شرح الدروس بطريقة سهلة.
-        </p>
+          <p>
+            منصتك التعليمية لدراسة الأحياء بطريقة سهلة ومنظمة،
+            مع الدروس والفيديوهات والاختبارات والمذكرات.
+          </p>
 
-        <a href="#">
-          مشاهدة الفيديوهات ←
-        </a>
-
-      </div>
+        </section>
 
 
-      <div class="card">
+        <section class="cards">
 
-        <div class="card-icon">
-          📝
-        </div>
-
-        <h3>
-          الاختبارات
-        </h3>
-
-        <p>
-          اختبر معلوماتك واعرف مستواك.
-        </p>
-
-        <a href="#">
-          ابدأ اختبارًا ←
-        </a>
-
-      </div>
-
-
-      <div class="card">
-
-        <div class="card-icon">
-          📄
-        </div>
-
-        <h3>
-          المذكرات
-        </h3>
-
-        <p>
-          حمل المذكرات والمراجعات التعليمية.
-        </p>
-
-        <a href="#">
-          تصفح المذكرات ←
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <!-- أحدث الدروس -->
-
-    <div class="section-title">
-
-      <h2>
-        أحدث الدروس
-      </h2>
-
-      <p>
-        تابع أحدث المحتوى التعليمي
-      </p>
-
-    </div>
-
-
-    <div class="lessons">
-
-      <div class="lesson">
-
-        <div class="lesson-top">
-
-          <div class="lesson-icon">
-            🌱
+          <div class="card">
+            <div class="card-icon">📚</div>
+            <h3>الدروس</h3>
+            <p>
+              شرح مبسط ومنظم لموضوعات الأحياء.
+            </p>
           </div>
 
-          <h3>
-            الدعامة في النبات
-          </h3>
-
-        </div>
-
-        <p>
-          تعرف على مفهوم الدعامة وأهميتها
-          وأنواعها في النبات.
-        </p>
-
-        <button>
-          مشاهدة الدرس
-        </button>
-
-      </div>
-
-
-      <div class="lesson">
-
-        <div class="lesson-top">
-
-          <div class="lesson-icon">
-            🧫
+          <div class="card">
+            <div class="card-icon">🎥</div>
+            <h3>الفيديوهات</h3>
+            <p>
+              فيديوهات تعليمية تساعدك على فهم الدروس.
+            </p>
           </div>
 
-          <h3>
-            تركيب الخلية
-          </h3>
-
-        </div>
-
-        <p>
-          تعرف على الخلية ومكوناتها
-          ووظائفها المختلفة.
-        </p>
-
-        <button>
-          مشاهدة الدرس
-        </button>
-
-      </div>
-
-
-      <div class="lesson">
-
-        <div class="lesson-top">
-
-          <div class="lesson-icon">
-            🧬
+          <div class="card">
+            <div class="card-icon">📝</div>
+            <h3>الاختبارات</h3>
+            <p>
+              اختبر معلوماتك وتابع مستواك الدراسي.
+            </p>
           </div>
 
-          <h3>
-            أساسيات الوراثة
-          </h3>
+          <div class="card">
+            <div class="card-icon">📖</div>
+            <h3>المذكرات</h3>
+            <p>
+              مذكرات ومراجعات تساعدك في المذاكرة.
+            </p>
+          </div>
 
-        </div>
+        </section>
 
-        <p>
-          مقدمة بسيطة لفهم الجينات
-          والصفات الوراثية.
-        </p>
 
-        <button>
-          مشاهدة الدرس
-        </button>
+        <h2 class="section-title">
+          أحدث الدروس
+        </h2>
+
+
+        <section class="lessons">
+
+          <div class="lesson">
+
+            <h3>🌱 الدعامة في النبات</h3>
+
+            <p>
+              تعرف على مفهوم الدعامة وأهميتها وأنواعها
+              في النبات.
+            </p>
+
+            <a href="biology/index.html">
+              مشاهدة الدرس
+            </a>
+
+          </div>
+
+
+          <div class="lesson">
+
+            <h3>🔬 تركيب الخلية</h3>
+
+            <p>
+              تعرف على مكونات الخلية ووظيفة كل مكون.
+            </p>
+
+            <a href="#">
+              مشاهدة الدرس
+            </a>
+
+          </div>
+
+
+          <div class="lesson">
+
+            <h3>🧬 أساسيات الوراثة</h3>
+
+            <p>
+              مقدمة مبسطة لفهم أساسيات علم الوراثة.
+            </p>
+
+            <a href="#">
+              مشاهدة الدرس
+            </a>
+
+          </div>
+
+        </section>
 
       </div>
 
-    </div>
 
-  </main>
+      <footer>
+        🧬 منصة أرض الأحياء
+        <br>
+        جميع الحقوق محفوظة © 2026
+      </footer>
 
+    </main>
 
-  <footer>
-
-    <h3>
-      🧬 أرض الأحياء
-    </h3>
-
-    <p>
-      تعلم الأحياء بطريقة أسهل وأمتع.
-    </p>
-
-    <p>
-      © 2026 أرض الأحياء
-    </p>
-
-  </footer>
-
-</div>
+  </div>
 
 
-<script>
+  <!-- =========================
+       Supabase
+  ========================== -->
+  <script>
 
-function toggleMenu(){
+    const SUPABASE_URL =
+      "https://gvehygqxjqucxwussaye.supabase.co";
 
-  const sidebar =
-    document.getElementById("sidebar");
+    const SUPABASE_ANON_KEY =
+      "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
 
-  sidebar.classList.toggle("open");
 
-}
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
 
-</script>
+
+    let currentPhone = "";
+
+
+    // إظهار رسالة
+    function showMessage(text, type = "") {
+
+      const message =
+        document.getElementById("message");
+
+      message.textContent = text;
+
+      message.className = type;
+
+    }
+
+
+    // إرسال رمز OTP
+    async function sendOTP() {
+
+      const phoneInput =
+        document.getElementById("phone");
+
+      const phone =
+        phoneInput.value.trim();
+
+
+      if (!phone) {
+
+        showMessage(
+          "اكتب رقم الهاتف أولاً.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (!phone.startsWith("+")) {
+
+        showMessage(
+          "اكتب الرقم بصيغة دولية، مثال: +201xxxxxxxxx",
+          "error"
+        );
+
+        return;
+      }
+
+
+      showMessage("جاري إرسال رمز التحقق...", "");
+
+
+      const { error } =
+        await supabaseClient.auth.signInWithOtp({
+          phone: phone
+        });
+
+
+      if (error) {
+
+        console.error(error);
+
+        showMessage(
+          "حدث خطأ: " + error.message,
+          "error"
+        );
+
+        return;
+      }
+
+
+      currentPhone = phone;
+
+
+      document.getElementById(
+        "phoneSection"
+      ).style.display = "none";
+
+
+      document.getElementById(
+        "otpSection"
+      ).style.display = "block";
+
+
+      showMessage(
+        "تم إرسال رمز التحقق إلى هاتفك 📱",
+        "success"
+      );
+
+    }
+
+
+    // التحقق من OTP
+    async function verifyOTP() {
+
+      const otp =
+        document.getElementById("otp")
+          .value
+          .trim();
+
+
+      if (!otp) {
+
+        showMessage(
+          "اكتب رمز التحقق.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      showMessage(
+        "جاري التحقق...",
+        ""
+      );
+
+
+      const { data, error } =
+        await supabaseClient.auth.verifyOtp({
+
+          phone: currentPhone,
+
+          token: otp,
+
+          type: "sms"
+
+        });
+
+
+      if (error) {
+
+        console.error(error);
+
+        showMessage(
+          "رمز التحقق غير صحيح أو انتهت صلاحيته.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (data.session) {
+
+        showSite();
+
+      }
+
+    }
+
+
+    // إظهار الموقع
+    function showSite() {
+
+      document.getElementById(
+        "loginScreen"
+      ).style.display = "none";
+
+
+      document.getElementById(
+        "siteContent"
+      ).style.display = "block";
+
+    }
+
+
+    // تغيير رقم الهاتف
+    function changePhone() {
+
+      currentPhone = "";
+
+      document.getElementById(
+        "phone"
+      ).value = "";
+
+      document.getElementById(
+        "otp"
+      ).value = "";
+
+
+      document.getElementById(
+        "phoneSection"
+      ).style.display = "block";
+
+
+      document.getElementById(
+        "otpSection"
+      ).style.display = "none";
+
+
+      showMessage("");
+
+    }
+
+
+    // تسجيل الخروج
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      document.getElementById(
+        "siteContent"
+      ).style.display = "none";
+
+
+      document.getElementById(
+        "loginScreen"
+      ).style.display = "flex";
+
+
+      changePhone();
+
+    }
+
+
+    // فحص حالة تسجيل الدخول عند فتح الموقع
+    async function checkSession() {
+
+      const {
+        data: { session }
+      } = await supabaseClient.auth.getSession();
+
+
+      if (session) {
+
+        showSite();
+
+      } else {
+
+        document.getElementById(
+          "loginScreen"
+        ).style.display = "flex";
+
+      }
+
+    }
+
+
+    // مراقبة تسجيل الدخول والخروج
+    supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+
+        if (session) {
+
+          showSite();
+
+        }
+
+      }
+    );
+
+
+    // تشغيل فحص الدخول
+    checkSession();
+
+  </script>
 
 </body>
 </html>
