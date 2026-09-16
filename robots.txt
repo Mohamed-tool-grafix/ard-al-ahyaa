@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mohamed-tool-grafix.github.io/technomasar/sitemap.xml
+Sitemap: https://mohamed-tool-grafix.github.io/ard-al-ahyaa/sitemap.xml
