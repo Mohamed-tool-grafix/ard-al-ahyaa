@@ -1,1 +1,336 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>الفيديوهات | منصة أرض الأحياء</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Tahoma, sans-serif;
+      background: #f3f7f5;
+      color: #17221d;
+    }
+
+    header {
+      background: #063d2c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    .upload-box {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    }
+
+    input,
+    button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    input {
+      border: 1px solid #ddd;
+    }
+
+    button {
+      border: 0;
+      background: #0b6b4b;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #075536;
+    }
+
+    .video-card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    }
+
+    video {
+      width: 100%;
+      max-height: 500px;
+      border-radius: 12px;
+      background: #000;
+    }
+
+    .title {
+      color: #075536;
+      font-size: 21px;
+      margin-bottom: 15px;
+    }
+
+    #message {
+      margin-top: 15px;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🧬 منصة أرض الأحياء</h1>
+  <p>الفيديوهات التعليمية</p>
+</header>
+
+<div class="container">
+
+  <div class="upload-box">
+
+    <h2>📤 رفع فيديو جديد</h2>
+
+    <input
+      type="text"
+      id="videoTitle"
+      placeholder="اكتب اسم الفيديو"
+    >
+
+    <input
+      type="file"
+      id="videoFile"
+      accept="video/*"
+    >
+
+    <button onclick="uploadVideo()">
+      رفع الفيديو
+    </button>
+
+    <div id="message"></div>
+
+  </div>
+
+  <h2>🎬 الفيديوهات</h2>
+
+  <div id="videosList">
+    جاري تحميل الفيديوهات...
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://gvehygqxjqucxwussaye.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+async function uploadVideo() {
+
+  const title =
+    document.getElementById("videoTitle")
+      .value.trim();
+
+  const file =
+    document.getElementById("videoFile")
+      .files[0];
+
+  const message =
+    document.getElementById("message");
+
+
+  if (!title) {
+
+    message.textContent =
+      "اكتب اسم الفيديو أولًا.";
+
+    return;
+  }
+
+
+  if (!file) {
+
+    message.textContent =
+      "اختر ملف الفيديو أولًا.";
+
+    return;
+  }
+
+
+  message.textContent =
+    "جاري رفع الفيديو... انتظر حتى يكتمل الرفع.";
+
+
+  const fileName =
+    Date.now() + "_" +
+    file.name.replace(/\s+/g, "_");
+
+
+  const filePath =
+    fileName;
+
+
+  const { error } =
+    await supabaseClient.storage
+      .from("videos")
+      .upload(filePath, file);
+
+
+  if (error) {
+
+    console.error(error);
+
+    message.textContent =
+      "حدث خطأ أثناء الرفع: " +
+      error.message;
+
+    return;
+  }
+
+
+  const { data } =
+    supabaseClient.storage
+      .from("videos")
+      .getPublicUrl(filePath);
+
+
+  const videoUrl =
+    data.publicUrl;
+
+
+  const videos =
+    JSON.parse(
+      localStorage.getItem("ard_al_ahyaa_videos")
+      || "[]"
+    );
+
+
+  videos.unshift({
+
+    title: title,
+
+    url: videoUrl
+
+  });
+
+
+  localStorage.setItem(
+    "ard_al_ahyaa_videos",
+    JSON.stringify(videos)
+  );
+
+
+  message.textContent =
+    "تم رفع الفيديو بنجاح ✅";
+
+
+  document.getElementById(
+    "videoTitle"
+  ).value = "";
+
+
+  document.getElementById(
+    "videoFile"
+  ).value = "";
+
+
+  loadVideos();
+
+}
+
+
+function loadVideos() {
+
+  const container =
+    document.getElementById("videosList");
+
+
+  const videos =
+    JSON.parse(
+      localStorage.getItem("ard_al_ahyaa_videos")
+      || "[]"
+    );
+
+
+  if (videos.length === 0) {
+
+    container.innerHTML =
+      "<p>لا توجد فيديوهات حتى الآن.</p>";
+
+    return;
+  }
+
+
+  container.innerHTML = "";
+
+
+  videos.forEach(video => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "video-card";
+
+
+    card.innerHTML = `
+
+      <div class="title">
+        ${escapeHtml(video.title)}
+      </div>
+
+      <video
+        controls
+        preload="metadata"
+        src="${video.url}">
+      </video>
+
+    `;
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+function escapeHtml(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent = text;
+
+  return div.innerHTML;
+
+}
+
+
+loadVideos();
+
+</script>
+
+</body>
+</html>
