@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>منصة أرض الأحياء | منصة تعليمية</title>
-  <meta name="description" content="منصة أرض الأحياء التعليمية - دروس أحياء وفيديوهات واختبارات ومذكرات للطلاب.">
+
+  <meta name="description"
+        content="منصة أرض الأحياء التعليمية - دروس أحياء وفيديوهات واختبارات ومذكرات للطلاب.">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -22,7 +24,10 @@
       color: #17221d;
     }
 
-    /* شاشة تسجيل الدخول */
+    /* =========================
+       شاشة تسجيل الدخول
+    ========================== */
+
     #loginScreen {
       position: fixed;
       inset: 0;
@@ -77,7 +82,8 @@
       font-size: 16px;
       margin-bottom: 12px;
       outline: none;
-      text-align: center;
+      direction: ltr;
+      text-align: left;
     }
 
     .login-box input:focus {
@@ -100,14 +106,24 @@
       background: #075536;
     }
 
-    #otpSection {
+    .secondary-btn {
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      background: transparent;
+      color: #075536;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #registerSection {
       display: none;
     }
 
     #message {
       margin-top: 15px;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .success {
@@ -118,16 +134,10 @@
       color: #c62828;
     }
 
-    .change-phone {
-      margin-top: 15px;
-      border: 0;
-      background: none;
-      color: #075536;
-      cursor: pointer;
-      font-size: 14px;
-    }
+    /* =========================
+       الموقع
+    ========================== */
 
-    /* الموقع */
     #siteContent {
       display: none;
     }
@@ -372,8 +382,9 @@
 <body>
 
   <!-- =========================
-       شاشة تسجيل الدخول
+       تسجيل الدخول
   ========================== -->
+
   <div id="loginScreen">
 
     <div class="login-box">
@@ -383,54 +394,79 @@
       <h1>منصة أرض الأحياء</h1>
 
       <p>
-        سجّل الدخول برقم هاتفك للوصول إلى المنصة التعليمية.
+        سجّل الدخول للوصول إلى المنصة التعليمية.
       </p>
 
-      <!-- رقم الهاتف -->
-      <div id="phoneSection">
+
+      <!-- تسجيل الدخول -->
+
+      <div id="loginSection">
 
         <input
-          type="tel"
-          id="phone"
-          placeholder="+201xxxxxxxxx"
-          autocomplete="tel"
+          type="email"
+          id="loginEmail"
+          placeholder="البريد الإلكتروني"
+          autocomplete="email"
+        >
+
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="كلمة المرور"
+          autocomplete="current-password"
         >
 
         <button
           class="login-btn"
-          onclick="sendOTP()"
-        >
-          📱 إرسال رمز التحقق
-        </button>
-
-      </div>
-
-      <!-- رمز OTP -->
-      <div id="otpSection">
-
-        <input
-          type="text"
-          id="otp"
-          placeholder="اكتب رمز التحقق"
-          inputmode="numeric"
-          maxlength="6"
-        >
-
-        <button
-          class="login-btn"
-          onclick="verifyOTP()"
+          onclick="login()"
         >
           🔐 تسجيل الدخول
         </button>
 
         <button
-          class="change-phone"
-          onclick="changePhone()"
+          class="secondary-btn"
+          onclick="showRegister()"
         >
-          تغيير رقم الهاتف
+          إنشاء حساب جديد
         </button>
 
       </div>
+
+
+      <!-- إنشاء حساب -->
+
+      <div id="registerSection">
+
+        <input
+          type="email"
+          id="registerEmail"
+          placeholder="البريد الإلكتروني"
+          autocomplete="email"
+        >
+
+        <input
+          type="password"
+          id="registerPassword"
+          placeholder="كلمة المرور"
+          autocomplete="new-password"
+        >
+
+        <button
+          class="login-btn"
+          onclick="register()"
+        >
+          📝 إنشاء الحساب
+        </button>
+
+        <button
+          class="secondary-btn"
+          onclick="showLogin()"
+        >
+          لدي حساب بالفعل
+        </button>
+
+      </div>
+
 
       <div id="message"></div>
 
@@ -440,8 +476,9 @@
 
 
   <!-- =========================
-       الموقع
+       الموقع الرئيسي
   ========================== -->
+
   <div id="siteContent">
 
     <aside class="sidebar">
@@ -507,7 +544,10 @@
 
         <h2>منصة أرض الأحياء</h2>
 
-        <div class="profile">
+        <div
+          class="profile"
+          id="profileEmail"
+        >
           مرحبًا بك 👋
         </div>
 
@@ -534,31 +574,42 @@
 
           <div class="card">
             <div class="card-icon">📚</div>
+
             <h3>الدروس</h3>
+
             <p>
               شرح مبسط ومنظم لموضوعات الأحياء.
             </p>
           </div>
 
+
           <div class="card">
             <div class="card-icon">🎥</div>
+
             <h3>الفيديوهات</h3>
+
             <p>
               فيديوهات تعليمية تساعدك على فهم الدروس.
             </p>
           </div>
 
+
           <div class="card">
             <div class="card-icon">📝</div>
+
             <h3>الاختبارات</h3>
+
             <p>
               اختبر معلوماتك وتابع مستواك الدراسي.
             </p>
           </div>
 
+
           <div class="card">
             <div class="card-icon">📖</div>
+
             <h3>المذكرات</h3>
+
             <p>
               مذكرات ومراجعات تساعدك في المذاكرة.
             </p>
@@ -638,6 +689,7 @@
   <!-- =========================
        Supabase
   ========================== -->
+
   <script>
 
     const SUPABASE_URL =
@@ -654,10 +706,10 @@
       );
 
 
-    let currentPhone = "";
+    /* =========================
+       الرسائل
+    ========================== */
 
-
-    // إظهار رسالة
     function showMessage(text, type = "") {
 
       const message =
@@ -670,94 +722,26 @@
     }
 
 
-    // إرسال رمز OTP
-    async function sendOTP() {
+    /* =========================
+       تسجيل الدخول
+    ========================== */
 
-      const phoneInput =
-        document.getElementById("phone");
+    async function login() {
 
-      const phone =
-        phoneInput.value.trim();
-
-
-      if (!phone) {
-
-        showMessage(
-          "اكتب رقم الهاتف أولاً.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if (!phone.startsWith("+")) {
-
-        showMessage(
-          "اكتب الرقم بصيغة دولية، مثال: +201xxxxxxxxx",
-          "error"
-        );
-
-        return;
-      }
-
-
-      showMessage("جاري إرسال رمز التحقق...", "");
-
-
-      const { error } =
-        await supabaseClient.auth.signInWithOtp({
-          phone: phone
-        });
-
-
-      if (error) {
-
-        console.error(error);
-
-        showMessage(
-          "حدث خطأ: " + error.message,
-          "error"
-        );
-
-        return;
-      }
-
-
-      currentPhone = phone;
-
-
-      document.getElementById(
-        "phoneSection"
-      ).style.display = "none";
-
-
-      document.getElementById(
-        "otpSection"
-      ).style.display = "block";
-
-
-      showMessage(
-        "تم إرسال رمز التحقق إلى هاتفك 📱",
-        "success"
-      );
-
-    }
-
-
-    // التحقق من OTP
-    async function verifyOTP() {
-
-      const otp =
-        document.getElementById("otp")
+      const email =
+        document.getElementById("loginEmail")
           .value
           .trim();
 
+      const password =
+        document.getElementById("loginPassword")
+          .value;
 
-      if (!otp) {
+
+      if (!email || !password) {
 
         showMessage(
-          "اكتب رمز التحقق.",
+          "اكتب البريد الإلكتروني وكلمة المرور.",
           "error"
         );
 
@@ -766,19 +750,17 @@
 
 
       showMessage(
-        "جاري التحقق...",
+        "جاري تسجيل الدخول...",
         ""
       );
 
 
       const { data, error } =
-        await supabaseClient.auth.verifyOtp({
+        await supabaseClient.auth.signInWithPassword({
 
-          phone: currentPhone,
+          email: email,
 
-          token: otp,
-
-          type: "sms"
+          password: password
 
         });
 
@@ -788,7 +770,7 @@
         console.error(error);
 
         showMessage(
-          "رمز التحقق غير صحيح أو انتهت صلاحيته.",
+          "بيانات الدخول غير صحيحة أو الحساب غير موجود.",
           "error"
         );
 
@@ -798,15 +780,143 @@
 
       if (data.session) {
 
-        showSite();
+        showSite(data.session);
 
       }
 
     }
 
 
-    // إظهار الموقع
-    function showSite() {
+    /* =========================
+       إنشاء حساب
+    ========================== */
+
+    async function register() {
+
+      const email =
+        document.getElementById("registerEmail")
+          .value
+          .trim();
+
+      const password =
+        document.getElementById("registerPassword")
+          .value;
+
+
+      if (!email || !password) {
+
+        showMessage(
+          "اكتب البريد الإلكتروني وكلمة المرور.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (password.length < 6) {
+
+        showMessage(
+          "كلمة المرور يجب أن تكون 6 أحرف أو أكثر.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      showMessage(
+        "جاري إنشاء الحساب...",
+        ""
+      );
+
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+
+          email: email,
+
+          password: password
+
+        });
+
+
+      if (error) {
+
+        console.error(error);
+
+        showMessage(
+          error.message,
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (data.session) {
+
+        showSite(data.session);
+
+      } else {
+
+        showMessage(
+          "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا طلب منك ذلك.",
+          "success"
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       عرض التسجيل
+    ========================== */
+
+    function showRegister() {
+
+      document.getElementById(
+        "loginSection"
+      ).style.display = "none";
+
+
+      document.getElementById(
+        "registerSection"
+      ).style.display = "block";
+
+
+      showMessage("");
+
+    }
+
+
+    /* =========================
+       العودة للدخول
+    ========================== */
+
+    function showLogin() {
+
+      document.getElementById(
+        "registerSection"
+      ).style.display = "none";
+
+
+      document.getElementById(
+        "loginSection"
+      ).style.display = "block";
+
+
+      showMessage("");
+
+    }
+
+
+    /* =========================
+       إظهار الموقع
+    ========================== */
+
+    function showSite(session) {
 
       document.getElementById(
         "loginScreen"
@@ -817,42 +927,32 @@
         "siteContent"
       ).style.display = "block";
 
-    }
 
+      if (
+        session &&
+        session.user &&
+        session.user.email
+      ) {
 
-    // تغيير رقم الهاتف
-    function changePhone() {
+        document.getElementById(
+          "profileEmail"
+        ).textContent =
+          "مرحبًا بك 👋 " +
+          session.user.email;
 
-      currentPhone = "";
-
-      document.getElementById(
-        "phone"
-      ).value = "";
-
-      document.getElementById(
-        "otp"
-      ).value = "";
-
-
-      document.getElementById(
-        "phoneSection"
-      ).style.display = "block";
-
-
-      document.getElementById(
-        "otpSection"
-      ).style.display = "none";
-
-
-      showMessage("");
+      }
 
     }
 
 
-    // تسجيل الخروج
+    /* =========================
+       تسجيل الخروج
+    ========================== */
+
     async function logout() {
 
       await supabaseClient.auth.signOut();
+
 
       document.getElementById(
         "siteContent"
@@ -864,22 +964,26 @@
       ).style.display = "flex";
 
 
-      changePhone();
+      showLogin();
 
     }
 
 
-    // فحص حالة تسجيل الدخول عند فتح الموقع
+    /* =========================
+       فحص الجلسة
+    ========================== */
+
     async function checkSession() {
 
       const {
         data: { session }
-      } = await supabaseClient.auth.getSession();
+      } =
+        await supabaseClient.auth.getSession();
 
 
       if (session) {
 
-        showSite();
+        showSite(session);
 
       } else {
 
@@ -892,13 +996,16 @@
     }
 
 
-    // مراقبة تسجيل الدخول والخروج
+    /* =========================
+       متابعة حالة الحساب
+    ========================== */
+
     supabaseClient.auth.onAuthStateChange(
       (event, session) => {
 
         if (session) {
 
-          showSite();
+          showSite(session);
 
         }
 
@@ -906,7 +1013,6 @@
     );
 
 
-    // تشغيل فحص الدخول
     checkSession();
 
   </script>
