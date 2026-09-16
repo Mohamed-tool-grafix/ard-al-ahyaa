@@ -1,743 +1,819 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>منصة أرض الأحياء</title>
+  <title>منصة أرض الأحياء</title>
+  <meta name="description" content="منصة أرض الأحياء التعليمية">
 
-<meta name="description" content="منصة أرض الأحياء التعليمية">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Tahoma, sans-serif;
+    }
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+    body {
+      background: #f4f7fb;
+      color: #172033;
+    }
 
-body{
-  font-family:Tahoma,Arial,sans-serif;
-  background:#f4f8f6;
-  color:#17231f;
-}
+    /* شاشة الدخول */
+    #authScreen {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #0f766e, #164e63);
+    }
 
-/* ================= HEADER ================= */
+    .auth-box {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
 
-header{
-  height:70px;
-  background:linear-gradient(135deg,#064e3b,#087f5b);
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 22px;
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:1000;
-  box-shadow:0 3px 15px rgba(0,0,0,.15);
-}
+    .auth-logo {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: #0f766e;
+      margin-bottom: 8px;
+    }
 
-.logo{
-  font-size:21px;
-  font-weight:bold;
-}
+    .auth-subtitle {
+      text-align: center;
+      color: #777;
+      margin-bottom: 25px;
+    }
 
-/* اسم الطالب أعلى الشمال */
+    .auth-box input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
 
-.student-name{
-  background:rgba(255,255,255,.15);
-  padding:10px 15px;
-  border-radius:12px;
-  font-size:14px;
-}
+    .auth-box input:focus {
+      border-color: #0f766e;
+    }
 
-/* ================= SIDEBAR ================= */
+    .auth-box button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #0f766e;
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
 
-.sidebar{
-  position:fixed;
-  top:70px;
-  right:0;
-  width:245px;
-  height:calc(100vh - 70px);
-  background:white;
-  border-left:1px solid #e2ebe7;
-  padding:22px 15px;
-  box-shadow:-3px 0 15px rgba(0,0,0,.05);
-}
+    .auth-box button:hover {
+      background: #0b5f59;
+    }
 
-.menu-title{
-  color:#7b8984;
-  font-size:13px;
-  margin:5px 10px 15px;
-}
+    .switch-auth {
+      text-align: center;
+      margin-top: 18px;
+      color: #666;
+    }
 
-.menu a{
-  display:block;
-  text-decoration:none;
-  color:#34443e;
-  padding:14px 15px;
-  margin-bottom:8px;
-  border-radius:12px;
-  font-size:15px;
-  transition:.2s;
-}
+    .switch-auth button {
+      background: none;
+      color: #0f766e;
+      padding: 0;
+      margin: 0;
+      width: auto;
+      font-size: 15px;
+      font-weight: bold;
+    }
 
-.menu a:hover{
-  background:#e8f7f1;
-  color:#087653;
-}
+    #authMessage {
+      text-align: center;
+      margin-top: 15px;
+      color: #d32f2f;
+      font-size: 14px;
+    }
 
-.menu a.active{
-  background:#087f5b;
-  color:white;
-  font-weight:bold;
-}
+    /* الموقع */
+    #site {
+      display: none;
+    }
 
-/* ================= CONTENT ================= */
+    header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 70px;
+      background: #0f766e;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      z-index: 1000;
+      box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    }
 
-.content{
-  margin-right:245px;
-  padding:105px 30px 50px;
-  max-width:1250px;
-}
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-.welcome{
-  background:linear-gradient(135deg,#087f5b,#0da875);
-  color:white;
-  border-radius:20px;
-  padding:35px;
-  margin-bottom:30px;
-  box-shadow:0 8px 25px rgba(0,0,0,.1);
-}
+    .student-name {
+      font-size: 16px;
+      background: rgba(255,255,255,.15);
+      padding: 9px 14px;
+      border-radius: 20px;
+    }
 
-.welcome h1{
-  font-size:30px;
-  margin-bottom:12px;
-}
+    .sidebar {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      width: 230px;
+      height: calc(100vh - 70px);
+      background: #123b3a;
+      padding: 20px 12px;
+    }
 
-.welcome p{
-  line-height:1.8;
-  opacity:.95;
-}
+    .sidebar a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      padding: 14px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      transition: .2s;
+    }
 
-/* ================= CARDS ================= */
+    .sidebar a:hover,
+    .sidebar a.active {
+      background: #0f766e;
+    }
 
-.section-title{
-  color:#075f46;
-  margin-bottom:20px;
-  font-size:24px;
-}
+    .logout {
+      position: absolute;
+      bottom: 20px;
+      right: 12px;
+      left: 12px;
+      width: calc(100% - 24px);
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #b91c1c;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
 
-.cards{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
+    main {
+      margin-right: 230px;
+      padding: 100px 30px 40px;
+    }
 
-.card{
-  background:white;
-  border-radius:17px;
-  padding:25px 20px;
-  text-decoration:none;
-  color:#17231f;
-  border:1px solid #e3ece8;
-  box-shadow:0 5px 18px rgba(0,0,0,.06);
-  transition:.25s;
-}
+    .welcome {
+      background: white;
+      border-radius: 18px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
 
-.card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 10px 25px rgba(0,0,0,.1);
-}
+    .welcome h1 {
+      color: #0f766e;
+      margin-bottom: 10px;
+    }
 
-.card-icon{
-  font-size:38px;
-  margin-bottom:12px;
-}
+    .welcome p {
+      color: #666;
+      line-height: 1.8;
+    }
 
-.card h3{
-  color:#075f46;
-  margin-bottom:8px;
-}
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
 
-.card p{
-  color:#718079;
-  line-height:1.7;
-  font-size:14px;
-}
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      text-decoration: none;
+      color: #172033;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+      transition: .2s;
+    }
 
-/* ================= LOGIN ================= */
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,.1);
+    }
 
-.login-screen{
-  position:fixed;
-  inset:0;
-  background:linear-gradient(135deg,#064e3b,#087f5b);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:5000;
-  padding:20px;
-}
+    .card-icon {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
 
-.login-box{
-  width:100%;
-  max-width:420px;
-  background:white;
-  border-radius:22px;
-  padding:30px;
-  box-shadow:0 15px 50px rgba(0,0,0,.25);
-}
+    .card h2 {
+      color: #0f766e;
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
 
-.login-box h1{
-  color:#075f46;
-  text-align:center;
-  margin-bottom:8px;
-}
+    .card p {
+      color: #777;
+      line-height: 1.6;
+    }
 
-.login-box p{
-  text-align:center;
-  color:#718079;
-  margin-bottom:25px;
-}
+    @media (max-width: 700px) {
+      header {
+        padding: 0 12px;
+      }
 
-.login-box input{
-  width:100%;
-  padding:14px;
-  border:1px solid #d7e1dd;
-  border-radius:10px;
-  margin-bottom:12px;
-  font-size:15px;
-  outline:none;
-}
+      .logo {
+        font-size: 17px;
+      }
 
-.login-box button{
-  width:100%;
-  padding:14px;
-  border:0;
-  border-radius:10px;
-  background:#087f5b;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-}
+      .student-name {
+        font-size: 13px;
+        padding: 7px 9px;
+      }
 
-.login-box button:hover{
-  background:#066b4c;
-}
+      .sidebar {
+        width: 75px;
+      }
 
-.login-message{
-  text-align:center;
-  margin-top:15px;
-  color:#c0392b;
-  font-size:14px;
-}
+      .sidebar a {
+        font-size: 0;
+        text-align: center;
+        padding: 15px 5px;
+      }
 
-.switch-login{
-  text-align:center;
-  margin-top:18px;
-  color:#087653;
-  cursor:pointer;
-  font-size:14px;
-}
+      .sidebar a::first-letter {
+        font-size: 22px;
+      }
 
-/* ================= FOOTER ================= */
+      .logout {
+        font-size: 0;
+      }
 
-footer{
-  background:#10241e;
-  color:#dce8e3;
-  text-align:center;
-  padding:25px;
-  margin-top:40px;
-}
+      .logout::before {
+        content: "🚪";
+        font-size: 20px;
+      }
 
-footer strong{
-  color:#54d69f;
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:800px){
-
-  header{
-    padding:0 12px;
-  }
-
-  .logo{
-    font-size:17px;
-  }
-
-  .student-name{
-    font-size:12px;
-    padding:8px 10px;
-  }
-
-  .sidebar{
-    width:75px;
-    padding:15px 8px;
-  }
-
-  .menu-title{
-    display:none;
-  }
-
-  .menu a{
-    text-align:center;
-    padding:14px 4px;
-    font-size:0;
-  }
-
-  .menu a:first-letter{
-    font-size:23px;
-  }
-
-  .content{
-    margin-right:75px;
-    padding:95px 15px 40px;
-  }
-
-  .cards{
-    grid-template-columns:1fr;
-  }
-
-  .welcome h1{
-    font-size:24px;
-  }
-}
-</style>
+      main {
+        margin-right: 75px;
+        padding: 90px 15px 30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+  <!-- ================= شاشة تسجيل الدخول ================= -->
+  <div id="authScreen">
 
-<div class="login-screen" id="loginScreen">
+    <div class="auth-box">
 
-  <div class="login-box">
+      <div class="auth-logo">
+        🧬 منصة أرض الأحياء
+      </div>
 
-    <h1>🧬 أرض الأحياء</h1>
+      <div class="auth-subtitle">
+        منصة تعليمية للطلاب
+      </div>
 
-    <p id="loginTitle">
-      تسجيل الدخول إلى المنصة
-    </p>
+      <!-- تسجيل الدخول -->
+      <div id="loginForm">
 
-    <input
-      type="email"
-      id="email"
-      placeholder="البريد الإلكتروني"
-    >
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="البريد الإلكتروني"
+          autocomplete="email"
+        >
 
-    <input
-      type="password"
-      id="password"
-      placeholder="كلمة المرور"
-    >
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="كلمة المرور"
+          autocomplete="current-password"
+        >
 
-    <button onclick="login()">
-      تسجيل الدخول
-    </button>
+        <button onclick="login()">
+          تسجيل الدخول
+        </button>
 
-    <div
-      class="switch-login"
-      onclick="toggleRegister()"
-      id="switchText">
-      ليس لديك حساب؟ إنشاء حساب
+        <div class="switch-auth">
+          ليس لديك حساب؟
+          <button onclick="showRegister()">
+            إنشاء حساب
+          </button>
+        </div>
+
+      </div>
+
+
+      <!-- إنشاء حساب -->
+      <div id="registerForm" style="display:none;">
+
+        <input
+          type="text"
+          id="studentName"
+          placeholder="اسم الطالب"
+          autocomplete="name"
+        >
+
+        <input
+          type="email"
+          id="registerEmail"
+          placeholder="البريد الإلكتروني"
+          autocomplete="email"
+        >
+
+        <input
+          type="password"
+          id="registerPassword"
+          placeholder="كلمة المرور"
+          autocomplete="new-password"
+        >
+
+        <button onclick="register()">
+          إنشاء الحساب
+        </button>
+
+        <div class="switch-auth">
+          لديك حساب بالفعل؟
+          <button onclick="showLogin()">
+            تسجيل الدخول
+          </button>
+        </div>
+
+      </div>
+
+      <div id="authMessage"></div>
+
     </div>
 
-    <div
-      class="login-message"
-      id="loginMessage">
-    </div>
-
   </div>
 
-</div>
 
+  <!-- ================= الموقع ================= -->
+  <div id="site">
 
-<!-- ================= HEADER ================= -->
+    <header>
 
-<header>
-
-  <div class="logo">
-    🧬 منصة أرض الأحياء
-  </div>
-
-  <div
-    class="student-name"
-    id="studentName">
-    👤 جاري تحميل اسم الطالب...
-  </div>
-
-</header>
-
-
-<!-- ================= SIDEBAR ================= -->
-
-<aside class="sidebar">
-
-  <div class="menu-title">
-    القائمة الرئيسية
-  </div>
-
-  <nav class="menu">
-
-    <a
-      href="index.html"
-      class="active">
-      🏠 الرئيسية
-    </a>
-
-    <a href="videos/index.html">
-      🎥 الفيديوهات
-    </a>
-
-    <a href="forum/index.html">
-      💬 المنتدى
-    </a>
-
-    <a href="notes/index.html">
-      📚 المذكرات
-    </a>
-
-  </nav>
-
-</aside>
-
-
-<!-- ================= CONTENT ================= -->
-
-<main class="content">
-
-  <section class="welcome">
-
-    <h1 id="welcomeTitle">
-      أهلاً بك في منصة أرض الأحياء 👋
-    </h1>
-
-    <p>
-      منصة تعليمية تساعدك على دراسة الأحياء
-      ومتابعة المحاضرات والمذكرات والمناقشات
-      في مكان واحد.
-    </p>
-
-  </section>
-
-
-  <h2 class="section-title">
-    🚀 ماذا تريد أن تتعلم اليوم؟
-  </h2>
-
-
-  <div class="cards">
-
-    <a
-      href="videos/index.html"
-      class="card">
-
-      <div class="card-icon">
-        🎥
+      <div class="logo">
+        🧬 منصة أرض الأحياء
       </div>
 
-      <h3>
-        المحاضرات
-      </h3>
-
-      <p>
-        شاهد المحاضرات والشروحات التعليمية.
-      </p>
-
-    </a>
-
-
-    <a
-      href="forum/index.html"
-      class="card">
-
-      <div class="card-icon">
-        💬
+      <div class="student-name">
+        👤 <span id="studentNameDisplay">الطالب</span>
       </div>
 
-      <h3>
-        المنتدى
-      </h3>
-
-      <p>
-        شارك الأسئلة والمناقشات مع الطلاب.
-      </p>
-
-    </a>
+    </header>
 
 
-    <a
-      href="notes/index.html"
-      class="card">
+    <!-- القائمة الجانبية -->
+    <aside class="sidebar">
 
-      <div class="card-icon">
-        📚
-      </div>
+      <a href="index.html" class="active">
+        🏠 الرئيسية
+      </a>
 
-      <h3>
-        المذكرات
-      </h3>
+      <a href="videos/index.html">
+        🎥 الفيديوهات
+      </a>
 
-      <p>
-        تصفح المذكرات والمراجعات التعليمية.
-      </p>
+      <a href="forum/index.html">
+        💬 المنتدى
+      </a>
 
-    </a>
+      <a href="notes/index.html">
+        📚 المذكرات
+      </a>
+
+      <button class="logout" onclick="logout()">
+        تسجيل الخروج
+      </button>
+
+    </aside>
+
+
+    <!-- المحتوى -->
+    <main>
+
+      <section class="welcome">
+
+        <h1>
+          أهلاً بك في منصة أرض الأحياء 👋
+        </h1>
+
+        <p>
+          مرحبًا بك يا
+          <strong id="welcomeStudentName">طالب</strong>
+          في منصتك التعليمية.
+          يمكنك من هنا الوصول إلى المحاضرات والمنتدى والمذكرات.
+        </p>
+
+      </section>
+
+
+      <section class="cards">
+
+        <a href="videos/index.html" class="card">
+
+          <div class="card-icon">
+            🎥
+          </div>
+
+          <h2>
+            الفيديوهات
+          </h2>
+
+          <p>
+            شاهد محاضرات الأحياء والدروس التعليمية.
+          </p>
+
+        </a>
+
+
+        <a href="forum/index.html" class="card">
+
+          <div class="card-icon">
+            💬
+          </div>
+
+          <h2>
+            المنتدى
+          </h2>
+
+          <p>
+            شارك الأسئلة والمناقشات مع الطلاب.
+          </p>
+
+        </a>
+
+
+        <a href="notes/index.html" class="card">
+
+          <div class="card-icon">
+            📚
+          </div>
+
+          <h2>
+            المذكرات
+          </h2>
+
+          <p>
+            الوصول إلى المذكرات والملفات التعليمية.
+          </p>
+
+        </a>
+
+      </section>
+
+    </main>
 
   </div>
 
-</main>
+
+  <script>
+
+    /* ================= Supabase ================= */
+
+    const SUPABASE_URL =
+      "https://gvehygqxjqucxwussaye.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+      "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
 
 
-<!-- ================= FOOTER ================= -->
+    /* ================= عناصر الصفحة ================= */
 
-<footer>
+    const authScreen =
+      document.getElementById("authScreen");
 
-  <p>
-    جميع الحقوق محفوظة ©
-    <strong>منصة أرض الأحياء</strong>
-  </p>
+    const site =
+      document.getElementById("site");
 
-  <p>
-    منصة تعليمية لدراسة الأحياء 🧬
-  </p>
+    const loginForm =
+      document.getElementById("loginForm");
 
-</footer>
+    const registerForm =
+      document.getElementById("registerForm");
 
-
-<script>
-
-/* ================= SUPABASE ================= */
-
-const SUPABASE_URL =
-"https://gvehygqxjqucxwussaye.supabase.co";
-
-const SUPABASE_ANON_KEY =
-"sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
-
-const supabaseClient =
-window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+    const authMessage =
+      document.getElementById("authMessage");
 
 
-/* ================= VARIABLES ================= */
+    /* ================= إظهار تسجيل الدخول ================= */
 
-let registerMode = false;
+    function showLogin() {
 
+      loginForm.style.display = "block";
+      registerForm.style.display = "none";
 
-/* ================= LOGIN ================= */
+      authMessage.textContent = "";
 
-async function login(){
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const password =
-    document.getElementById("password").value;
-
-  const message =
-    document.getElementById("loginMessage");
-
-
-  if(!email || !password){
-
-    message.textContent =
-      "اكتب البريد الإلكتروني وكلمة المرور.";
-
-    return;
-  }
-
-
-  if(registerMode){
-
-    const { data, error } =
-      await supabaseClient.auth.signUp({
-        email: email,
-        password: password,
-        options:{
-          data:{
-            name: email.split("@")[0]
-          }
-        }
-      });
-
-
-    if(error){
-
-      message.textContent =
-        error.message;
-
-      return;
     }
 
 
-    message.style.color =
-      "#087653";
+    /* ================= إظهار التسجيل ================= */
 
-    message.textContent =
-      "تم إنشاء الحساب. يمكنك تسجيل الدخول الآن.";
+    function showRegister() {
 
-    registerMode = false;
+      loginForm.style.display = "none";
+      registerForm.style.display = "block";
 
-    document.getElementById("loginTitle")
-      .textContent =
-      "تسجيل الدخول إلى المنصة";
+      authMessage.textContent = "";
 
-    document.querySelector(".login-box button")
-      .textContent =
-      "تسجيل الدخول";
+    }
 
-    document.getElementById("switchText")
-      .textContent =
-      "ليس لديك حساب؟ إنشاء حساب";
 
-    return;
-  }
+    /* ================= إنشاء حساب ================= */
 
+    async function register() {
 
-  const { data, error } =
-    await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
+      const name =
+        document.getElementById("studentName")
+        .value.trim();
 
+      const email =
+        document.getElementById("registerEmail")
+        .value.trim();
 
-  if(error){
+      const password =
+        document.getElementById("registerPassword")
+        .value;
 
-    message.style.color =
-      "#c0392b";
+      authMessage.style.color = "#d32f2f";
 
-    message.textContent =
-      "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
 
-    return;
-  }
+      if (!name) {
 
+        authMessage.textContent =
+          "اكتب اسم الطالب أولاً";
 
-  loadStudent();
+        return;
+      }
 
-}
 
+      if (!email) {
 
-/* ================= REGISTER ================= */
+        authMessage.textContent =
+          "اكتب البريد الإلكتروني";
 
-function toggleRegister(){
+        return;
+      }
 
-  registerMode =
-    !registerMode;
 
+      if (!password) {
 
-  const title =
-    document.getElementById("loginTitle");
+        authMessage.textContent =
+          "اكتب كلمة المرور";
 
-  const button =
-    document.querySelector(".login-box button");
+        return;
+      }
 
-  const switchText =
-    document.getElementById("switchText");
 
-  const message =
-    document.getElementById("loginMessage");
+      if (password.length < 6) {
 
+        authMessage.textContent =
+          "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
 
-  message.textContent = "";
+        return;
+      }
 
 
-  if(registerMode){
+      authMessage.textContent =
+        "جاري إنشاء الحساب...";
 
-    title.textContent =
-      "إنشاء حساب طالب جديد";
 
-    button.textContent =
-      "إنشاء الحساب";
+      const { data, error } =
+        await supabaseClient.auth.signUp({
 
-    switchText.textContent =
-      "لديك حساب بالفعل؟ تسجيل الدخول";
+          email: email,
 
-  }else{
+          password: password,
 
-    title.textContent =
-      "تسجيل الدخول إلى المنصة";
+          options: {
 
-    button.textContent =
-      "تسجيل الدخول";
+            data: {
 
-    switchText.textContent =
-      "ليس لديك حساب؟ إنشاء حساب";
+              name: name,
 
-  }
+              full_name: name
 
-}
+            }
 
+          }
 
-/* ================= STUDENT ================= */
+        });
 
-async function loadStudent(){
 
-  const {
-    data,
-    error
-  } =
-  await supabaseClient.auth.getUser();
+      if (error) {
 
+        authMessage.textContent =
+          "حدث خطأ: " + error.message;
 
-  const loginScreen =
-    document.getElementById("loginScreen");
+        return;
+      }
 
-  const studentName =
-    document.getElementById("studentName");
 
-  const welcomeTitle =
-    document.getElementById("welcomeTitle");
+      authMessage.style.color = "#16803c";
 
+      authMessage.textContent =
+        "تم إنشاء الحساب بنجاح ✅";
 
-  if(error || !data.user){
 
-    loginScreen.style.display =
-      "flex";
+      if (data.session) {
 
-    return;
-  }
+        showSite(data.user);
 
+      } else {
 
-  const user =
-    data.user;
+        authMessage.textContent =
+          "تم إنشاء الحساب. إذا طلب منك تأكيد البريد الإلكتروني، افتح رسالة التأكيد ثم سجل الدخول.";
 
+        setTimeout(() => {
 
-  const name =
-    user.user_metadata?.name ||
-    user.user_metadata?.full_name ||
-    user.user_metadata?.username ||
-    user.email?.split("@")[0] ||
-    "الطالب";
+          showLogin();
 
+        }, 3000);
 
-  studentName.textContent =
-    "👤 " + name;
+      }
 
+    }
 
-  welcomeTitle.textContent =
-    "أهلاً بك يا " + name + " 👋";
 
+    /* ================= تسجيل الدخول ================= */
 
-  loginScreen.style.display =
-    "none";
+    async function login() {
 
-}
+      const email =
+        document.getElementById("loginEmail")
+        .value.trim();
 
+      const password =
+        document.getElementById("loginPassword")
+        .value;
 
-/* ================= START ================= */
 
-loadStudent();
+      authMessage.style.color = "#d32f2f";
 
-</script>
+
+      if (!email || !password) {
+
+        authMessage.textContent =
+          "اكتب البريد الإلكتروني وكلمة المرور";
+
+        return;
+      }
+
+
+      authMessage.textContent =
+        "جاري تسجيل الدخول...";
+
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+
+          email: email,
+
+          password: password
+
+        });
+
+
+      if (error) {
+
+        authMessage.textContent =
+          "البريد الإلكتروني أو كلمة المرور غير صحيحة";
+
+        return;
+      }
+
+
+      showSite(data.user);
+
+    }
+
+
+    /* ================= عرض الموقع ================= */
+
+    function showSite(user) {
+
+      if (!user) return;
+
+
+      const name =
+        user.user_metadata?.name ||
+        user.user_metadata?.full_name ||
+        user.user_metadata?.username ||
+        user.email?.split("@")[0] ||
+        "الطالب";
+
+
+      document.getElementById(
+        "studentNameDisplay"
+      ).textContent = name;
+
+
+      document.getElementById(
+        "welcomeStudentName"
+      ).textContent = name;
+
+
+      authScreen.style.display = "none";
+
+      site.style.display = "block";
+
+    }
+
+
+    /* ================= تسجيل الخروج ================= */
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      site.style.display = "none";
+
+      authScreen.style.display = "flex";
+
+      showLogin();
+
+    }
+
+
+    /* ================= فحص تسجيل الدخول ================= */
+
+    async function checkUser() {
+
+      const { data } =
+        await supabaseClient.auth.getUser();
+
+
+      if (data.user) {
+
+        showSite(data.user);
+
+      } else {
+
+        authScreen.style.display = "flex";
+
+        site.style.display = "none";
+
+      }
+
+    }
+
+
+    /* تشغيل الفحص */
+
+    checkUser();
+
+
+    /* متابعة حالة الحساب */
+
+    supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+
+        if (session?.user) {
+
+          showSite(session.user);
+
+        }
+
+      }
+    );
+
+  </script>
 
 </body>
 </html>
