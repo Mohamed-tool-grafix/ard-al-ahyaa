@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>المنتدى | منصة أرض الأحياء</title>
+  <title>منصة أرض الأحياء</title>
+  <meta name="description" content="منصة أرض الأحياء التعليمية - محاضرات ومذكرات ومنتدى للطلاب">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -22,7 +22,95 @@
       color: #172033;
     }
 
-    /* ================= الهيدر ================= */
+    /* شاشة تسجيل الدخول */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f766e, #123b3a);
+      padding: 20px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      border-radius: 22px;
+      padding: 35px 25px;
+      box-shadow: 0 15px 50px rgba(0,0,0,.2);
+      text-align: center;
+    }
+
+    .login-logo {
+      font-size: 45px;
+      margin-bottom: 10px;
+    }
+
+    .login-box h1 {
+      color: #0f766e;
+      margin-bottom: 8px;
+      font-size: 27px;
+    }
+
+    .login-box p {
+      color: #777;
+      margin-bottom: 25px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .login-box input:focus {
+      border-color: #0f766e;
+    }
+
+    .login-btn,
+    .register-btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+    .login-btn {
+      background: #0f766e;
+      color: white;
+    }
+
+    .register-btn {
+      background: #e6f4f2;
+      color: #0f766e;
+    }
+
+    .login-btn:hover {
+      background: #0b5f59;
+    }
+
+    .register-btn:hover {
+      background: #d5eeeb;
+    }
+
+    #loginMessage {
+      margin-top: 15px;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* الموقع */
+    #site {
+      display: none;
+    }
 
     header {
       position: fixed;
@@ -30,18 +118,13 @@
       right: 0;
       left: 0;
       height: 70px;
-
       background: #0f766e;
       color: white;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       padding: 0 25px;
-
       z-index: 1000;
-
       box-shadow: 0 3px 12px rgba(0,0,0,.15);
     }
 
@@ -66,45 +149,30 @@
     .logout-btn {
       background: #b91c1c;
       color: white;
-
       border: none;
       border-radius: 10px;
-
       padding: 9px 13px;
-
       cursor: pointer;
       font-size: 14px;
     }
 
-    /* ================= القائمة ================= */
-
     .sidebar {
       position: fixed;
-
       top: 70px;
       right: 0;
-
       width: 230px;
       height: calc(100vh - 70px);
-
       background: #123b3a;
-
       padding: 20px 12px;
     }
 
     .sidebar a {
       display: block;
-
       text-decoration: none;
-
       color: white;
-
       padding: 14px;
-
       margin-bottom: 8px;
-
       border-radius: 10px;
-
       transition: .2s;
     }
 
@@ -115,224 +183,115 @@
 
     .sidebar-logout {
       position: absolute;
-
       bottom: 20px;
-
       right: 12px;
       left: 12px;
-
       width: calc(100% - 24px);
-
       padding: 12px;
-
       border: none;
-
       border-radius: 10px;
-
       background: #b91c1c;
-
       color: white;
-
       cursor: pointer;
-
       font-size: 15px;
     }
 
-    /* ================= المحتوى ================= */
-
     main {
       margin-right: 230px;
-
       padding: 100px 30px 40px;
-
-      max-width: 1100px;
+      max-width: 1200px;
     }
 
-    .page-title {
-      background: white;
-
-      padding: 25px;
-
-      border-radius: 18px;
-
-      margin-bottom: 20px;
-
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
-    }
-
-    .page-title h1 {
-      color: #0f766e;
-
-      margin-bottom: 8px;
-    }
-
-    .page-title p {
-      color: #777;
-
-      line-height: 1.7;
-    }
-
-    /* ================= صندوق كتابة المنشور ================= */
-
-    .write-box {
-      background: white;
-
-      padding: 25px;
-
-      border-radius: 18px;
-
-      margin-bottom: 25px;
-
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
-    }
-
-    .write-box h2 {
-      color: #0f766e;
-
-      margin-bottom: 15px;
-
-      font-size: 20px;
-    }
-
-    #postContent {
-      width: 100%;
-
-      min-height: 130px;
-
-      resize: vertical;
-
-      border: 1px solid #ddd;
-
-      border-radius: 12px;
-
-      padding: 15px;
-
-      font-size: 16px;
-
-      outline: none;
-    }
-
-    #postContent:focus {
-      border-color: #0f766e;
-    }
-
-    .post-btn {
-      margin-top: 12px;
-
-      background: #0f766e;
-
+    .welcome {
+      background: linear-gradient(135deg, #0f766e, #159a90);
       color: white;
-
-      border: none;
-
-      border-radius: 10px;
-
-      padding: 12px 22px;
-
-      cursor: pointer;
-
-      font-size: 16px;
+      padding: 35px;
+      border-radius: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 7px 25px rgba(0,0,0,.08);
     }
 
-    .post-btn:hover {
-      background: #0b5f59;
+    .welcome h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
     }
 
-    #message {
-      margin-top: 12px;
-
-      color: #d32f2f;
+    .welcome p {
+      font-size: 17px;
+      line-height: 1.8;
     }
 
-    /* ================= المنشورات ================= */
-
-    .posts-title {
-      margin-bottom: 15px;
-
-      color: #172033;
+    .section-title {
+      margin: 25px 0 15px;
+      color: #0f766e;
     }
 
-    .post {
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .card {
       background: white;
-
-      padding: 20px;
-
-      border-radius: 16px;
-
-      margin-bottom: 15px;
-
-      box-shadow: 0 5px 18px rgba(0,0,0,.06);
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+      text-decoration: none;
+      color: #172033;
+      transition: .2s;
+      display: block;
     }
 
-    .post-header {
-      display: flex;
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,.1);
+    }
 
-      justify-content: space-between;
-
-      align-items: center;
-
+    .card-icon {
+      font-size: 38px;
       margin-bottom: 12px;
     }
 
-    .author {
-      font-weight: bold;
-
+    .card h3 {
       color: #0f766e;
+      margin-bottom: 8px;
     }
 
-    .date {
-      color: #999;
-
-      font-size: 13px;
+    .card p {
+      color: #777;
+      line-height: 1.7;
     }
 
-    .post-content {
-      white-space: pre-wrap;
-
-      line-height: 1.8;
-
-      color: #333;
-
-      font-size: 16px;
-    }
-
-    .delete-btn {
-      margin-top: 12px;
-
-      background: #f3f4f6;
-
-      border: none;
-
-      color: #b91c1c;
-
-      padding: 7px 12px;
-
-      border-radius: 8px;
-
-      cursor: pointer;
-    }
-
-    .empty {
+    .about {
       background: white;
+      padding: 25px;
+      border-radius: 18px;
+      margin-top: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+      line-height: 1.9;
+    }
 
-      padding: 35px;
-
-      border-radius: 16px;
-
+    footer {
+      margin-right: 230px;
       text-align: center;
-
+      padding: 25px;
       color: #777;
     }
 
-    .loading {
-      text-align: center;
-
-      color: #777;
-
-      padding: 20px;
+    /* التسجيل */
+    #registerArea {
+      display: none;
     }
 
-    /* ================= الموبايل ================= */
+    .back-login {
+      margin-top: 15px;
+      border: none;
+      background: transparent;
+      color: #0f766e;
+      cursor: pointer;
+      font-size: 14px;
+    }
 
     @media (max-width: 700px) {
 
@@ -346,13 +305,11 @@
 
       .student-name {
         font-size: 12px;
-
         padding: 7px 9px;
       }
 
       .logout-btn {
         font-size: 12px;
-
         padding: 7px 9px;
       }
 
@@ -362,9 +319,7 @@
 
       .sidebar a {
         font-size: 0;
-
         text-align: center;
-
         padding: 15px 5px;
       }
 
@@ -374,174 +329,342 @@
 
       .sidebar-logout {
         font-size: 0;
-
         padding: 13px 5px;
       }
 
       .sidebar-logout::before {
         content: "🚪";
-
         font-size: 20px;
       }
 
       main {
         margin-right: 72px;
-
         padding: 90px 15px 30px;
       }
 
-      .post-header {
-        display: block;
+      footer {
+        margin-right: 72px;
       }
 
-      .date {
-        display: block;
-
-        margin-top: 5px;
+      .welcome {
+        padding: 25px 18px;
       }
 
+      .welcome h1 {
+        font-size: 23px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
     }
-
   </style>
 </head>
 
 <body>
 
-  <!-- ================= الهيدر ================= -->
+  <!-- ========================= -->
+  <!-- شاشة تسجيل الدخول -->
+  <!-- ========================= -->
 
-  <header>
+  <section id="loginScreen">
 
-    <div class="logo">
-      🧬 منصة أرض الأحياء
-    </div>
+    <div class="login-box">
 
-    <div class="header-user">
+      <div class="login-logo">🧬</div>
 
-      <div class="student-name">
+      <h1>منصة أرض الأحياء</h1>
 
-        👤
-        <span id="studentName">
-          الطالب
-        </span>
-
-      </div>
-
-      <button
-        class="logout-btn"
-        onclick="logout()"
-      >
-        🚪 خروج
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <!-- ================= القائمة ================= -->
-
-  <aside class="sidebar">
-
-    <a href="../index.html">
-      🏠 الرئيسية
-    </a>
-
-    <a href="../videos/index.html">
-      🎥 الفيديوهات
-    </a>
-
-    <a
-      href="index.html"
-      class="active"
-    >
-      💬 المنتدى
-    </a>
-
-    <a href="../notes/index.html">
-      📚 المذكرات
-    </a>
-
-    <button
-      class="sidebar-logout"
-      onclick="logout()"
-    >
-      🚪 تسجيل الخروج
-    </button>
-
-  </aside>
-
-
-  <!-- ================= المحتوى ================= -->
-
-  <main>
-
-    <section class="page-title">
-
-      <h1>
-        💬 منتدى أرض الأحياء
-      </h1>
-
-      <p>
-        اطرح سؤالك أو شارك معلومة مفيدة مع باقي الطلاب.
+      <p id="loginTitle">
+        سجل الدخول للوصول إلى المنصة
       </p>
 
-    </section>
+      <!-- تسجيل الدخول -->
 
+      <div id="loginArea">
 
-    <!-- كتابة منشور -->
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="البريد الإلكتروني"
+          autocomplete="email"
+        >
 
-    <section class="write-box">
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="كلمة المرور"
+          autocomplete="current-password"
+        >
 
-      <h2>
-        ✏️ اكتب منشورًا جديدًا
-      </h2>
+        <button
+          class="login-btn"
+          onclick="login()"
+        >
+          🔐 تسجيل الدخول
+        </button>
 
-      <textarea
-        id="postContent"
-        placeholder="اكتب سؤالك أو منشورك هنا..."
-      ></textarea>
+        <button
+          class="register-btn"
+          onclick="showRegister()"
+        >
+          📝 إنشاء حساب جديد
+        </button>
 
-      <button
-        class="post-btn"
-        onclick="addPost()"
-      >
-        نشر المنشور
-      </button>
-
-      <div id="message"></div>
-
-    </section>
-
-
-    <!-- المنشورات -->
-
-    <h2 class="posts-title">
-      📢 أحدث المنشورات
-    </h2>
-
-    <div id="posts">
-
-      <div class="loading">
-        جاري تحميل المنشورات...
       </div>
+
+      <!-- إنشاء حساب -->
+
+      <div id="registerArea">
+
+        <input
+          type="text"
+          id="registerName"
+          placeholder="اسم الطالب"
+        >
+
+        <input
+          type="email"
+          id="registerEmail"
+          placeholder="البريد الإلكتروني"
+          autocomplete="email"
+        >
+
+        <input
+          type="password"
+          id="registerPassword"
+          placeholder="كلمة المرور"
+          autocomplete="new-password"
+        >
+
+        <button
+          class="login-btn"
+          onclick="register()"
+        >
+          📝 إنشاء الحساب
+        </button>
+
+        <button
+          class="back-login"
+          onclick="showLogin()"
+        >
+          ← العودة لتسجيل الدخول
+        </button>
+
+      </div>
+
+      <div id="loginMessage"></div>
 
     </div>
 
-  </main>
+  </section>
 
 
-  <!-- ================= JavaScript ================= -->
+  <!-- ========================= -->
+  <!-- الموقع الرئيسي -->
+  <!-- ========================= -->
+
+  <div id="site">
+
+    <header>
+
+      <div class="logo">
+        🧬 منصة أرض الأحياء
+      </div>
+
+      <div class="header-user">
+
+        <div class="student-name">
+          👤 <span id="studentName">الطالب</span>
+        </div>
+
+        <button
+          class="logout-btn"
+          onclick="logout()"
+        >
+          🚪 خروج
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- القائمة الجانبية -->
+
+    <aside class="sidebar">
+
+      <a
+        href="index.html"
+        class="active"
+      >
+        🏠 الرئيسية
+      </a>
+
+      <a href="videos/index.html">
+        🎥 الفيديوهات
+      </a>
+
+      <a href="forum/index.html">
+        💬 المنتدى
+      </a>
+
+      <a href="notes/index.html">
+        📚 المذكرات
+      </a>
+
+      <button
+        class="sidebar-logout"
+        onclick="logout()"
+      >
+        🚪 تسجيل الخروج
+      </button>
+
+    </aside>
+
+
+    <!-- المحتوى -->
+
+    <main>
+
+      <section class="welcome">
+
+        <h1>
+          أهلاً بك في منصة أرض الأحياء 🧬
+        </h1>
+
+        <p>
+          منصة تعليمية لمساعدة الطلاب على دراسة الأحياء
+          ومتابعة المحاضرات والمذكرات والتواصل مع باقي الطلاب.
+        </p>
+
+      </section>
+
+
+      <h2 class="section-title">
+        📚 أقسام المنصة
+      </h2>
+
+
+      <section class="cards">
+
+        <a
+          href="videos/index.html"
+          class="card"
+        >
+
+          <div class="card-icon">
+            🎥
+          </div>
+
+          <h3>
+            الفيديوهات والمحاضرات
+          </h3>
+
+          <p>
+            شاهد المحاضرات والدروس التعليمية في مادة الأحياء.
+          </p>
+
+        </a>
+
+
+        <a
+          href="forum/index.html"
+          class="card"
+        >
+
+          <div class="card-icon">
+            💬
+          </div>
+
+          <h3>
+            المنتدى
+          </h3>
+
+          <p>
+            اطرح أسئلتك وشارك المعلومات مع باقي الطلاب.
+          </p>
+
+        </a>
+
+
+        <a
+          href="notes/index.html"
+          class="card"
+        >
+
+          <div class="card-icon">
+            📚
+          </div>
+
+          <h3>
+            المذكرات
+          </h3>
+
+          <p>
+            الوصول إلى المذكرات والملخصات الخاصة بمادة الأحياء.
+          </p>
+
+        </a>
+
+
+        <a
+          href="forum/index.html"
+          class="card"
+        >
+
+          <div class="card-icon">
+            🧪
+          </div>
+
+          <h3>
+            أسئلة ومناقشات
+          </h3>
+
+          <p>
+            ناقش الدروس والأسئلة مع زملائك في المنتدى.
+          </p>
+
+        </a>
+
+      </section>
+
+
+      <section class="about">
+
+        <h2>
+          🧬 عن منصة أرض الأحياء
+        </h2>
+
+        <p>
+          منصة أرض الأحياء هي مساحة تعليمية تهدف إلى
+          تسهيل دراسة مادة الأحياء من خلال المحاضرات
+          والمذكرات والمنتدى التعليمي.
+        </p>
+
+      </section>
+
+    </main>
+
+
+    <footer>
+      © 2026 منصة أرض الأحياء
+    </footer>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- Supabase + JavaScript -->
+  <!-- ========================= -->
 
   <script>
-
-    /* ================= Supabase ================= */
 
     const SUPABASE_URL =
       "https://gvehygqxjqucxwussaye.supabase.co";
 
     const SUPABASE_ANON_KEY =
       "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
-
 
     const supabaseClient =
       window.supabase.createClient(
@@ -550,348 +673,350 @@
       );
 
 
-    let currentUser = null;
+    /* =========================
+       التحقق من تسجيل الدخول
+    ========================= */
 
+    async function checkUser() {
 
-    /* ================= تشغيل الصفحة ================= */
+      const {
+        data,
+        error
+      } = await supabaseClient.auth.getUser();
 
-    async function startForum() {
+      if (
+        error ||
+        !data ||
+        !data.user
+      ) {
 
-      const { data, error } =
-        await supabaseClient.auth.getUser();
-
-
-      if (error || !data.user) {
-
-        window.location.href =
-          "../index.html";
+        showLogin();
 
         return;
+
       }
 
+      showSite(data.user);
 
-      currentUser =
-        data.user;
+    }
+
+
+    /* =========================
+       إظهار الموقع
+    ========================= */
+
+    function showSite(user) {
+
+      document.getElementById(
+        "loginScreen"
+      ).style.display = "none";
+
+      document.getElementById(
+        "site"
+      ).style.display = "block";
 
 
       const name =
-        currentUser.user_metadata?.name ||
-
-        currentUser.user_metadata?.full_name ||
-
-        currentUser.email?.split("@")[0] ||
-
+        user.user_metadata?.name ||
+        user.user_metadata?.full_name ||
+        user.user_metadata?.username ||
+        user.email?.split("@")[0] ||
         "الطالب";
 
 
-      document
-        .getElementById("studentName")
-        .textContent = name;
-
-
-      loadPosts();
+      document.getElementById(
+        "studentName"
+      ).textContent = name;
 
     }
 
 
-    /* ================= تحميل المنشورات ================= */
+    /* =========================
+       تسجيل الدخول
+    ========================= */
 
-    async function loadPosts() {
+    async function login() {
 
-      const postsContainer =
-        document.getElementById("posts");
-
-
-      postsContainer.innerHTML =
-        '<div class="loading">جاري تحميل المنشورات...</div>';
-
-
-      const { data, error } =
-        await supabaseClient
-
-          .from("forum_posts")
-
-          .select("*")
-
-          .order("created_at", {
-            ascending: false
-          });
-
-
-      if (error) {
-
-        postsContainer.innerHTML =
-          '<div class="empty">حدث خطأ أثناء تحميل المنشورات.</div>';
-
-        console.error(error);
-
-        return;
-      }
-
-
-      if (!data || data.length === 0) {
-
-        postsContainer.innerHTML = `
-          <div class="empty">
-            💬 لا توجد منشورات حتى الآن.<br>
-            كن أول طالب يكتب منشورًا!
-          </div>
-        `;
-
-        return;
-      }
-
-
-      postsContainer.innerHTML = "";
-
-
-      data.forEach(post => {
-
-        const postElement =
-          document.createElement("article");
-
-
-        postElement.className =
-          "post";
-
-
-        const date =
-          new Date(
-            post.created_at
-          ).toLocaleString(
-            "ar-EG"
-          );
-
-
-        let deleteButton = "";
-
-
-        if (
-          currentUser &&
-          post.user_id === currentUser.id
-        ) {
-
-          deleteButton = `
-            <button
-              class="delete-btn"
-              onclick="deletePost(${post.id})"
-            >
-              🗑️ حذف المنشور
-            </button>
-          `;
-
-        }
-
-
-        postElement.innerHTML = `
-
-          <div class="post-header">
-
-            <div class="author">
-              👤 ${escapeHtml(post.author_name)}
-            </div>
-
-            <div class="date">
-              ${date}
-            </div>
-
-          </div>
-
-          <div class="post-content">
-            ${escapeHtml(post.content)}
-          </div>
-
-          ${deleteButton}
-
-        `;
-
-
-        postsContainer.appendChild(
-          postElement
-        );
-
-      });
-
-    }
-
-
-    /* ================= إضافة منشور ================= */
-
-    async function addPost() {
-
-      const textarea =
+      const email =
         document.getElementById(
-          "postContent"
-        );
+          "loginEmail"
+        ).value.trim();
+
+      const password =
+        document.getElementById(
+          "loginPassword"
+        ).value;
 
 
       const message =
         document.getElementById(
-          "message"
+          "loginMessage"
         );
 
 
-      const content =
-        textarea.value.trim();
+      if (!email || !password) {
 
-
-      if (!content) {
-
-        message.style.color =
-          "#d32f2f";
+        message.style.color = "#d32f2f";
 
         message.textContent =
-          "اكتب المنشور أولاً.";
+          "اكتب البريد الإلكتروني وكلمة المرور.";
 
         return;
+
       }
 
 
-      if (!currentUser) {
+      message.style.color = "#777";
+
+      message.textContent =
+        "جاري تسجيل الدخول...";
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+
+      if (error) {
+
+        message.style.color = "#d32f2f";
 
         message.textContent =
-          "يجب تسجيل الدخول أولاً.";
+          "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
+        console.error(error);
 
         return;
+
       }
 
+
+      message.style.color = "#16803c";
+
+      message.textContent =
+        "تم تسجيل الدخول بنجاح ✅";
+
+
+      showSite(data.user);
+
+    }
+
+
+    /* =========================
+       إنشاء حساب
+    ========================= */
+
+    async function register() {
 
       const name =
-        currentUser.user_metadata?.name ||
+        document.getElementById(
+          "registerName"
+        ).value.trim();
 
-        currentUser.user_metadata?.full_name ||
+      const email =
+        document.getElementById(
+          "registerEmail"
+        ).value.trim();
 
-        currentUser.email?.split("@")[0] ||
-
-        "الطالب";
-
-
-      message.style.color =
-        "#777";
-
-      message.textContent =
-        "جاري نشر المنشور...";
-
-
-      const { error } =
-        await supabaseClient
-
-          .from("forum_posts")
-
-          .insert({
-
-            user_id:
-              currentUser.id,
-
-            author_name:
-              name,
-
-            content:
-              content
-
-          });
+      const password =
+        document.getElementById(
+          "registerPassword"
+        ).value;
 
 
-      if (error) {
+      const message =
+        document.getElementById(
+          "loginMessage"
+        );
 
-        message.style.color =
-          "#d32f2f";
+
+      if (!name || !email || !password) {
+
+        message.style.color = "#d32f2f";
 
         message.textContent =
-          "حدث خطأ أثناء نشر المنشور.";
-
-        console.error(error);
+          "من فضلك املأ جميع البيانات.";
 
         return;
+
       }
 
 
-      textarea.value = "";
+      if (password.length < 6) {
 
-      message.style.color =
-        "#16803c";
+        message.style.color = "#d32f2f";
+
+        message.textContent =
+          "كلمة المرور يجب أن تكون 6 أحرف على الأقل.";
+
+        return;
+
+      }
+
+
+      message.style.color = "#777";
 
       message.textContent =
-        "تم نشر المنشور بنجاح ✅";
+        "جاري إنشاء الحساب...";
 
 
-      loadPosts();
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.signUp({
 
-    }
+          email: email,
 
+          password: password,
 
-    /* ================= حذف منشور ================= */
+          options: {
 
-    async function deletePost(id) {
+            data: {
 
-      const confirmDelete =
-        confirm(
-          "هل تريد حذف هذا المنشور؟"
-        );
+              name: name,
 
+              full_name: name
 
-      if (!confirmDelete) {
-        return;
-      }
+            }
 
+          }
 
-      const { error } =
-        await supabaseClient
-
-          .from("forum_posts")
-
-          .delete()
-
-          .eq("id", id);
+        });
 
 
       if (error) {
 
-        alert(
-          "حدث خطأ أثناء حذف المنشور."
-        );
+        message.style.color = "#d32f2f";
+
+        message.textContent =
+          "حدث خطأ أثناء إنشاء الحساب: " +
+          error.message;
 
         console.error(error);
 
         return;
+
       }
 
 
-      loadPosts();
+      /*
+       إذا كان تأكيد البريد الإلكتروني
+       مفعلاً في Supabase
+      */
+
+      if (
+        data.user &&
+        !data.session
+      ) {
+
+        message.style.color = "#16803c";
+
+        message.textContent =
+          "تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب ثم سجل الدخول.";
+
+        return;
+
+      }
+
+
+      if (data.user) {
+
+        message.style.color = "#16803c";
+
+        message.textContent =
+          "تم إنشاء الحساب بنجاح ✅";
+
+        showSite(data.user);
+
+      }
 
     }
 
 
-    /* ================= تسجيل الخروج ================= */
+    /* =========================
+       إظهار تسجيل الدخول
+    ========================= */
+
+    function showLogin() {
+
+      document.getElementById(
+        "loginScreen"
+      ).style.display = "flex";
+
+      document.getElementById(
+        "site"
+      ).style.display = "none";
+
+      document.getElementById(
+        "loginArea"
+      ).style.display = "block";
+
+      document.getElementById(
+        "registerArea"
+      ).style.display = "none";
+
+      document.getElementById(
+        "loginTitle"
+      ).textContent =
+        "سجل الدخول للوصول إلى المنصة";
+
+      document.getElementById(
+        "loginMessage"
+      ).textContent = "";
+
+    }
+
+
+    /* =========================
+       إظهار التسجيل
+    ========================= */
+
+    function showRegister() {
+
+      document.getElementById(
+        "loginArea"
+      ).style.display = "none";
+
+      document.getElementById(
+        "registerArea"
+      ).style.display = "block";
+
+      document.getElementById(
+        "loginTitle"
+      ).textContent =
+        "إنشاء حساب طالب جديد";
+
+      document.getElementById(
+        "loginMessage"
+      ).textContent = "";
+
+    }
+
+
+    /* =========================
+       تسجيل الخروج
+    ========================= */
 
     async function logout() {
 
       await supabaseClient.auth.signOut();
 
-      window.location.href =
-        "../index.html";
+      showLogin();
 
     }
 
 
-    /* ================= حماية النص ================= */
+    /* =========================
+       تشغيل الموقع
+    ========================= */
 
-    function escapeHtml(text) {
-
-      const div =
-        document.createElement("div");
-
-      div.textContent =
-        text;
-
-      return div.innerHTML;
-
-    }
-
-
-    /* ================= بدء المنتدى ================= */
-
-    startForum();
+    checkUser();
 
   </script>
 
