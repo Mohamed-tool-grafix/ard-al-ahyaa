@@ -22,7 +22,8 @@
       color: #172033;
     }
 
-    /* شاشة الدخول */
+    /* ================= شاشة الدخول ================= */
+
     #authScreen {
       min-height: 100vh;
       display: flex;
@@ -43,7 +44,7 @@
 
     .auth-logo {
       text-align: center;
-      font-size: 28px;
+      font-size: 27px;
       font-weight: bold;
       color: #0f766e;
       margin-bottom: 8px;
@@ -69,7 +70,7 @@
       border-color: #0f766e;
     }
 
-    .auth-box button {
+    .auth-box button.main-btn {
       width: 100%;
       padding: 14px;
       border: none;
@@ -81,7 +82,7 @@
       margin-top: 5px;
     }
 
-    .auth-box button:hover {
+    .auth-box button.main-btn:hover {
       background: #0b5f59;
     }
 
@@ -93,10 +94,9 @@
 
     .switch-auth button {
       background: none;
+      border: none;
       color: #0f766e;
-      padding: 0;
-      margin: 0;
-      width: auto;
+      cursor: pointer;
       font-size: 15px;
       font-weight: bold;
     }
@@ -106,12 +106,16 @@
       margin-top: 15px;
       color: #d32f2f;
       font-size: 14px;
+      line-height: 1.6;
     }
 
-    /* الموقع */
+    /* ================= الموقع ================= */
+
     #site {
       display: none;
     }
+
+    /* ================= الهيدر ================= */
 
     header {
       position: fixed;
@@ -121,11 +125,14 @@
       height: 70px;
       background: #0f766e;
       color: white;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       padding: 0 25px;
       z-index: 1000;
+
       box-shadow: 0 3px 12px rgba(0,0,0,.15);
     }
 
@@ -134,19 +141,45 @@
       font-weight: bold;
     }
 
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .student-name {
-      font-size: 16px;
+      font-size: 15px;
       background: rgba(255,255,255,.15);
       padding: 9px 14px;
       border-radius: 20px;
+      white-space: nowrap;
     }
+
+    .top-logout {
+      background: #b91c1c;
+      color: white;
+      border: none;
+      padding: 9px 13px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .top-logout:hover {
+      background: #991b1b;
+    }
+
+    /* ================= القائمة الجانبية ================= */
 
     .sidebar {
       position: fixed;
       top: 70px;
       right: 0;
+
       width: 230px;
       height: calc(100vh - 70px);
+
       background: #123b3a;
       padding: 20px 12px;
     }
@@ -155,8 +188,10 @@
       display: block;
       text-decoration: none;
       color: white;
+
       padding: 14px;
       margin-bottom: 8px;
+
       border-radius: 10px;
       transition: .2s;
     }
@@ -166,20 +201,31 @@
       background: #0f766e;
     }
 
-    .logout {
+    .sidebar-logout {
       position: absolute;
       bottom: 20px;
       right: 12px;
       left: 12px;
+
       width: calc(100% - 24px);
+
       padding: 12px;
+
       border: none;
       border-radius: 10px;
+
       background: #b91c1c;
       color: white;
+
       cursor: pointer;
       font-size: 15px;
     }
+
+    .sidebar-logout:hover {
+      background: #991b1b;
+    }
+
+    /* ================= المحتوى ================= */
 
     main {
       margin-right: 230px;
@@ -189,8 +235,10 @@
     .welcome {
       background: white;
       border-radius: 18px;
+
       padding: 30px;
       margin-bottom: 25px;
+
       box-shadow: 0 5px 20px rgba(0,0,0,.06);
     }
 
@@ -206,17 +254,24 @@
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
       gap: 20px;
     }
 
     .card {
       background: white;
+
       padding: 25px;
+
       border-radius: 18px;
+
       text-decoration: none;
       color: #172033;
+
       box-shadow: 0 5px 20px rgba(0,0,0,.06);
+
       transition: .2s;
     }
 
@@ -241,22 +296,30 @@
       line-height: 1.6;
     }
 
+    /* ================= الموبايل ================= */
+
     @media (max-width: 700px) {
+
       header {
-        padding: 0 12px;
+        padding: 0 10px;
       }
 
       .logo {
-        font-size: 17px;
+        font-size: 16px;
       }
 
       .student-name {
-        font-size: 13px;
+        font-size: 12px;
+        padding: 7px 9px;
+      }
+
+      .top-logout {
+        font-size: 12px;
         padding: 7px 9px;
       }
 
       .sidebar {
-        width: 75px;
+        width: 72px;
       }
 
       .sidebar a {
@@ -269,26 +332,39 @@
         font-size: 22px;
       }
 
-      .logout {
+      .sidebar-logout {
         font-size: 0;
+        padding: 13px 5px;
       }
 
-      .logout::before {
+      .sidebar-logout::before {
         content: "🚪";
         font-size: 20px;
       }
 
       main {
-        margin-right: 75px;
+        margin-right: 72px;
         padding: 90px 15px 30px;
       }
+
+      .welcome {
+        padding: 20px;
+      }
+
+      .welcome h1 {
+        font-size: 22px;
+      }
     }
+
   </style>
 </head>
 
 <body>
 
-  <!-- ================= شاشة تسجيل الدخول ================= -->
+  <!-- =====================================================
+       شاشة تسجيل الدخول
+  ====================================================== -->
+
   <div id="authScreen">
 
     <div class="auth-box">
@@ -301,7 +377,9 @@
         منصة تعليمية للطلاب
       </div>
 
+
       <!-- تسجيل الدخول -->
+
       <div id="loginForm">
 
         <input
@@ -318,22 +396,33 @@
           autocomplete="current-password"
         >
 
-        <button onclick="login()">
+        <button
+          class="main-btn"
+          onclick="login()"
+        >
           تسجيل الدخول
         </button>
 
+
         <div class="switch-auth">
+
           ليس لديك حساب؟
+
           <button onclick="showRegister()">
             إنشاء حساب
           </button>
+
         </div>
 
       </div>
 
 
       <!-- إنشاء حساب -->
-      <div id="registerForm" style="display:none;">
+
+      <div
+        id="registerForm"
+        style="display:none;"
+      >
 
         <input
           type="text"
@@ -356,18 +445,26 @@
           autocomplete="new-password"
         >
 
-        <button onclick="register()">
+        <button
+          class="main-btn"
+          onclick="register()"
+        >
           إنشاء الحساب
         </button>
 
+
         <div class="switch-auth">
+
           لديك حساب بالفعل؟
+
           <button onclick="showLogin()">
             تسجيل الدخول
           </button>
+
         </div>
 
       </div>
+
 
       <div id="authMessage"></div>
 
@@ -376,8 +473,14 @@
   </div>
 
 
-  <!-- ================= الموقع ================= -->
+  <!-- =====================================================
+       الموقع
+  ====================================================== -->
+
   <div id="site">
+
+
+    <!-- ================= الهيدر ================= -->
 
     <header>
 
@@ -385,41 +488,72 @@
         🧬 منصة أرض الأحياء
       </div>
 
-      <div class="student-name">
-        👤 <span id="studentNameDisplay">الطالب</span>
+
+      <div class="header-user">
+
+        <div class="student-name">
+
+          👤
+          <span id="studentNameDisplay">
+            الطالب
+          </span>
+
+        </div>
+
+
+        <button
+          class="top-logout"
+          onclick="logout()"
+        >
+          🚪 خروج
+        </button>
+
       </div>
 
     </header>
 
 
-    <!-- القائمة الجانبية -->
+    <!-- ================= القائمة ================= -->
+
     <aside class="sidebar">
 
-      <a href="index.html" class="active">
+      <a
+        href="index.html"
+        class="active"
+      >
         🏠 الرئيسية
       </a>
+
 
       <a href="videos/index.html">
         🎥 الفيديوهات
       </a>
 
+
       <a href="forum/index.html">
         💬 المنتدى
       </a>
+
 
       <a href="notes/index.html">
         📚 المذكرات
       </a>
 
-      <button class="logout" onclick="logout()">
-        تسجيل الخروج
+
+      <button
+        class="sidebar-logout"
+        onclick="logout()"
+      >
+        🚪 تسجيل الخروج
       </button>
 
     </aside>
 
 
-    <!-- المحتوى -->
+    <!-- ================= المحتوى ================= -->
+
     <main>
+
 
       <section class="welcome">
 
@@ -427,11 +561,20 @@
           أهلاً بك في منصة أرض الأحياء 👋
         </h1>
 
+
         <p>
+
           مرحبًا بك يا
-          <strong id="welcomeStudentName">طالب</strong>
+
+          <strong id="welcomeStudentName">
+            طالب
+          </strong>
+
           في منصتك التعليمية.
-          يمكنك من هنا الوصول إلى المحاضرات والمنتدى والمذكرات.
+
+          يمكنك من هنا الوصول إلى
+          المحاضرات والمنتدى والمذكرات.
+
         </p>
 
       </section>
@@ -439,7 +582,13 @@
 
       <section class="cards">
 
-        <a href="videos/index.html" class="card">
+
+        <!-- الفيديوهات -->
+
+        <a
+          href="videos/index.html"
+          class="card"
+        >
 
           <div class="card-icon">
             🎥
@@ -456,7 +605,12 @@
         </a>
 
 
-        <a href="forum/index.html" class="card">
+        <!-- المنتدى -->
+
+        <a
+          href="forum/index.html"
+          class="card"
+        >
 
           <div class="card-icon">
             💬
@@ -473,7 +627,12 @@
         </a>
 
 
-        <a href="notes/index.html" class="card">
+        <!-- المذكرات -->
+
+        <a
+          href="notes/index.html"
+          class="card"
+        >
 
           <div class="card-icon">
             📚
@@ -489,6 +648,7 @@
 
         </a>
 
+
       </section>
 
     </main>
@@ -496,15 +656,20 @@
   </div>
 
 
+  <!-- =====================================================
+       JavaScript + Supabase
+  ====================================================== -->
+
   <script>
 
-    /* ================= Supabase ================= */
+    /* ================= بيانات Supabase ================= */
 
     const SUPABASE_URL =
       "https://gvehygqxjqucxwussaye.supabase.co";
 
     const SUPABASE_ANON_KEY =
       "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+
 
     const supabaseClient =
       window.supabase.createClient(
@@ -531,24 +696,13 @@
       document.getElementById("authMessage");
 
 
-    /* ================= إظهار تسجيل الدخول ================= */
+    /* ================= تسجيل الدخول ================= */
 
     function showLogin() {
 
       loginForm.style.display = "block";
+
       registerForm.style.display = "none";
-
-      authMessage.textContent = "";
-
-    }
-
-
-    /* ================= إظهار التسجيل ================= */
-
-    function showRegister() {
-
-      loginForm.style.display = "none";
-      registerForm.style.display = "block";
 
       authMessage.textContent = "";
 
@@ -557,21 +711,43 @@
 
     /* ================= إنشاء حساب ================= */
 
+    function showRegister() {
+
+      loginForm.style.display = "none";
+
+      registerForm.style.display = "block";
+
+      authMessage.textContent = "";
+
+    }
+
+
+    /* ================= التسجيل ================= */
+
     async function register() {
 
       const name =
-        document.getElementById("studentName")
-        .value.trim();
+        document
+          .getElementById("studentName")
+          .value
+          .trim();
+
 
       const email =
-        document.getElementById("registerEmail")
-        .value.trim();
+        document
+          .getElementById("registerEmail")
+          .value
+          .trim();
+
 
       const password =
-        document.getElementById("registerPassword")
-        .value;
+        document
+          .getElementById("registerPassword")
+          .value;
 
-      authMessage.style.color = "#d32f2f";
+
+      authMessage.style.color =
+        "#d32f2f";
 
 
       if (!name) {
@@ -645,46 +821,53 @@
       }
 
 
-      authMessage.style.color = "#16803c";
-
-      authMessage.textContent =
-        "تم إنشاء الحساب بنجاح ✅";
+      authMessage.style.color =
+        "#16803c";
 
 
       if (data.session) {
 
+        authMessage.textContent =
+          "تم إنشاء الحساب بنجاح ✅";
+
         showSite(data.user);
 
-      } else {
+      }
+
+      else {
 
         authMessage.textContent =
-          "تم إنشاء الحساب. إذا طلب منك تأكيد البريد الإلكتروني، افتح رسالة التأكيد ثم سجل الدخول.";
+          "تم إنشاء الحساب بنجاح. إذا طلب منك تأكيد البريد الإلكتروني، افتح رسالة التأكيد ثم سجل الدخول.";
 
-        setTimeout(() => {
-
-          showLogin();
-
-        }, 3000);
+        setTimeout(
+          showLogin,
+          3000
+        );
 
       }
 
     }
 
 
-    /* ================= تسجيل الدخول ================= */
+    /* ================= الدخول ================= */
 
     async function login() {
 
       const email =
-        document.getElementById("loginEmail")
-        .value.trim();
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
+
 
       const password =
-        document.getElementById("loginPassword")
-        .value;
+        document
+          .getElementById("loginPassword")
+          .value;
 
 
-      authMessage.style.color = "#d32f2f";
+      authMessage.style.color =
+        "#d32f2f";
 
 
       if (!email || !password) {
@@ -733,25 +916,32 @@
 
       const name =
         user.user_metadata?.name ||
+
         user.user_metadata?.full_name ||
+
         user.user_metadata?.username ||
+
         user.email?.split("@")[0] ||
+
         "الطالب";
 
 
-      document.getElementById(
-        "studentNameDisplay"
-      ).textContent = name;
+      document
+        .getElementById("studentNameDisplay")
+        .textContent = name;
 
 
-      document.getElementById(
-        "welcomeStudentName"
-      ).textContent = name;
+      document
+        .getElementById("welcomeStudentName")
+        .textContent = name;
 
 
-      authScreen.style.display = "none";
+      authScreen.style.display =
+        "none";
 
-      site.style.display = "block";
+
+      site.style.display =
+        "block";
 
     }
 
@@ -762,16 +952,31 @@
 
       await supabaseClient.auth.signOut();
 
-      site.style.display = "none";
 
-      authScreen.style.display = "flex";
+      site.style.display =
+        "none";
+
+
+      authScreen.style.display =
+        "flex";
+
 
       showLogin();
+
+
+      document
+        .getElementById("loginEmail")
+        .value = "";
+
+
+      document
+        .getElementById("loginPassword")
+        .value = "";
 
     }
 
 
-    /* ================= فحص تسجيل الدخول ================= */
+    /* ================= فحص المستخدم ================= */
 
     async function checkUser() {
 
@@ -783,23 +988,27 @@
 
         showSite(data.user);
 
-      } else {
+      }
 
-        authScreen.style.display = "flex";
+      else {
 
-        site.style.display = "none";
+        authScreen.style.display =
+          "flex";
+
+        site.style.display =
+          "none";
 
       }
 
     }
 
 
-    /* تشغيل الفحص */
+    /* تشغيل الموقع */
 
     checkUser();
 
 
-    /* متابعة حالة الحساب */
+    /* متابعة حالة الدخول والخروج */
 
     supabaseClient.auth.onAuthStateChange(
       (event, session) => {
@@ -807,6 +1016,16 @@
         if (session?.user) {
 
           showSite(session.user);
+
+        }
+
+        else if (event === "SIGNED_OUT") {
+
+          site.style.display =
+            "none";
+
+          authScreen.style.display =
+            "flex";
 
         }
 
