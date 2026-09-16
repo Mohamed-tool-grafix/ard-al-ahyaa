@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>المذكرات | منصة أرض الأحياء</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Tahoma, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 70px;
+      background: #0f766e;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      z-index: 1000;
+      box-shadow: 0 3px 12px rgba(0,0,0,.15);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .student-name {
+      background: rgba(255,255,255,.15);
+      padding: 9px 14px;
+      border-radius: 20px;
+      font-size: 15px;
+    }
+
+    .logout-btn {
+      background: #b91c1c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      width: 230px;
+      height: calc(100vh - 70px);
+      background: #123b3a;
+      padding: 20px 12px;
+    }
+
+    .sidebar a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      padding: 14px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      transition: .2s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      background: #0f766e;
+    }
+
+    main {
+      margin-right: 230px;
+      padding: 100px 30px 40px;
+      max-width: 1150px;
+    }
+
+    .page-header {
+      background: linear-gradient(135deg, #0f766e, #159a90);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 25px;
+    }
+
+    .page-header h1 {
+      margin-bottom: 10px;
+      font-size: 30px;
+    }
+
+    .page-header p {
+      line-height: 1.8;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .note-card {
+      background: white;
+      border-radius: 18px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    }
+
+    .note-icon {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .note-card h2 {
+      color: #0f766e;
+      margin-bottom: 10px;
+      font-size: 21px;
+    }
+
+    .note-card p {
+      color: #777;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: #0f766e;
+      color: white;
+      padding: 11px 18px;
+      border-radius: 10px;
+    }
+
+    .download-btn:hover {
+      background: #0b5f59;
+    }
+
+    .coming {
+      background: #f3f4f6;
+      color: #777;
+      padding: 10px 15px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    footer {
+      margin-right: 230px;
+      text-align: center;
+      padding: 25px;
+      color: #777;
+    }
+
+    @media (max-width: 700px) {
+
+      header {
+        padding: 0 10px;
+      }
+
+      .logo {
+        font-size: 16px;
+      }
+
+      .student-name {
+        font-size: 12px;
+        padding: 7px 9px;
+      }
+
+      .logout-btn {
+        font-size: 12px;
+        padding: 7px 9px;
+      }
+
+      .sidebar {
+        width: 72px;
+      }
+
+      .sidebar a {
+        font-size: 0;
+        text-align: center;
+        padding: 15px 5px;
+      }
+
+      .sidebar a::first-letter {
+        font-size: 22px;
+      }
+
+      main {
+        margin-right: 72px;
+        padding: 90px 15px 30px;
+      }
+
+      footer {
+        margin-right: 72px;
+      }
+
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header {
+        padding: 25px 18px;
+      }
+
+      .page-header h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logo">
+      🧬 منصة أرض الأحياء
+    </div>
+
+    <div class="header-user">
+
+      <div class="student-name">
+        👤 <span id="studentName">الطالب</span>
+      </div>
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        🚪 خروج
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <aside class="sidebar">
+
+    <a href="../index.html">
+      🏠 الرئيسية
+    </a>
+
+    <a href="../videos/index.html">
+      🎥 الفيديوهات
+    </a>
+
+    <a href="#">
+      💬 المنتدى
+    </a>
+
+    <a
+      href="index.html"
+      class="active"
+    >
+      📚 المذكرات
+    </a>
+
+  </aside>
+
+
+  <main>
+
+    <section class="page-header">
+
+      <h1>
+        📚 مذكرات الأحياء
+      </h1>
+
+      <p>
+        هنا ستجد المذكرات والملخصات التعليمية الخاصة بمادة الأحياء.
+      </p>
+
+    </section>
+
+
+    <section class="notes-grid">
+
+
+      <article class="note-card">
+
+        <div class="note-icon">
+          🧬
+        </div>
+
+        <h2>
+          الدعامة في النبات
+        </h2>
+
+        <p>
+          ملخص درس الدعامة في النبات وأهم المفاهيم والأسئلة.
+        </p>
+
+        <span class="coming">
+          قريبًا
+        </span>
+
+      </article>
+
+
+      <article class="note-card">
+
+        <div class="note-icon">
+          🔬
+        </div>
+
+        <h2>
+          الخلية
+        </h2>
+
+        <p>
+          ملخص شامل لأهم أجزاء الخلية ووظائفها.
+        </p>
+
+        <span class="coming">
+          قريبًا
+        </span>
+
+      </article>
+
+
+      <article class="note-card">
+
+        <div class="note-icon">
+          🌱
+        </div>
+
+        <h2>
+          النبات
+        </h2>
+
+        <p>
+          مذكرات وملخصات دروس النبات.
+        </p>
+
+        <span class="coming">
+          قريبًا
+        </span>
+
+      </article>
+
+
+      <article class="note-card">
+
+        <div class="note-icon">
+          🧪
+        </div>
+
+        <h2>
+          مراجعات الأحياء
+        </h2>
+
+        <p>
+          مراجعات وأسئلة مهمة للاستعداد للاختبارات.
+        </p>
+
+        <span class="coming">
+          قريبًا
+        </span>
+
+      </article>
+
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    © 2026 منصة أرض الأحياء
+  </footer>
+
+
+  <script>
+
+    const SUPABASE_URL =
+      "https://gvehygqxjqucxwussaye.supabase.co";
+
+    const SUPABASE_ANON_KEY =
+      "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
+
+
+    async function checkUser() {
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient.auth.getUser();
+
+      if (
+        error ||
+        !data ||
+        !data.user
+      ) {
+
+        window.location.href =
+          "../index.html";
+
+        return;
+
+      }
+
+
+      const user = data.user;
+
+
+      const name =
+        user.user_metadata?.name ||
+        user.user_metadata?.full_name ||
+        user.email?.split("@")[0] ||
+        "الطالب";
+
+
+      document.getElementById(
+        "studentName"
+      ).textContent = name;
+
+    }
+
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      window.location.href =
+        "../index.html";
+
+    }
+
+
+    checkUser();
+
+  </script>
+
+</body>
+</html>
