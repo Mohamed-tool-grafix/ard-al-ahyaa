@@ -6,331 +6,438 @@
 
   <title>الفيديوهات | منصة أرض الأحياء</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta name="description" content="فيديوهات ودروس الأحياء التعليمية - منصة أرض الأحياء">
 
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
       font-family: Arial, Tahoma, sans-serif;
-      background: #f3f7f5;
-      color: #17221d;
+      background: #f4f7fb;
+      color: #172033;
+      min-height: 100vh;
     }
 
+    /* الهيدر */
     header {
-      background: #063d2c;
+      background: linear-gradient(135deg, #0b7a55, #12a36f);
       color: white;
-      padding: 20px;
-      text-align: center;
+      padding: 18px 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
     }
 
-    .container {
-      max-width: 1000px;
+    .header-content {
+      max-width: 1100px;
       margin: auto;
-      padding: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
     }
 
-    .upload-box {
-      background: white;
-      padding: 25px;
-      border-radius: 18px;
-      margin-bottom: 30px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
     }
 
-    input,
-    button {
-      width: 100%;
-      padding: 13px;
-      margin-top: 10px;
+    .back-btn {
+      text-decoration: none;
+      color: white;
+      background: rgba(255,255,255,0.18);
+      padding: 10px 16px;
       border-radius: 10px;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* المحتوى */
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 18px 50px;
+    }
+
+    .page-title {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #075f43;
+      font-size: 32px;
+    }
+
+    .page-description {
+      text-align: center;
+      color: #667085;
+      margin-bottom: 30px;
       font-size: 16px;
     }
 
-    input {
-      border: 1px solid #ddd;
+    /* البحث */
+    .search-box {
+      max-width: 650px;
+      margin: 0 auto 30px;
     }
 
-    button {
-      border: 0;
-      background: #0b6b4b;
-      color: white;
-      cursor: pointer;
+    .search-box input {
+      width: 100%;
+      padding: 15px 18px;
+      border: 1px solid #d8dee8;
+      border-radius: 14px;
+      font-size: 16px;
+      outline: none;
+      background: white;
     }
 
-    button:hover {
-      background: #075536;
+    .search-box input:focus {
+      border-color: #0b8d62;
+      box-shadow: 0 0 0 3px rgba(11,141,98,0.1);
+    }
+
+    /* شبكة الفيديوهات */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
     }
 
     .video-card {
       background: white;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.08);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    video {
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 9px 25px rgba(0,0,0,0.12);
+    }
+
+    .video-container {
       width: 100%;
-      max-height: 500px;
-      border-radius: 12px;
+      background: #000;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
       background: #000;
     }
 
-    .title {
-      color: #075536;
-      font-size: 21px;
-      margin-bottom: 15px;
+    .video-info {
+      padding: 17px;
     }
 
-    #message {
-      margin-top: 15px;
+    .video-title {
+      font-size: 19px;
+      font-weight: bold;
+      color: #075f43;
+      margin-bottom: 8px;
+    }
+
+    .video-description {
+      color: #667085;
+      font-size: 14px;
       line-height: 1.7;
+    }
+
+    .video-number {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: #e7f7f0;
+      color: #08784f;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* لا توجد نتائج */
+    .no-results {
+      display: none;
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 14px;
+      color: #667085;
+      margin-top: 20px;
+    }
+
+    /* الفوتر */
+    footer {
+      margin-top: 40px;
+      background: #10231d;
+      color: white;
+      text-align: center;
+      padding: 22px 15px;
+    }
+
+    footer p {
+      margin: 5px 0;
+    }
+
+    .brand {
+      color: #48d69d;
+      font-weight: bold;
+    }
+
+    /* الموبايل */
+    @media (max-width: 600px) {
+
+      .header-content {
+        flex-direction: column;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .page-title {
+        font-size: 27px;
+      }
+
+      .videos-grid {
+        grid-template-columns: 1fr;
+      }
+
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <h1>🧬 منصة أرض الأحياء</h1>
-  <p>الفيديوهات التعليمية</p>
-</header>
-
-<div class="container">
-
-  <div class="upload-box">
-
-    <h2>📤 رفع فيديو جديد</h2>
-
-    <input
-      type="text"
-      id="videoTitle"
-      placeholder="اكتب اسم الفيديو"
-    >
-
-    <input
-      type="file"
-      id="videoFile"
-      accept="video/*"
-    >
-
-    <button onclick="uploadVideo()">
-      رفع الفيديو
-    </button>
-
-    <div id="message"></div>
-
-  </div>
-
-  <h2>🎬 الفيديوهات</h2>
-
-  <div id="videosList">
-    جاري تحميل الفيديوهات...
-  </div>
-
-</div>
-
-
-<script>
-
-const SUPABASE_URL =
-  "https://gvehygqxjqucxwussaye.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
-
-async function uploadVideo() {
-
-  const title =
-    document.getElementById("videoTitle")
-      .value.trim();
-
-  const file =
-    document.getElementById("videoFile")
-      .files[0];
-
-  const message =
-    document.getElementById("message");
-
-
-  if (!title) {
-
-    message.textContent =
-      "اكتب اسم الفيديو أولًا.";
-
-    return;
-  }
-
-
-  if (!file) {
-
-    message.textContent =
-      "اختر ملف الفيديو أولًا.";
-
-    return;
-  }
-
-
-  message.textContent =
-    "جاري رفع الفيديو... انتظر حتى يكتمل الرفع.";
-
-
-  const fileName =
-    Date.now() + "_" +
-    file.name.replace(/\s+/g, "_");
-
-
-  const filePath =
-    fileName;
-
-
-  const { error } =
-    await supabaseClient.storage
-      .from("videos")
-      .upload(filePath, file);
-
-
-  if (error) {
-
-    console.error(error);
-
-    message.textContent =
-      "حدث خطأ أثناء الرفع: " +
-      error.message;
-
-    return;
-  }
-
-
-  const { data } =
-    supabaseClient.storage
-      .from("videos")
-      .getPublicUrl(filePath);
-
-
-  const videoUrl =
-    data.publicUrl;
-
-
-  const videos =
-    JSON.parse(
-      localStorage.getItem("ard_al_ahyaa_videos")
-      || "[]"
-    );
-
-
-  videos.unshift({
-
-    title: title,
-
-    url: videoUrl
-
-  });
-
-
-  localStorage.setItem(
-    "ard_al_ahyaa_videos",
-    JSON.stringify(videos)
-  );
-
-
-  message.textContent =
-    "تم رفع الفيديو بنجاح ✅";
-
-
-  document.getElementById(
-    "videoTitle"
-  ).value = "";
-
-
-  document.getElementById(
-    "videoFile"
-  ).value = "";
-
-
-  loadVideos();
-
-}
-
-
-function loadVideos() {
-
-  const container =
-    document.getElementById("videosList");
-
-
-  const videos =
-    JSON.parse(
-      localStorage.getItem("ard_al_ahyaa_videos")
-      || "[]"
-    );
-
-
-  if (videos.length === 0) {
-
-    container.innerHTML =
-      "<p>لا توجد فيديوهات حتى الآن.</p>";
-
-    return;
-  }
-
-
-  container.innerHTML = "";
-
-
-  videos.forEach(video => {
-
-    const card =
-      document.createElement("div");
-
-    card.className =
-      "video-card";
-
-
-    card.innerHTML = `
-
-      <div class="title">
-        ${escapeHtml(video.title)}
+  <!-- الهيدر -->
+  <header>
+    <div class="header-content">
+
+      <div class="logo">
+        🧬 منصة أرض الأحياء
       </div>
 
-      <video
-        controls
-        preload="metadata"
-        src="${video.url}">
-      </video>
+      <a class="back-btn" href="../index.html">
+        🏠 الرئيسية
+      </a>
 
-    `;
-
-
-    container.appendChild(card);
-
-  });
-
-}
+    </div>
+  </header>
 
 
-function escapeHtml(text) {
+  <!-- المحتوى -->
+  <main class="container">
 
-  const div =
-    document.createElement("div");
+    <h1 class="page-title">
+      🎬 فيديوهات الأحياء
+    </h1>
 
-  div.textContent = text;
-
-  return div.innerHTML;
-
-}
+    <p class="page-description">
+      شاهد الدروس والشروحات التعليمية على منصة أرض الأحياء
+    </p>
 
 
-loadVideos();
+    <!-- البحث -->
+    <div class="search-box">
 
-</script>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔎 ابحث عن فيديو..."
+        oninput="searchVideos()"
+      >
+
+    </div>
+
+
+    <!-- الفيديوهات -->
+    <div class="videos-grid" id="videosGrid">
+
+
+      <!-- الفيديو الأول -->
+      <div class="video-card" data-title="مقدمة في علم الأحياء">
+
+        <div class="video-container">
+
+          <video controls preload="metadata">
+
+            <!-- ضع رابط الفيديو هنا -->
+            <source src="" type="video/mp4">
+
+            المتصفح لا يدعم تشغيل الفيديو.
+
+          </video>
+
+        </div>
+
+        <div class="video-info">
+
+          <div class="video-title">
+            مقدمة في علم الأحياء
+          </div>
+
+          <div class="video-description">
+            شرح مبسط ومقدمة عن مادة الأحياء.
+          </div>
+
+          <span class="video-number">
+            الدرس 1
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- الفيديو الثاني -->
+      <div class="video-card" data-title="الدعامة في النبات">
+
+        <div class="video-container">
+
+          <video controls preload="metadata">
+
+            <!-- ضع رابط الفيديو هنا -->
+            <source src="" type="video/mp4">
+
+            المتصفح لا يدعم تشغيل الفيديو.
+
+          </video>
+
+        </div>
+
+        <div class="video-info">
+
+          <div class="video-title">
+            الدعامة في النبات
+          </div>
+
+          <div class="video-description">
+            شرح درس الدعامة وأنواعها في النبات بطريقة مبسطة.
+          </div>
+
+          <span class="video-number">
+            الدرس 2
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <!-- الفيديو الثالث -->
+      <div class="video-card" data-title="أنواع الدعامة">
+
+        <div class="video-container">
+
+          <video controls preload="metadata">
+
+            <!-- ضع رابط الفيديو هنا -->
+            <source src="" type="video/mp4">
+
+            المتصفح لا يدعم تشغيل الفيديو.
+
+          </video>
+
+        </div>
+
+        <div class="video-info">
+
+          <div class="video-title">
+            أنواع الدعامة
+          </div>
+
+          <div class="video-description">
+            التعرف على أنواع الدعامة وأهميتها في النبات.
+          </div>
+
+          <span class="video-number">
+            الدرس 3
+          </span>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="no-results" id="noResults">
+      لا توجد فيديوهات مطابقة للبحث 🔎
+    </div>
+
+  </main>
+
+
+  <!-- الفوتر -->
+  <footer>
+
+    <p>
+      جميع الحقوق محفوظة © <span class="brand">منصة أرض الأحياء</span>
+    </p>
+
+    <p>
+      منصة تعليمية لدراسة الأحياء
+    </p>
+
+  </footer>
+
+
+  <script>
+
+    function searchVideos() {
+
+      const input =
+        document.getElementById("searchInput").value
+        .toLowerCase()
+        .trim();
+
+      const cards =
+        document.querySelectorAll(".video-card");
+
+      let found = 0;
+
+      cards.forEach(card => {
+
+        const title =
+          card.getAttribute("data-title").toLowerCase();
+
+        if (title.includes(input)) {
+
+          card.style.display = "block";
+          found++;
+
+        } else {
+
+          card.style.display = "none";
+
+        }
+
+      });
+
+
+      const noResults =
+        document.getElementById("noResults");
+
+      if (found === 0) {
+
+        noResults.style.display = "block";
+
+      } else {
+
+        noResults.style.display = "none";
+
+      }
+
+    }
+
+  </script>
 
 </body>
 </html>
