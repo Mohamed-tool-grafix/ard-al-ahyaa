@@ -6,7 +6,7 @@
 
   <title>الفيديوهات | منصة أرض الأحياء</title>
 
-  <meta name="description" content="فيديوهات ودروس الأحياء التعليمية - منصة أرض الأحياء">
+  <meta name="description" content="شاهد دروس وشروحات الأحياء على منصة أرض الأحياء">
 
   <style>
     * {
@@ -16,92 +16,203 @@
     }
 
     body {
-      font-family: Arial, Tahoma, sans-serif;
-      background: #f4f7fb;
-      color: #172033;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f5f8f7;
+      color: #17231f;
       min-height: 100vh;
     }
 
-    /* الهيدر */
+    /* ===== الهيدر ===== */
+
     header {
-      background: linear-gradient(135deg, #0b7a55, #12a36f);
+      background: linear-gradient(135deg, #064e3b, #087f5b);
       color: white;
       padding: 18px 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 18px rgba(0,0,0,.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .header-content {
-      max-width: 1100px;
+    .header {
+      max-width: 1150px;
       margin: auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
+      gap: 20px;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: 23px;
       font-weight: bold;
     }
 
-    .back-btn {
-      text-decoration: none;
+    .home-btn {
       color: white;
-      background: rgba(255,255,255,0.18);
-      padding: 10px 16px;
-      border-radius: 10px;
-      transition: 0.2s;
+      text-decoration: none;
+      background: rgba(255,255,255,.15);
+      padding: 10px 17px;
+      border-radius: 12px;
+      transition: .2s;
     }
 
-    .back-btn:hover {
-      background: rgba(255,255,255,0.3);
+    .home-btn:hover {
+      background: rgba(255,255,255,.28);
     }
 
-    /* المحتوى */
-    .container {
-      max-width: 1100px;
+    /* ===== البانر ===== */
+
+    .hero {
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,.15), transparent 30%),
+        linear-gradient(135deg, #0b7655, #0d9b6b);
+
+      color: white;
+      padding: 55px 20px;
+    }
+
+    .hero-content {
+      max-width: 1000px;
       margin: auto;
-      padding: 30px 18px 50px;
+      text-align: center;
     }
 
-    .page-title {
-      text-align: center;
-      margin-bottom: 10px;
-      color: #075f43;
-      font-size: 32px;
+    .hero-icon {
+      font-size: 55px;
+      margin-bottom: 12px;
     }
 
-    .page-description {
-      text-align: center;
-      color: #667085;
-      margin-bottom: 30px;
-      font-size: 16px;
+    .hero h1 {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      line-height: 1.8;
+      opacity: .95;
+    }
+
+    /* ===== المحتوى ===== */
+
+    .container {
+      max-width: 1150px;
+      margin: auto;
+      padding: 35px 18px 60px;
     }
 
     /* البحث */
-    .search-box {
+
+    .search {
       max-width: 650px;
-      margin: 0 auto 30px;
+      margin: -25px auto 35px;
+      position: relative;
     }
 
-    .search-box input {
+    .search input {
       width: 100%;
-      padding: 15px 18px;
-      border: 1px solid #d8dee8;
-      border-radius: 14px;
+      padding: 17px 22px;
+      border: none;
+      border-radius: 15px;
       font-size: 16px;
       outline: none;
+      box-shadow: 0 8px 25px rgba(0,0,0,.12);
       background: white;
     }
 
-    .search-box input:focus {
-      border-color: #0b8d62;
-      box-shadow: 0 0 0 3px rgba(11,141,98,0.1);
+    /* العناوين */
+
+    .section-title {
+      font-size: 25px;
+      color: #075f46;
+      margin-bottom: 20px;
     }
 
-    /* شبكة الفيديوهات */
-    .videos-grid {
+    /* ===== الأقسام ===== */
+
+    .categories {
       display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 45px;
+    }
+
+    .category {
+      background: white;
+      border-radius: 16px;
+      padding: 22px 15px;
+      text-align: center;
+      box-shadow: 0 5px 18px rgba(0,0,0,.07);
+      border: 1px solid #e5ece9;
+      transition: .25s;
+    }
+
+    .category:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,.11);
+    }
+
+    .category-icon {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .category h3 {
+      color: #075f46;
+      font-size: 17px;
+      margin-bottom: 6px;
+    }
+
+    .category p {
+      color: #7a8782;
+      font-size: 13px;
+    }
+
+    /* ===== مكان الفيديوهات ===== */
+
+    .empty-box {
+      background: white;
+      border-radius: 20px;
+      padding: 55px 20px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,.07);
+      border: 1px dashed #cbd8d3;
+    }
+
+    .empty-icon {
+      font-size: 70px;
+      margin-bottom: 15px;
+    }
+
+    .empty-box h2 {
+      color: #075f46;
+      margin-bottom: 12px;
+      font-size: 24px;
+    }
+
+    .empty-box p {
+      color: #718079;
+      line-height: 1.8;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .coming {
+      display: inline-block;
+      margin-top: 22px;
+      background: #e8f7f1;
+      color: #087653;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    /* ===== كروت الفيديو مستقبلاً ===== */
+
+    .videos-grid {
+      display: none;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 22px;
     }
@@ -110,26 +221,12 @@
       background: white;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
-      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 5px 18px rgba(0,0,0,.08);
     }
 
-    .video-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 9px 25px rgba(0,0,0,0.12);
-    }
-
-    .video-container {
+    .video-card video {
       width: 100%;
-      background: #000;
-      aspect-ratio: 16 / 9;
-    }
-
-    .video-container video {
-      width: 100%;
-      height: 100%;
       display: block;
-      object-fit: contain;
       background: #000;
     }
 
@@ -137,76 +234,73 @@
       padding: 17px;
     }
 
-    .video-title {
-      font-size: 19px;
-      font-weight: bold;
-      color: #075f43;
+    .video-info h3 {
+      color: #075f46;
       margin-bottom: 8px;
     }
 
-    .video-description {
-      color: #667085;
-      font-size: 14px;
+    .video-info p {
+      color: #68756f;
       line-height: 1.7;
+      font-size: 14px;
     }
 
-    .video-number {
-      display: inline-block;
-      margin-top: 12px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      background: #e7f7f0;
-      color: #08784f;
-      font-size: 13px;
-      font-weight: bold;
-    }
+    /* ===== الفوتر ===== */
 
-    /* لا توجد نتائج */
-    .no-results {
-      display: none;
-      text-align: center;
-      background: white;
-      padding: 30px;
-      border-radius: 14px;
-      color: #667085;
-      margin-top: 20px;
-    }
-
-    /* الفوتر */
     footer {
-      margin-top: 40px;
-      background: #10231d;
-      color: white;
+      background: #10241e;
+      color: #dce8e3;
       text-align: center;
-      padding: 22px 15px;
+      padding: 28px 15px;
+      margin-top: 40px;
+    }
+
+    footer strong {
+      color: #54d69f;
     }
 
     footer p {
-      margin: 5px 0;
+      margin: 6px;
     }
 
-    .brand {
-      color: #48d69d;
-      font-weight: bold;
+    /* ===== الموبايل ===== */
+
+    @media (max-width: 800px) {
+
+      .categories {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .hero {
+        padding: 42px 18px;
+      }
     }
 
-    /* الموبايل */
-    @media (max-width: 600px) {
+    @media (max-width: 500px) {
 
-      .header-content {
+      .header {
         flex-direction: column;
       }
 
-      .logo {
-        font-size: 21px;
+      .categories {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
       }
 
-      .page-title {
+      .category {
+        padding: 18px 8px;
+      }
+
+      .hero h1 {
         font-size: 27px;
       }
 
-      .videos-grid {
-        grid-template-columns: 1fr;
+      .empty-box {
+        padding: 40px 15px;
       }
 
     }
@@ -215,175 +309,201 @@
 
 <body>
 
-  <!-- الهيدر -->
+  <!-- ===== الهيدر ===== -->
+
   <header>
-    <div class="header-content">
+
+    <div class="header">
 
       <div class="logo">
         🧬 منصة أرض الأحياء
       </div>
 
-      <a class="back-btn" href="../index.html">
+      <a href="../index.html" class="home-btn">
         🏠 الرئيسية
       </a>
 
     </div>
+
   </header>
 
 
-  <!-- المحتوى -->
+  <!-- ===== البانر ===== -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <div class="hero-icon">
+        🎬
+      </div>
+
+      <h1>
+        مكتبة الفيديوهات التعليمية
+      </h1>
+
+      <p>
+        دروس وشروحات الأحياء بطريقة بسيطة ومنظمة
+        <br>
+        تعلّم، راجع، واستعد للامتحان
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ===== المحتوى ===== -->
+
   <main class="container">
-
-    <h1 class="page-title">
-      🎬 فيديوهات الأحياء
-    </h1>
-
-    <p class="page-description">
-      شاهد الدروس والشروحات التعليمية على منصة أرض الأحياء
-    </p>
 
 
     <!-- البحث -->
-    <div class="search-box">
+
+    <div class="search">
 
       <input
         type="text"
+        placeholder="🔎 ابحث عن درس أو فيديو..."
         id="searchInput"
-        placeholder="🔎 ابحث عن فيديو..."
-        oninput="searchVideos()"
       >
 
     </div>
 
 
-    <!-- الفيديوهات -->
+    <!-- الأقسام -->
+
+    <h2 class="section-title">
+      📚 تصفح حسب القسم
+    </h2>
+
+
+    <div class="categories">
+
+
+      <div class="category">
+
+        <div class="category-icon">
+          🌱
+        </div>
+
+        <h3>
+          النبات
+        </h3>
+
+        <p>
+          دروس النبات والدعامة
+        </p>
+
+      </div>
+
+
+      <div class="category">
+
+        <div class="category-icon">
+          🧬
+        </div>
+
+        <h3>
+          الخلية
+        </h3>
+
+        <p>
+          شرح الخلية ومكوناتها
+        </p>
+
+      </div>
+
+
+      <div class="category">
+
+        <div class="category-icon">
+          🔬
+        </div>
+
+        <h3>
+          الأحياء
+        </h3>
+
+        <p>
+          شرح ومراجعات الأحياء
+        </p>
+
+      </div>
+
+
+      <div class="category">
+
+        <div class="category-icon">
+          📝
+        </div>
+
+        <h3>
+          المراجعات
+        </h3>
+
+        <p>
+          مراجعات وأسئلة مهمة
+        </p>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- ===== الفيديوهات ===== -->
+
+    <h2 class="section-title">
+      🎥 أحدث الفيديوهات
+    </h2>
+
+
+    <!-- ستظهر هنا الفيديوهات عندما نضيفها -->
+
     <div class="videos-grid" id="videosGrid">
-
-
-      <!-- الفيديو الأول -->
-      <div class="video-card" data-title="مقدمة في علم الأحياء">
-
-        <div class="video-container">
-
-          <video controls preload="metadata">
-
-            <!-- ضع رابط الفيديو هنا -->
-            <source src="" type="video/mp4">
-
-            المتصفح لا يدعم تشغيل الفيديو.
-
-          </video>
-
-        </div>
-
-        <div class="video-info">
-
-          <div class="video-title">
-            مقدمة في علم الأحياء
-          </div>
-
-          <div class="video-description">
-            شرح مبسط ومقدمة عن مادة الأحياء.
-          </div>
-
-          <span class="video-number">
-            الدرس 1
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <!-- الفيديو الثاني -->
-      <div class="video-card" data-title="الدعامة في النبات">
-
-        <div class="video-container">
-
-          <video controls preload="metadata">
-
-            <!-- ضع رابط الفيديو هنا -->
-  <source src="lesson1.mp4" type="video/mp4">          
-
-            المتصفح لا يدعم تشغيل الفيديو.
-
-          </video>
-
-        </div>
-
-        <div class="video-info">
-
-          <div class="video-title">
-            الدعامة في النبات
-          </div>
-
-          <div class="video-description">
-            شرح درس الدعامة وأنواعها في النبات بطريقة مبسطة.
-          </div>
-
-          <span class="video-number">
-            الدرس 2
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <!-- الفيديو الثالث -->
-      <div class="video-card" data-title="أنواع الدعامة">
-
-        <div class="video-container">
-
-          <video controls preload="metadata">
-
-            <!-- ضع رابط الفيديو هنا -->
-            <source src="" type="video/mp4">
-
-            المتصفح لا يدعم تشغيل الفيديو.
-
-          </video>
-
-        </div>
-
-        <div class="video-info">
-
-          <div class="video-title">
-            أنواع الدعامة
-          </div>
-
-          <div class="video-description">
-            التعرف على أنواع الدعامة وأهميتها في النبات.
-          </div>
-
-          <span class="video-number">
-            الدرس 3
-          </span>
-
-        </div>
-
-      </div>
-
-
     </div>
 
 
-    <div class="no-results" id="noResults">
-      لا توجد فيديوهات مطابقة للبحث 🔎
+    <!-- الصفحة الفارغة -->
+
+    <div class="empty-box" id="emptyBox">
+
+      <div class="empty-icon">
+        🎬
+      </div>
+
+      <h2>
+        لا توجد فيديوهات حتى الآن
+      </h2>
+
+      <p>
+        سيتم إضافة الدروس والشروحات التعليمية
+        إلى مكتبة الفيديوهات قريبًا.
+        تابع المنصة لمعرفة كل جديد.
+      </p>
+
+      <span class="coming">
+        🚀 الفيديوهات قادمة قريبًا
+      </span>
+
     </div>
+
 
   </main>
 
 
-  <!-- الفوتر -->
+  <!-- ===== الفوتر ===== -->
+
   <footer>
 
     <p>
-      جميع الحقوق محفوظة © <span class="brand">منصة أرض الأحياء</span>
+      جميع الحقوق محفوظة ©
+      <strong>منصة أرض الأحياء</strong>
     </p>
 
     <p>
-      منصة تعليمية لدراسة الأحياء
+      منصة تعليمية لدراسة الأحياء 🧬
     </p>
 
   </footer>
@@ -391,51 +511,34 @@
 
   <script>
 
-    function searchVideos() {
+    const searchInput =
+      document.getElementById("searchInput");
 
-      const input =
-        document.getElementById("searchInput").value
-        .toLowerCase()
-        .trim();
+    const emptyBox =
+      document.getElementById("emptyBox");
 
-      const cards =
-        document.querySelectorAll(".video-card");
-
-      let found = 0;
-
-      cards.forEach(card => {
-
-        const title =
-          card.getAttribute("data-title").toLowerCase();
-
-        if (title.includes(input)) {
-
-          card.style.display = "block";
-          found++;
-
-        } else {
-
-          card.style.display = "none";
-
-        }
-
-      });
+    const videosGrid =
+      document.getElementById("videosGrid");
 
 
-      const noResults =
-        document.getElementById("noResults");
+    searchInput.addEventListener("input", function () {
 
-      if (found === 0) {
+      const text =
+        this.value.trim();
 
-        noResults.style.display = "block";
+      /*
+        عندما نضيف الفيديوهات لاحقًا،
+        سيتم تشغيل البحث عليها هنا.
+      */
 
-      } else {
+      if (text !== "") {
 
-        noResults.style.display = "none";
+        // لا توجد فيديوهات حاليًا
+        emptyBox.style.display = "block";
 
       }
 
-    }
+    });
 
   </script>
 
