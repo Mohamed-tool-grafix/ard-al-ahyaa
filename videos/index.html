@@ -5,13 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>الفيديوهات | منصة أرض الأحياء</title>
+  <title>المحاضرات | منصة أرض الأحياء</title>
 
-  <meta name="description"
-        content="مكتبة الفيديوهات التعليمية في منصة أرض الأحياء">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -20,509 +18,326 @@
 
     body {
       font-family: Tahoma, Arial, sans-serif;
-      background: #f5f8f7;
+      background: #f4f8f6;
       color: #17231f;
-      min-height: 100vh;
     }
 
-
-    /* =========================
-       الشريط العلوي
-    ========================= */
+    /* ================= HEADER ================= */
 
     header {
+      height: 70px;
       background: linear-gradient(135deg, #064e3b, #087f5b);
       color: white;
-      box-shadow: 0 4px 18px rgba(0,0,0,.15);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .navbar {
-      max-width: 1150px;
-      margin: auto;
-      min-height: 70px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      padding: 10px 18px;
-      gap: 20px;
+      padding: 0 22px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      box-shadow: 0 3px 15px rgba(0,0,0,.15);
     }
-
-
-    /* اسم المنصة */
 
     .logo {
-      color: white;
-      text-decoration: none;
       font-size: 21px;
       font-weight: bold;
-      white-space: nowrap;
     }
 
+    /* اسم الطالب أعلى الشمال */
 
-    /* روابط الشريط */
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-
-      padding: 10px 13px;
-      border-radius: 10px;
-
+    .student-name {
+      direction: rtl;
+      background: rgba(255,255,255,.15);
+      padding: 10px 15px;
+      border-radius: 12px;
       font-size: 14px;
+    }
 
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+      position: fixed;
+      top: 70px;
+      right: 0;
+      width: 245px;
+      height: calc(100vh - 70px);
+      background: white;
+      border-left: 1px solid #e2ebe7;
+      padding: 22px 15px;
+      box-shadow: -3px 0 15px rgba(0,0,0,.05);
+    }
+
+    .menu-title {
+      color: #7b8984;
+      font-size: 13px;
+      margin: 5px 10px 15px;
+    }
+
+    .menu a {
+      display: block;
+      text-decoration: none;
+      color: #34443e;
+      padding: 14px 15px;
+      margin-bottom: 8px;
+      border-radius: 12px;
+      font-size: 15px;
       transition: .2s;
     }
 
-    .nav-links a:hover {
-      background: rgba(255,255,255,.16);
+    .menu a:hover {
+      background: #e8f7f1;
+      color: #087653;
     }
 
-
-    /* الصفحة الحالية */
-
-    .nav-links .active {
-      background: rgba(255,255,255,.22);
+    .menu a.active {
+      background: #087f5b;
+      color: white;
       font-weight: bold;
     }
 
+    /* ================= CONTENT ================= */
 
-    /* =========================
-       البانر
-    ========================= */
-
-    .hero {
-      background:
-        radial-gradient(
-          circle at 10% 20%,
-          rgba(255,255,255,.15),
-          transparent 30%
-        ),
-        linear-gradient(135deg, #0b7655, #0d9b6b);
-
-      color: white;
-      padding: 55px 20px;
+    .content {
+      margin-right: 245px;
+      padding: 100px 30px 50px;
+      max-width: 1250px;
     }
 
-    .hero-content {
-      max-width: 1000px;
-      margin: auto;
-      text-align: center;
+    .page-title {
+      color: #075f46;
+      font-size: 30px;
+      margin-bottom: 10px;
     }
 
-    .hero-icon {
-      font-size: 55px;
-      margin-bottom: 12px;
-    }
-
-    .hero h1 {
-      font-size: 38px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      font-size: 17px;
+    .page-description {
+      color: #718079;
+      margin-bottom: 30px;
       line-height: 1.8;
     }
 
-
-    /* =========================
-       المحتوى
-    ========================= */
-
-    .container {
-      max-width: 1150px;
-      margin: auto;
-      padding: 35px 18px 60px;
-    }
-
-
-    /* البحث */
+    /* ================= SEARCH ================= */
 
     .search {
-      max-width: 650px;
-      margin: -25px auto 35px;
-      position: relative;
+      margin-bottom: 30px;
     }
 
     .search input {
       width: 100%;
-
-      padding: 17px 22px;
-
-      border: none;
-      border-radius: 15px;
-
-      font-size: 16px;
+      max-width: 650px;
+      padding: 16px 20px;
+      border: 1px solid #d9e4df;
+      border-radius: 13px;
       outline: none;
-
+      font-size: 15px;
       background: white;
-
-      box-shadow:
-        0 8px 25px rgba(0,0,0,.12);
     }
 
-
-    /* =========================
-       عنوان القسم
-    ========================= */
-
-    .section-title {
-      font-size: 25px;
-      color: #075f46;
-      margin-bottom: 20px;
+    .search input:focus {
+      border-color: #087f5b;
     }
 
-
-    /* =========================
-       الأقسام
-    ========================= */
+    /* ================= CATEGORIES ================= */
 
     .categories {
       display: grid;
-
-      grid-template-columns:
-        repeat(4, 1fr);
-
-      gap: 16px;
-
-      margin-bottom: 45px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-bottom: 40px;
     }
 
     .category {
       background: white;
-
-      border-radius: 16px;
-
-      padding: 22px 15px;
-
+      padding: 20px 12px;
+      border-radius: 15px;
       text-align: center;
-
-      box-shadow:
-        0 5px 18px rgba(0,0,0,.07);
-
-      border: 1px solid #e5ece9;
-
-      transition: .25s;
+      border: 1px solid #e4ece8;
+      transition: .2s;
     }
 
     .category:hover {
-      transform: translateY(-5px);
-
-      box-shadow:
-        0 10px 25px rgba(0,0,0,.11);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
     }
 
     .category-icon {
-      font-size: 34px;
-      margin-bottom: 10px;
+      font-size: 32px;
+      margin-bottom: 8px;
     }
 
     .category h3 {
       color: #075f46;
-      font-size: 17px;
-      margin-bottom: 6px;
+      font-size: 16px;
     }
 
     .category p {
-      color: #7a8782;
-      font-size: 13px;
+      color: #7b8984;
+      font-size: 12px;
+      margin-top: 6px;
     }
 
-
-    /* =========================
-       مكان الفيديوهات
-    ========================= */
+    /* ================= EMPTY ================= */
 
     .empty-box {
       background: white;
-
+      border: 1px dashed #cbd9d4;
       border-radius: 20px;
-
-      padding: 55px 20px;
-
       text-align: center;
-
-      box-shadow:
-        0 5px 20px rgba(0,0,0,.07);
-
-      border: 1px dashed #cbd8d3;
+      padding: 60px 20px;
     }
 
     .empty-icon {
-      font-size: 70px;
+      font-size: 65px;
       margin-bottom: 15px;
     }
 
     .empty-box h2 {
       color: #075f46;
       margin-bottom: 12px;
-      font-size: 24px;
     }
 
     .empty-box p {
       color: #718079;
-
       line-height: 1.8;
-
-      max-width: 600px;
-
-      margin: auto;
     }
 
     .coming {
       display: inline-block;
-
-      margin-top: 22px;
-
+      margin-top: 20px;
       background: #e8f7f1;
       color: #087653;
-
       padding: 10px 18px;
-
       border-radius: 10px;
-
       font-weight: bold;
-
-      font-size: 14px;
     }
 
-
-    /* =========================
-       الفيديوهات مستقبلًا
-    ========================= */
-
-    .videos-grid {
-      display: none;
-
-      grid-template-columns:
-        repeat(auto-fit, minmax(280px, 1fr));
-
-      gap: 22px;
-    }
-
-    .video-card {
-      background: white;
-
-      border-radius: 16px;
-
-      overflow: hidden;
-
-      box-shadow:
-        0 5px 18px rgba(0,0,0,.08);
-    }
-
-    .video-card video {
-      width: 100%;
-      display: block;
-      background: #000;
-    }
-
-    .video-info {
-      padding: 17px;
-    }
-
-    .video-info h3 {
-      color: #075f46;
-      margin-bottom: 8px;
-    }
-
-    .video-info p {
-      color: #68756f;
-      line-height: 1.7;
-      font-size: 14px;
-    }
-
-
-    /* =========================
-       الفوتر
-    ========================= */
-
-    footer {
-      background: #10241e;
-
-      color: #dce8e3;
-
-      text-align: center;
-
-      padding: 28px 15px;
-
-      margin-top: 40px;
-    }
-
-    footer strong {
-      color: #54d69f;
-    }
-
-    footer p {
-      margin: 6px;
-    }
-
-
-    /* =========================
-       الموبايل
-    ========================= */
+    /* ================= MOBILE ================= */
 
     @media (max-width: 800px) {
 
-      .navbar {
-        flex-direction: column;
-
-        padding: 14px 10px;
+      header {
+        padding: 0 12px;
       }
 
-      .nav-links {
-        width: 100%;
-
-        justify-content: center;
-
-        flex-wrap: wrap;
+      .logo {
+        font-size: 17px;
       }
 
-      .nav-links a {
-        font-size: 13px;
-        padding: 9px 10px;
+      .student-name {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+
+      .sidebar {
+        width: 75px;
+        padding: 15px 8px;
+      }
+
+      .menu-title {
+        display: none;
+      }
+
+      .menu a {
+        text-align: center;
+        padding: 14px 5px;
+        font-size: 0;
+      }
+
+      .menu a:first-letter {
+        font-size: 23px;
+      }
+
+      .content {
+        margin-right: 75px;
+        padding: 95px 15px 40px;
       }
 
       .categories {
-        grid-template-columns:
-          repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .hero h1 {
-        font-size: 30px;
-      }
-
-      .hero {
-        padding: 42px 18px;
+      .page-title {
+        font-size: 25px;
       }
     }
 
-
-    @media (max-width: 500px) {
+    @media (max-width: 450px) {
 
       .categories {
-        grid-template-columns:
-          repeat(2, 1fr);
-
-        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .category {
-        padding: 18px 8px;
-      }
-
-      .hero h1 {
-        font-size: 27px;
-      }
-
-      .empty-box {
-        padding: 40px 15px;
+      .student-name {
+        max-width: 150px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
     }
-
   </style>
 </head>
 
-
 <body>
 
-
-  <!-- =========================
-       شريط التنقل
-  ========================= -->
+  <!-- ================= HEADER ================= -->
 
   <header>
 
-    <nav class="navbar">
+    <div class="logo">
+      🧬 منصة أرض الأحياء
+    </div>
 
-      <a href="../index.html" class="logo">
-        🧬 منصة أرض الأحياء
-      </a>
-
-
-      <ul class="nav-links">
-
-        <li>
-          <a href="../index.html">
-            🏠 الرئيسية
-          </a>
-        </li>
-
-
-        <li>
-          <a href="index.html" class="active">
-            🎬 الفيديوهات
-          </a>
-        </li>
-
-
-        <li>
-          <a href="../index.html#lessons">
-            📚 الدروس
-          </a>
-        </li>
-
-
-        <li>
-          <a href="../index.html#about">
-            ℹ️ عن المنصة
-          </a>
-        </li>
-
-      </ul>
-
-    </nav>
+    <div class="student-name" id="studentName">
+      👤 جاري تحميل اسم الطالب...
+    </div>
 
   </header>
 
 
+  <!-- ================= SIDEBAR ================= -->
 
-  <!-- =========================
-       البانر
-  ========================= -->
+  <aside class="sidebar">
 
-  <section class="hero">
-
-    <div class="hero-content">
-
-      <div class="hero-icon">
-        🎬
-      </div>
-
-      <h1>
-        مكتبة الفيديوهات التعليمية
-      </h1>
-
-      <p>
-        دروس وشروحات الأحياء بطريقة بسيطة ومنظمة
-        <br>
-        تعلّم • راجع • استعد للامتحان
-      </p>
-
+    <div class="menu-title">
+      القائمة الرئيسية
     </div>
 
-  </section>
+    <nav class="menu">
+
+      <a href="../index.html">
+        🏠 الرئيسية
+      </a>
+
+      <a href="index.html" class="active">
+        🎥 المحاضرات
+      </a>
+
+      <a href="../forum/index.html">
+        💬 المنتدى
+      </a>
+
+      <a href="../notes/index.html">
+        📚 المذكرات
+      </a>
+
+    </nav>
+
+  </aside>
 
 
+  <!-- ================= CONTENT ================= -->
 
-  <!-- =========================
-       المحتوى
-  ========================= -->
+  <main class="content">
 
-  <main class="container">
+    <h1 class="page-title">
+      🎥 المحاضرات
+    </h1>
+
+    <p class="page-description">
+      هنا ستجد المحاضرات والشروحات التعليمية الخاصة بمنصة أرض الأحياء.
+    </p>
 
 
     <!-- البحث -->
@@ -532,185 +347,151 @@
       <input
         type="text"
         id="searchInput"
-        placeholder="🔎 ابحث عن درس أو فيديو..."
+        placeholder="🔎 ابحث عن محاضرة..."
       >
 
     </div>
 
 
-
     <!-- الأقسام -->
-
-    <h2 class="section-title">
-      📚 تصفح حسب القسم
-    </h2>
-
 
     <div class="categories">
 
-
       <div class="category">
-
-        <div class="category-icon">
-          🌱
-        </div>
-
-        <h3>
-          النبات
-        </h3>
-
-        <p>
-          دروس النبات والدعامة
-        </p>
-
+        <div class="category-icon">🌱</div>
+        <h3>النبات</h3>
+        <p>دروس النبات والدعامة</p>
       </div>
 
-
-
       <div class="category">
-
-        <div class="category-icon">
-          🧬
-        </div>
-
-        <h3>
-          الخلية
-        </h3>
-
-        <p>
-          شرح الخلية ومكوناتها
-        </p>
-
+        <div class="category-icon">🧬</div>
+        <h3>الخلية</h3>
+        <p>شرح الخلية ومكوناتها</p>
       </div>
 
-
-
       <div class="category">
-
-        <div class="category-icon">
-          🔬
-        </div>
-
-        <h3>
-          الأحياء
-        </h3>
-
-        <p>
-          شرح ومراجعات الأحياء
-        </p>
-
+        <div class="category-icon">🔬</div>
+        <h3>الأحياء</h3>
+        <p>شرح مادة الأحياء</p>
       </div>
 
-
-
       <div class="category">
-
-        <div class="category-icon">
-          📝
-        </div>
-
-        <h3>
-          المراجعات
-        </h3>
-
-        <p>
-          مراجعات وأسئلة مهمة
-        </p>
-
+        <div class="category-icon">📝</div>
+        <h3>المراجعات</h3>
+        <p>مراجعات وأسئلة مهمة</p>
       </div>
-
 
     </div>
 
 
+    <!-- الفيديوهات -->
 
-    <!-- =========================
-         أحدث الفيديوهات
-    ========================= -->
-
-    <h2 class="section-title">
-      🎥 أحدث الفيديوهات
-    </h2>
-
-
-    <div
-      class="videos-grid"
-      id="videosGrid">
-    </div>
-
-
-
-    <!-- الصفحة فارغة حاليًا -->
-
-    <div
-      class="empty-box"
-      id="emptyBox">
+    <div class="empty-box">
 
       <div class="empty-icon">
         🎬
       </div>
 
-
       <h2>
-        لا توجد فيديوهات حتى الآن
+        لا توجد محاضرات حتى الآن
       </h2>
 
-
       <p>
-        سيتم إضافة الدروس والشروحات التعليمية
-        إلى مكتبة الفيديوهات قريبًا.
-        تابع منصة أرض الأحياء لمعرفة كل جديد.
+        سيتم إضافة المحاضرات والفيديوهات التعليمية
+        إلى المنصة قريبًا.
       </p>
 
-
       <span class="coming">
-        🚀 الفيديوهات قادمة قريبًا
+        🚀 المحاضرات قادمة قريبًا
       </span>
 
     </div>
 
-
   </main>
-
-
-
-  <!-- =========================
-       الفوتر
-  ========================= -->
-
-  <footer>
-
-    <p>
-      جميع الحقوق محفوظة ©
-      <strong>منصة أرض الأحياء</strong>
-    </p>
-
-    <p>
-      منصة تعليمية لدراسة الأحياء 🧬
-    </p>
-
-  </footer>
 
 
   <script>
 
-    const searchInput =
-      document.getElementById("searchInput");
+    /* =========================
+       Supabase
+    ========================= */
 
-    searchInput.addEventListener(
-      "input",
-      function () {
+    const SUPABASE_URL =
+      "https://gvehygqxjqucxwussaye.supabase.co";
 
-        /*
-          البحث سيتم تفعيله تلقائيًا
-          عندما نضيف الفيديوهات.
-        */
+    const SUPABASE_ANON_KEY =
+      "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
 
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+      );
+
+
+    /* =========================
+       إظهار اسم الطالب
+    ========================= */
+
+    async function loadStudentName() {
+
+      const {
+        data,
+        error
+      } = await supabaseClient.auth.getUser();
+
+
+      const nameElement =
+        document.getElementById("studentName");
+
+
+      if (error || !data.user) {
+
+        nameElement.textContent =
+          "👤 الطالب";
+
+        return;
       }
-    );
+
+
+      const user =
+        data.user;
+
+
+      /*
+        نحاول الحصول على الاسم من بيانات الحساب.
+      */
+
+      const name =
+        user.user_metadata?.name ||
+        user.user_metadata?.full_name ||
+        user.user_metadata?.username ||
+        user.email?.split("@")[0] ||
+        "الطالب";
+
+
+      nameElement.textContent =
+        "👤 " + name;
+
+    }
+
+
+    loadStudentName();
+
+
+    /* =========================
+       البحث
+    ========================= */
+
+    document
+      .getElementById("searchInput")
+      .addEventListener("input", function () {
+
+        // سيتم تفعيل البحث عند إضافة المحاضرات
+
+      });
 
   </script>
-
 
 </body>
 
