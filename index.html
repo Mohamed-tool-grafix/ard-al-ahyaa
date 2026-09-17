@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <link rel="icon" type="image/png" href="favicon.png">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -50,9 +51,18 @@
       text-align: center;
     }
 
+    /* شعار شاشة الدخول */
+
     .login-logo {
-      font-size: 45px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+    }
+
+    .login-logo img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
     }
 
     .login-box h1 {
@@ -152,9 +162,21 @@
       box-shadow: 0 3px 12px rgba(0,0,0,.15);
     }
 
+    /* شعار الهيدر */
+
     .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-size: 22px;
       font-weight: bold;
+    }
+
+    .logo img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      display: block;
     }
 
     .header-user {
@@ -307,7 +329,13 @@
       }
 
       .logo {
-        font-size: 16px;
+        font-size: 15px;
+        gap: 6px;
+      }
+
+      .logo img {
+        width: 34px;
+        height: 34px;
       }
 
       .student-name {
@@ -354,6 +382,11 @@
       .cards {
         grid-template-columns: 1fr;
       }
+
+      .login-logo img {
+        width: 85px;
+        height: 85px;
+      }
     }
   </style>
 </head>
@@ -368,8 +401,13 @@
 
     <div class="login-box">
 
+      <!-- الشعار -->
+
       <div class="login-logo">
-        🧬
+        <img
+          src="logo.png"
+          alt="شعار منصة أرض الأحياء"
+        >
       </div>
 
       <h1>
@@ -379,7 +417,6 @@
       <p id="loginTitle">
         سجل الدخول للوصول إلى المنصة
       </p>
-
 
       <!-- تسجيل الدخول -->
 
@@ -414,7 +451,6 @@
         </button>
 
       </div>
-
 
       <!-- إنشاء حساب -->
 
@@ -456,7 +492,6 @@
 
       </div>
 
-
       <div id="loginMessage"></div>
 
     </div>
@@ -472,8 +507,19 @@
 
     <header>
 
+      <!-- الشعار + اسم المنصة -->
+
       <div class="logo">
-        🧬 منصة أرض الأحياء
+
+        <img
+          src="logo.png"
+          alt="شعار منصة أرض الأحياء"
+        >
+
+        <span>
+          منصة أرض الأحياء
+        </span>
+
       </div>
 
       <div class="header-user">
@@ -545,7 +591,6 @@
 
       <section class="cards">
 
-
         <!-- الفيديوهات -->
 
         <a
@@ -568,7 +613,7 @@
         </a>
 
 
-        <!-- المنتدى مؤقتًا -->
+        <!-- المنتدى -->
 
         <div class="card">
 
@@ -587,7 +632,7 @@
         </div>
 
 
-        <!-- المذكرات مؤقتًا -->
+        <!-- المذكرات -->
 
         <div class="card">
 
@@ -606,7 +651,7 @@
         </div>
 
 
-        <!-- قسم إضافي -->
+        <!-- الأسئلة -->
 
         <div class="card">
 
@@ -623,7 +668,6 @@
           </p>
 
         </div>
-
 
       </section>
 
@@ -696,7 +740,6 @@
         return;
 
       }
-
 
       showSite(data.user);
 
