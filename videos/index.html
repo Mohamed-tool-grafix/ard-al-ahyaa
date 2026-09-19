@@ -1,590 +1,909 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>الفيديوهات | منصة أرض الأحياء</title>
+  <title>الدروس والمحاضرات | منصة أرض الأحياء</title>
+
+  <meta name="description"
+    content="دروس ومحاضرات الأحياء في منصة أرض الأحياء التعليمية.">
+
+  <link rel="icon" href="../favicon.png">
+
+  <link rel="stylesheet" href="../style.css">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Tahoma, Arial, sans-serif;
-    }
 
-    body {
-      background: #f4f7f6;
-      color: #17221d;
-    }
+    .page-hero {
+      background:
+        linear-gradient(
+          135deg,
+          #056344,
+          #0b9a67
+        );
 
-    header {
-      background: #073b2a;
       color: white;
-      padding: 16px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+
+      padding: 35px;
+
+      border-radius: 24px;
+
+      margin-bottom: 25px;
+
+      box-shadow:
+        0 14px 35px rgba(8,127,85,.17);
     }
 
-    .brand {
-      font-size: 21px;
-      font-weight: bold;
+    .page-hero h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
     }
 
-    .student {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .page-hero p {
+      line-height: 1.9;
+      opacity: .94;
+      max-width: 750px;
     }
 
-    .logout {
-      border: none;
-      background: #c0392b;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 7px;
-      cursor: pointer;
-    }
+    .back-btn {
+      display: inline-block;
 
-    .layout {
-      display: flex;
-      min-height: calc(100vh - 65px);
-    }
+      margin-top: 20px;
 
-    aside {
-      width: 230px;
       background: white;
-      padding: 20px 12px;
-      border-left: 1px solid #ddd;
-    }
 
-    .side-link {
-      display: block;
+      color: #056344;
+
       text-decoration: none;
-      color: #333;
-      padding: 12px;
-      margin-bottom: 7px;
-      border-radius: 9px;
-    }
 
-    .side-link:hover,
-    .active {
-      background: #e7f5ef;
-      color: #075c40;
+      padding: 10px 18px;
+
+      border-radius: 10px;
+
       font-weight: bold;
+
+      font-size: 14px;
     }
 
-    main {
-      flex: 1;
-      max-width: 1200px;
-      margin: auto;
-      padding: 30px;
-      width: 100%;
-    }
+    .filter-box {
+      display: flex;
 
-    .page-title {
-      background: linear-gradient(135deg, #08794f, #0b9b68);
-      color: white;
-      padding: 25px;
-      border-radius: 16px;
+      gap: 10px;
+
+      flex-wrap: wrap;
+
       margin-bottom: 25px;
     }
 
-    .page-title h1 {
-      margin-bottom: 8px;
-    }
+    .filter-btn {
+      border: 1px solid var(--border);
 
-    .search {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .content-card {
       background: white;
-      border-radius: 15px;
-      padding: 18px;
-      box-shadow: 0 4px 15px rgba(0,0,0,.06);
-      border: 1px solid #e3e8e5;
-    }
 
-    .content-card h3 {
-      color: #075c40;
-      margin: 12px 0 8px;
-    }
+      color: var(--text);
 
-    .content-card p {
-      color: #666;
-      line-height: 1.7;
-      margin-bottom: 12px;
-    }
+      padding: 10px 17px;
 
-    video,
-    .image-preview {
-      width: 100%;
       border-radius: 10px;
-      max-height: 400px;
-      object-fit: contain;
-      background: #111;
+
+      cursor: pointer;
+
+      font-weight: bold;
+
+      transition: .2s;
     }
 
-    .open-btn {
-      display: inline-block;
-      background: #08794f;
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--green);
+
       color: white;
-      text-decoration: none;
-      padding: 9px 13px;
-      border-radius: 8px;
-      margin-top: 5px;
+
+      border-color: var(--green);
     }
 
-    .empty {
+    .lessons-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 18px;
+    }
+
+    .lesson-card {
       background: white;
-      padding: 40px;
-      border-radius: 15px;
-      text-align: center;
-      color: #777;
+
+      border: 1px solid var(--border);
+
+      border-radius: 18px;
+
+      overflow: hidden;
+
+      box-shadow: var(--shadow);
+
+      transition: .2s;
     }
 
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #075c40;
+    .lesson-card:hover {
+      transform: translateY(-4px);
+
+      box-shadow:
+        0 15px 35px rgba(20,70,50,.12);
     }
 
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #777;
+    .lesson-image {
+      height: 170px;
+
+      display: grid;
+
+      place-items: center;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e5f7ef,
+          #cceee0
+        );
+
+      font-size: 55px;
     }
 
-    @media (max-width: 800px) {
+    .lesson-content {
+      padding: 20px;
+    }
 
-      .layout {
-        display: block;
+    .lesson-badge {
+      display: inline-block;
+
+      background: var(--green-light);
+
+      color: var(--green-dark);
+
+      padding: 5px 9px;
+
+      border-radius: 20px;
+
+      font-size: 11px;
+
+      font-weight: bold;
+
+      margin-bottom: 10px;
+    }
+
+    .lesson-content h3 {
+      margin-bottom: 8px;
+
+      font-size: 17px;
+    }
+
+    .lesson-content p {
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.8;
+
+      margin-bottom: 15px;
+    }
+
+    .lesson-btn {
+      display: block;
+
+      text-align: center;
+
+      background: var(--green);
+
+      color: white;
+
+      text-decoration: none;
+
+      padding: 11px;
+
+      border-radius: 10px;
+
+      font-weight: bold;
+
+      font-size: 13px;
+    }
+
+    @media (max-width: 1000px) {
+
+      .lessons-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
       }
 
-      aside {
-        width: 100%;
-        border-left: none;
-        border-bottom: 1px solid #ddd;
-        padding: 10px;
+    }
+
+    @media (max-width: 600px) {
+
+      .page-hero {
+        padding: 25px 20px;
       }
 
-      .side-link {
-        display: inline-block;
-        padding: 8px;
-        font-size: 13px;
+      .page-hero h1 {
+        font-size: 24px;
       }
 
-      main {
-        padding: 18px;
-      }
-
-      .content-grid {
+      .lessons-grid {
         grid-template-columns: 1fr;
       }
 
-      .brand {
-        font-size: 16px;
-      }
     }
+
+    body.dark .filter-btn {
+      background: #17221d;
+
+      color: white;
+
+      border-color: #263b33;
+    }
+
+    body.dark .filter-btn:hover,
+    body.dark .filter-btn.active {
+      background: var(--green);
+
+      color: white;
+    }
+
+    body.dark .lesson-card {
+      background: #17221d;
+
+      border-color: #263b33;
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-<header>
+  <!-- =========================
+       TOPBAR
+  ========================== -->
 
-  <div class="brand">
-    🧬 منصة أرض الأحياء
-  </div>
-
-  <div class="student">
-
-    <span id="studentName">
-      الطالب
-    </span>
-
-    <button
-      class="logout"
-      onclick="logout()"
-    >
-      خروج
-    </button>
-
-  </div>
-
-</header>
-
-
-<div class="layout">
-
-  <aside>
+  <header class="topbar">
 
     <a
       href="../index.html"
-      class="side-link"
+      class="brand"
     >
-      🏠 الرئيسية
+
+      <img
+        src="../logo.png"
+        alt="منصة أرض الأحياء"
+      >
+
+      <div class="brand-text">
+
+        <strong>
+          منصة أرض الأحياء
+        </strong>
+
+        <span>
+          تعلم • راجع • اختبر نفسك
+        </span>
+
+      </div>
+
     </a>
+
+
+    <div class="top-actions">
+
+      <button
+        class="icon-btn"
+        onclick="toggleDarkMode()"
+        title="الوضع الليلي"
+      >
+        🌙
+      </button>
+
+      <a
+        href="../index.html"
+        class="logout-btn"
+        style="text-decoration:none;"
+      >
+        الرئيسية
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-title">
+      القائمة الرئيسية
+    </div>
+
+
+    <a
+      href="../index.html"
+      class="nav-link"
+    >
+
+      <span class="nav-icon">
+        🏠
+      </span>
+
+      <span>
+        الرئيسية
+      </span>
+
+    </a>
+
 
     <a
       href="index.html"
-      class="side-link active"
+      class="nav-link active"
     >
-      🎥 الفيديوهات
+
+      <span class="nav-icon">
+        🎥
+      </span>
+
+      <span>
+        الدروس
+      </span>
+
     </a>
 
-    <a
-      href="#"
-      class="side-link"
-      onclick="return false;"
-    >
-      💬 المنتدى
-    </a>
 
     <a
       href="../notes/index.html"
-      class="side-link"
+      class="nav-link"
     >
-      📚 المذكرات
+
+      <span class="nav-icon">
+        📚
+      </span>
+
+      <span>
+        المذكرات
+      </span>
+
     </a>
+
+
+    <a
+      href="../exams/index.html"
+      class="nav-link"
+    >
+
+      <span class="nav-icon">
+        📝
+      </span>
+
+      <span>
+        الاختبارات
+      </span>
+
+    </a>
+
+
+    <a
+      href="../forum/index.html"
+      class="nav-link"
+    >
+
+      <span class="nav-icon">
+        💬
+      </span>
+
+      <span>
+        المنتدى
+      </span>
+
+    </a>
+
+
+    <div class="sidebar-card">
+
+      <strong>
+        🌱 أرض الأحياء
+      </strong>
+
+      <p>
+        اختر الدرس الذي تريد البدء به
+        وابدأ رحلتك التعليمية.
+      </p>
+
+    </div>
 
   </aside>
 
 
+  <!-- =========================
+       MAIN
+  ========================== -->
+
   <main>
 
-    <section class="page-title">
+
+    <section class="page-hero">
 
       <h1>
-        🎥 فيديوهات الأحياء
+        🎥 الدروس والمحاضرات
       </h1>
 
       <p>
-        المحاضرات والدروس والمحتوى التعليمي
+        هنا ستجد دروس الأحياء والمحاضرات
+        مرتبة حسب الصف الدراسي.
+        اختر الدرس الذي تريد دراسته وابدأ التعلم.
       </p>
+
+      <a
+        href="../index.html"
+        class="back-btn"
+      >
+        ← العودة للرئيسية
+      </a>
 
     </section>
 
 
-    <input
-      type="search"
-      id="search"
-      class="search"
-      placeholder="🔎 ابحث عن فيديو..."
-      oninput="filterContent()"
-    >
+    <!-- SEARCH -->
 
+    <div class="search-box">
 
-    <div id="loading" class="loading">
-      جاري تحميل المحتوى...
+      <span>
+        🔎
+      </span>
+
+      <input
+        type="search"
+        id="lessonSearch"
+        placeholder="ابحث عن درس..."
+        oninput="searchLessons()"
+      >
+
     </div>
 
 
-    <div
-      id="contentGrid"
-      class="content-grid"
-    ></div>
+    <!-- FILTER -->
+
+    <div class="filter-box">
+
+      <button
+        class="filter-btn active"
+        onclick="filterLessons('all', this)"
+      >
+        الكل
+      </button>
+
+      <button
+        class="filter-btn"
+        onclick="filterLessons('first', this)"
+      >
+        أولى ثانوي
+      </button>
+
+      <button
+        class="filter-btn"
+        onclick="filterLessons('second', this)"
+      >
+        ثانية ثانوي
+      </button>
+
+      <button
+        class="filter-btn"
+        onclick="filterLessons('third', this)"
+      >
+        ثالثة ثانوي
+      </button>
+
+    </div>
 
 
-    <footer>
-      🧬 منصة أرض الأحياء
-    </footer>
+    <!-- LESSONS -->
+
+    <section class="lessons-grid">
+
+
+      <!-- LESSON 1 -->
+
+      <article
+        class="lesson-card searchable-lesson"
+        data-grade="first"
+        data-search="الخلية تركيب الخلية أولى ثانوي"
+      >
+
+        <div class="lesson-image">
+          🔬
+        </div>
+
+        <div class="lesson-content">
+
+          <span class="lesson-badge">
+            أولى ثانوي
+          </span>
+
+          <h3>
+            تركيب الخلية
+          </h3>
+
+          <p>
+            تعرف على مكونات الخلية
+            ووظيفة كل جزء من أجزائها.
+          </p>
+
+          <a
+            href="#"
+            class="lesson-btn"
+            onclick="openLesson(event, 'تركيب الخلية')"
+          >
+            مشاهدة الدرس
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- LESSON 2 -->
+
+      <article
+        class="lesson-card searchable-lesson"
+        data-grade="first"
+        data-search="النقل في النبات أولى ثانوي"
+      >
+
+        <div class="lesson-image">
+          🌱
+        </div>
+
+        <div class="lesson-content">
+
+          <span class="lesson-badge">
+            أولى ثانوي
+          </span>
+
+          <h3>
+            النقل في النبات
+          </h3>
+
+          <p>
+            شرح انتقال الماء والأملاح
+            داخل النبات.
+          </p>
+
+          <a
+            href="#"
+            class="lesson-btn"
+            onclick="openLesson(event, 'النقل في النبات')"
+          >
+            مشاهدة الدرس
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- LESSON 3 -->
+
+      <article
+        class="lesson-card searchable-lesson"
+        data-grade="second"
+        data-search="الأنسجة ثانية ثانوي"
+      >
+
+        <div class="lesson-image">
+          🧬
+        </div>
+
+        <div class="lesson-content">
+
+          <span class="lesson-badge">
+            ثانية ثانوي
+          </span>
+
+          <h3>
+            الأنسجة
+          </h3>
+
+          <p>
+            تعرف على أنواع الأنسجة
+            ووظائفها المختلفة.
+          </p>
+
+          <a
+            href="#"
+            class="lesson-btn"
+            onclick="openLesson(event, 'الأنسجة')"
+          >
+            مشاهدة الدرس
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- LESSON 4 -->
+
+      <article
+        class="lesson-card searchable-lesson"
+        data-grade="second"
+        data-search="التنفس الخلوي ثانية ثانوي"
+      >
+
+        <div class="lesson-image">
+          🫁
+        </div>
+
+        <div class="lesson-content">
+
+          <span class="lesson-badge">
+            ثانية ثانوي
+          </span>
+
+          <h3>
+            التنفس الخلوي
+          </h3>
+
+          <p>
+            شرح عملية التنفس الخلوي
+            وإنتاج الطاقة.
+          </p>
+
+          <a
+            href="#"
+            class="lesson-btn"
+            onclick="openLesson(event, 'التنفس الخلوي')"
+          >
+            مشاهدة الدرس
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- LESSON 5 -->
+
+      <article
+        class="lesson-card searchable-lesson"
+        data-grade="third"
+        data-search="الوراثة ثالثة ثانوي"
+      >
+
+        <div class="lesson-image">
+          🧬
+        </div>
+
+        <div class="lesson-content">
+
+          <span class="lesson-badge">
+            ثالثة ثانوي
+          </span>
+
+          <h3>
+            أساسيات الوراثة
+          </h3>
+
+          <p>
+            مقدمة في علم الوراثة
+            والمفاهيم الأساسية.
+          </p>
+
+          <a
+            href="#"
+            class="lesson-btn"
+            onclick="openLesson(event, 'أساسيات الوراثة')"
+          >
+            مشاهدة الدرس
+          </a>
+
+        </div>
+
+      </article>
+
+
+      <!-- LESSON 6 -->
+
+      <article
+        class="lesson-card searchable-lesson"
+        data-grade="third"
+        data-search="الجهاز العصبي ثالثة ثانوي"
+      >
+
+        <div class="lesson-image">
+          🧠
+        </div>
+
+        <div class="lesson-content">
+
+          <span class="lesson-badge">
+            ثالثة ثانوي
+          </span>
+
+          <h3>
+            الجهاز العصبي
+          </h3>
+
+          <p>
+            شرح الجهاز العصبي
+            ووظائفه الأساسية.
+          </p>
+
+          <a
+            href="#"
+            class="lesson-btn"
+            onclick="openLesson(event, 'الجهاز العصبي')"
+          >
+            مشاهدة الدرس
+          </a>
+
+        </div>
+
+      </article>
+
+
+    </section>
 
   </main>
 
-</div>
 
+  <footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    © <span id="year"></span>
+    منصة أرض الأحياء —
+    جميع الحقوق محفوظة
 
-<script>
+  </footer>
 
-  const SUPABASE_URL =
-    "https://gvehygqxjqucxwussaye.supabase.co";
 
-  const SUPABASE_ANON_KEY =
-    "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
+  <!-- =========================
+       SCRIPT
+  ========================== -->
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
-    );
+  <script src="../script.js"></script>
 
 
-  let allContent = [];
+  <script>
 
+    /* السنة */
 
-  /* =========================
-     CHECK LOGIN
-  ========================= */
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
 
-  async function checkUser() {
 
-    const {
-      data,
-      error
-    } = await supabaseClient.auth.getUser();
+    /* البحث */
 
+    function searchLessons() {
 
-    if (error || !data.user) {
+      const input =
+        document.getElementById("lessonSearch");
 
-      window.location.href =
-        "../index.html";
-
-      return;
-
-    }
-
-
-    const user = data.user;
-
-
-    const name =
-      user.user_metadata?.name ||
-      user.user_metadata?.full_name ||
-      user.email?.split("@")[0] ||
-      "الطالب";
-
-
-    document.getElementById(
-      "studentName"
-    ).textContent =
-      "👤 " + name;
-
-
-    loadContent();
-
-  }
-
-
-  /* =========================
-     LOAD CONTENT
-  ========================= */
-
-  async function loadContent() {
-
-    const {
-      data,
-      error
-    } = await supabaseClient
-      .from("content")
-      .select("*")
-      .in("type", ["video", "image"])
-      .order("created_at", {
-        ascending: false
-      });
-
-
-    document.getElementById(
-      "loading"
-    ).style.display = "none";
-
-
-    if (error) {
-
-      console.error(error);
-
-      document.getElementById(
-        "contentGrid"
-      ).innerHTML =
-        '<div class="empty">حدث خطأ أثناء تحميل المحتوى.</div>';
-
-      return;
-
-    }
-
-
-    allContent = data || [];
-
-    displayContent(allContent);
-
-  }
-
-
-  /* =========================
-     DISPLAY
-  ========================= */
-
-  function displayContent(items) {
-
-    const grid =
-      document.getElementById(
-        "contentGrid"
-      );
-
-
-    grid.innerHTML = "";
-
-
-    if (!items.length) {
-
-      grid.innerHTML =
-        '<div class="empty">لا توجد فيديوهات أو صور حتى الآن.</div>';
-
-      return;
-
-    }
-
-
-    items.forEach(item => {
-
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "content-card";
-
-
-      let media = "";
-
-
-      if (item.type === "video") {
-
-        media = `
-          <video controls preload="metadata">
-            <source
-              src="${item.file_url}"
-              type="video/mp4"
-            >
-            المتصفح لا يدعم تشغيل الفيديو.
-          </video>
-        `;
-
-      }
-
-
-      else if (item.type === "image") {
-
-        media = `
-          <img
-            src="${item.file_url}"
-            class="image-preview"
-            alt="${escapeHtml(item.title)}"
-          >
-        `;
-
-      }
-
-
-      card.innerHTML = `
-
-        ${media}
-
-        <h3>
-          ${escapeHtml(item.title)}
-        </h3>
-
-        <p>
-          ${escapeHtml(item.description || "")}
-        </p>
-
-        <a
-          href="${item.file_url}"
-          target="_blank"
-          rel="noopener"
-          class="open-btn"
-        >
-          🔗 فتح
-        </a>
-
-      `;
-
-
-      grid.appendChild(card);
-
-    });
-
-  }
-
-
-  /* =========================
-     SEARCH
-  ========================= */
-
-  function filterContent() {
-
-    const search =
-      document.getElementById(
-        "search"
-      ).value
-       .trim()
-       .toLowerCase();
-
-
-    const filtered =
-      allContent.filter(item => {
-
-        const title =
-          (item.title || "")
-          .toLowerCase();
-
-        const description =
-          (item.description || "")
+      const query =
+        input.value
+          .trim()
           .toLowerCase();
 
 
-        return (
-          title.includes(search) ||
-          description.includes(search)
+      const lessons =
+        document.querySelectorAll(
+          ".searchable-lesson"
         );
 
+
+      lessons.forEach(function(lesson) {
+
+        const text =
+          (
+            lesson.innerText +
+            " " +
+            (lesson.dataset.search || "")
+          ).toLowerCase();
+
+
+        if (
+          !query ||
+          text.includes(query)
+        ) {
+
+          lesson.style.display =
+            "block";
+
+        } else {
+
+          lesson.style.display =
+            "none";
+
+        }
+
+      });
+
+    }
+
+
+    /* فلترة الصفوف */
+
+    function filterLessons(
+      grade,
+      button
+    ) {
+
+      const lessons =
+        document.querySelectorAll(
+          ".searchable-lesson"
+        );
+
+
+      const buttons =
+        document.querySelectorAll(
+          ".filter-btn"
+        );
+
+
+      buttons.forEach(function(btn) {
+
+        btn.classList.remove("active");
+
       });
 
 
-    displayContent(filtered);
-
-  }
+      button.classList.add("active");
 
 
-  /* =========================
-     ESCAPE
-  ========================= */
+      lessons.forEach(function(lesson) {
 
-  function escapeHtml(text) {
+        if (
+          grade === "all" ||
+          lesson.dataset.grade === grade
+        ) {
 
-    return String(text)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+          lesson.style.display =
+            "block";
 
-  }
+        } else {
 
+          lesson.style.display =
+            "none";
 
-  /* =========================
-     LOGOUT
-  ========================= */
+        }
 
-  async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    window.location.href =
-      "../index.html";
-
-  }
+      });
 
 
-  checkUser();
+      document.getElementById(
+        "lessonSearch"
+      ).value = "";
 
-</script>
+    }
+
+
+    /* فتح الدرس */
+
+    function openLesson(
+      event,
+      lessonName
+    ) {
+
+      event.preventDefault();
+
+      alert(
+        "درس " +
+        lessonName +
+        " سيتم إضافة محتواه قريبًا."
+      );
+
+    }
+
+  </script>
 
 </body>
+
 </html>
