@@ -1,1143 +1,702 @@
-:root {
-  --green: #087f55;
-  --green-dark: #056344;
-  --green-light: #e8f7f0;
-  --green-soft: #f2fbf7;
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  --text: #17221d;
-  --muted: #718078;
+  <title>منصة أرض الأحياء | أحياء الصف الثالث الثانوي</title>
 
-  --border: #e5ece8;
-  --white: #ffffff;
+  <meta name="description"
+        content="منصة أرض الأحياء التعليمية لطلاب الصف الثالث الثانوي، شرح وملخصات واختبارات ومنتدى.">
 
-  --danger: #d64545;
+  <link rel="icon" href="favicon.png">
 
-  --shadow: 0 10px 35px rgba(20, 70, 50, 0.08);
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  --bg: #f8fbf9;
-}
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+  <link rel="stylesheet" href="style.css">
 
-html {
-  scroll-behavior: smooth;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
 
-body {
-  font-family: "Cairo", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.8;
-}
+<body>
 
-body.dark {
-  --bg: #0e1713;
-  --white: #14211b;
-  --text: #f0f6f3;
-  --muted: #a4b3ac;
-  --border: #26372f;
-  --green-light: #173c2e;
-  --green-soft: #12251d;
+<!-- ================= LOGIN ================= -->
 
-  background: #0e1713;
-}
+<section id="loginScreen" class="login-screen">
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  <div class="login-box">
 
-button,
-input {
-  font-family: inherit;
-}
+    <div class="login-logo">
+      <img src="logo.png"
+           alt="منصة أرض الأحياء"
+           onerror="this.style.display='none'">
+    </div>
 
-button {
-  cursor: pointer;
-}
+    <h1>منصة أرض الأحياء</h1>
 
-.hidden {
-  display: none !important;
-}
+    <p class="login-subtitle">
+      أحياء الصف الثالث الثانوي
+    </p>
 
-.container {
-  width: min(1150px, calc(100% - 32px));
-  margin: auto;
-}
+    <div class="auth-tabs">
 
+      <button id="loginTab" class="auth-tab active">
+        تسجيل الدخول
+      </button>
 
-/* ================= LOGIN ================= */
+      <button id="registerTab" class="auth-tab">
+        إنشاء حساب
+      </button>
 
-.login-screen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    </div>
 
-  padding: 25px;
 
-  background:
-    radial-gradient(circle at top right, rgba(8, 127, 85, .12), transparent 35%),
-    radial-gradient(circle at bottom left, rgba(8, 127, 85, .08), transparent 35%),
-    var(--bg);
-}
+    <!-- LOGIN FORM -->
 
-.login-box {
-  width: min(440px, 100%);
+    <form id="loginForm">
 
-  background: var(--white);
+      <div class="input-group">
 
-  border: 1px solid var(--border);
+        <label>البريد الإلكتروني</label>
 
-  border-radius: 24px;
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="البريد الإلكتروني"
+          required
+        >
 
-  padding: 35px;
+      </div>
 
-  box-shadow: var(--shadow);
 
-  text-align: center;
-}
+      <div class="input-group">
 
-.login-logo {
-  width: 80px;
-  height: 80px;
+        <label>كلمة المرور</label>
 
-  margin: auto auto 15px;
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="كلمة المرور"
+          required
+        >
 
-  border-radius: 22px;
+      </div>
 
-  background: var(--green-light);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      <button class="main-btn" type="submit">
+        تسجيل الدخول
+      </button>
 
-  overflow: hidden;
-}
+      <p id="loginMessage" class="form-message"></p>
 
-.login-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+    </form>
 
-.login-box h1 {
-  color: var(--green);
-  font-size: 25px;
-  margin-bottom: 3px;
-}
 
-.login-subtitle {
-  color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 25px;
-}
+    <!-- REGISTER FORM -->
 
-.auth-tabs {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+    <form id="registerForm" class="hidden">
 
-  background: var(--green-soft);
+      <div class="input-group">
 
-  padding: 5px;
+        <label>الاسم</label>
 
-  border-radius: 12px;
+        <input
+          type="text"
+          id="registerName"
+          placeholder="اكتب اسمك"
+          required
+        >
 
-  margin-bottom: 25px;
-}
+      </div>
 
-.auth-tab {
-  border: 0;
-  background: transparent;
 
-  padding: 10px;
+      <div class="input-group">
 
-  border-radius: 9px;
+        <label>البريد الإلكتروني</label>
 
-  color: var(--muted);
+        <input
+          type="email"
+          id="registerEmail"
+          placeholder="البريد الإلكتروني"
+          required
+        >
 
-  font-weight: 700;
-}
+      </div>
 
-.auth-tab.active {
-  background: var(--green);
-  color: white;
-}
 
-.input-group {
-  text-align: right;
-  margin-bottom: 17px;
-}
+      <div class="input-group">
 
-.input-group label {
-  display: block;
+        <label>كلمة المرور</label>
 
-  font-size: 14px;
-  font-weight: 700;
+        <input
+          type="password"
+          id="registerPassword"
+          placeholder="كلمة المرور"
+          minlength="6"
+          required
+        >
 
-  margin-bottom: 6px;
-}
+      </div>
 
-.input-group input {
-  width: 100%;
 
-  height: 48px;
+      <button class="main-btn" type="submit">
+        إنشاء الحساب
+      </button>
 
-  border: 1px solid var(--border);
+      <p id="registerMessage" class="form-message"></p>
 
-  background: var(--bg);
+    </form>
 
-  color: var(--text);
+  </div>
 
-  border-radius: 11px;
+</section>
 
-  padding: 0 14px;
 
-  outline: none;
+<!-- ================= APP ================= -->
 
-  transition: .2s;
-}
+<div id="app" class="app hidden">
 
-.input-group input:focus {
-  border-color: var(--green);
 
-  box-shadow: 0 0 0 3px rgba(8, 127, 85, .10);
-}
+  <!-- ================= SIDEBAR ================= -->
 
-.main-btn {
-  width: 100%;
+  <aside class="sidebar" id="sidebar">
 
-  border: 0;
+    <div class="sidebar-header">
 
-  background: var(--green);
+      <div class="sidebar-logo">
 
-  color: white;
+        <img
+          src="logo.png"
+          alt="منصة أرض الأحياء"
+          onerror="this.style.display='none'"
+        >
 
-  padding: 13px;
+      </div>
 
-  border-radius: 11px;
+      <div class="sidebar-title">
 
-  font-weight: 700;
+        <strong>
+          منصة أرض الأحياء
+        </strong>
 
-  font-size: 15px;
+        <span>
+          الصف الثالث الثانوي
+        </span>
 
-  transition: .2s;
-}
+      </div>
 
-.main-btn:hover {
-  background: var(--green-dark);
-  transform: translateY(-1px);
-}
+    </div>
 
-.form-message {
-  min-height: 25px;
 
-  margin-top: 10px;
+    <div class="sidebar-menu">
 
-  font-size: 13px;
+      <p class="menu-title">
+        القائمة الرئيسية
+      </p>
 
-  color: var(--danger);
-}
 
+      <a href="#home" class="side-link active">
 
-/* ================= TOPBAR ================= */
+        <span class="side-icon">🏠</span>
 
-.topbar {
-  position: sticky;
-  top: 0;
+        <span>الرئيسية</span>
 
-  z-index: 1000;
+      </a>
 
-  background: rgba(255, 255, 255, .94);
 
-  backdrop-filter: blur(15px);
+      <a href="videos/index.html" class="side-link">
 
-  border-bottom: 1px solid var(--border);
-}
+        <span class="side-icon">🎥</span>
 
-.dark .topbar {
-  background: rgba(20, 33, 27, .94);
-}
+        <span>الشرح</span>
 
-.topbar-inner {
-  min-height: 75px;
+      </a>
 
-  display: flex;
 
-  align-items: center;
+      <a href="notes/index.html" class="side-link">
 
-  justify-content: space-between;
+        <span class="side-icon">📚</span>
 
-  gap: 20px;
-}
+        <span>الملخصات</span>
 
-.brand {
-  display: flex;
-  align-items: center;
+      </a>
 
-  gap: 10px;
 
-  flex-shrink: 0;
-}
+      <a href="exams/index.html" class="side-link">
 
-.brand-logo {
-  width: 48px;
-  height: 48px;
+        <span class="side-icon">📝</span>
 
-  border-radius: 13px;
+        <span>الاختبارات</span>
 
-  overflow: hidden;
+      </a>
 
-  background: var(--green-light);
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+      <a href="forum/index.html" class="side-link">
 
-.brand-logo img {
-  width: 100%;
-  height: 100%;
+        <span class="side-icon">💬</span>
 
-  object-fit: contain;
-}
+        <span>المنتدى</span>
 
-.brand-text {
-  display: flex;
-  flex-direction: column;
-}
+      </a>
 
-.brand-text strong {
-  color: var(--green);
 
-  font-size: 16px;
-}
+      <p class="menu-title second-title">
+        أخرى
+      </p>
 
-.brand-text span {
-  color: var(--muted);
 
-  font-size: 11px;
-}
+      <button id="darkModeBtn" class="side-link side-button">
 
-.nav {
-  display: flex;
+        <span class="side-icon" id="themeIcon">🌙</span>
 
-  align-items: center;
+        <span id="themeText">الوضع الليلي</span>
 
-  gap: 5px;
-}
+      </button>
 
-.nav-link {
-  padding: 9px 13px;
 
-  border-radius: 9px;
+      <button id="logoutBtn" class="side-link side-button logout-link">
 
-  color: var(--muted);
+        <span class="side-icon">🚪</span>
 
-  font-size: 14px;
+        <span>تسجيل الخروج</span>
 
-  font-weight: 600;
+      </button>
 
-  transition: .2s;
-}
+    </div>
 
-.nav-link:hover,
-.nav-link.active {
-  background: var(--green-light);
-  color: var(--green);
-}
 
-.top-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+    <div class="sidebar-bottom">
 
-.icon-btn {
-  width: 40px;
-  height: 40px;
+      <div class="student-box">
 
-  border: 1px solid var(--border);
+        <div class="student-avatar">
+          👨‍🎓
+        </div>
 
-  background: var(--white);
+        <div>
 
-  color: var(--text);
+          <strong id="studentName">
+            الطالب
+          </strong>
 
-  border-radius: 10px;
+          <span>
+            الصف الثالث الثانوي
+          </span>
 
-  font-size: 17px;
-}
+        </div>
 
-.logout-btn {
-  border: 0;
+      </div>
 
-  background: var(--green);
+    </div>
 
-  color: white;
+  </aside>
 
-  padding: 9px 13px;
 
-  border-radius: 9px;
+  <!-- ================= MAIN ================= -->
 
-  font-size: 12px;
+  <div class="main">
 
-  font-weight: 700;
-}
 
-.mobile-menu-btn {
-  display: none;
+    <!-- TOPBAR -->
 
-  border: 1px solid var(--border);
+    <header class="topbar">
 
-  background: var(--white);
+      <div class="topbar-right">
 
-  color: var(--text);
+        <button id="menuBtn" class="menu-btn">
+          ☰
+        </button>
 
-  border-radius: 9px;
+        <div>
 
-  width: 40px;
-  height: 40px;
+          <span class="top-small">
+            مرحباً بك 👋
+          </span>
 
-  font-size: 20px;
-}
+          <h2>
+            منصة أرض الأحياء
+          </h2>
 
-.mobile-nav {
-  display: none;
+        </div>
 
-  border-top: 1px solid var(--border);
+      </div>
 
-  padding: 10px 16px;
-}
 
-.mobile-nav a {
-  display: block;
+      <div class="topbar-left">
 
-  padding: 10px;
+        <div class="top-class">
+          🧬 الصف الثالث الثانوي
+        </div>
 
-  border-radius: 8px;
+      </div>
 
-  color: var(--text);
+    </header>
 
-  font-weight: 600;
-}
 
-.mobile-nav a:hover {
-  background: var(--green-light);
-  color: var(--green);
-}
+    <!-- CONTENT -->
 
+    <main class="content" id="home">
 
-/* ================= HERO ================= */
 
-.hero {
-  padding: 70px 0 45px;
+      <!-- HERO -->
 
-  background:
-    radial-gradient(circle at 85% 30%, rgba(8, 127, 85, .10), transparent 30%),
-    linear-gradient(180deg, var(--green-soft), var(--bg));
-}
+      <section class="hero">
 
-.hero-content {
-  display: grid;
+        <div class="hero-content">
 
-  grid-template-columns: 1.4fr .6fr;
+          <span class="hero-label">
+            🧬 أحياء الصف الثالث الثانوي
+          </span>
 
-  gap: 50px;
+          <h1>
+            ذاكر أحياءك
+            <span>بطريقة أسهل</span>
+          </h1>
 
-  align-items: center;
-}
+          <p>
+            شرح وملخصات واختبارات ومناقشات،
+            كل ما تحتاجه في الأحياء في مكان واحد.
+          </p>
 
-.hero-badge {
-  display: inline-block;
 
-  background: var(--green-light);
+          <div class="hero-buttons">
 
-  color: var(--green);
+            <a href="videos/index.html" class="primary-btn">
+              🎥 ابدأ المذاكرة
+            </a>
 
-  padding: 7px 13px;
+            <a href="exams/index.html" class="secondary-btn">
+              📝 اختبر نفسك
+            </a>
 
-  border-radius: 30px;
+          </div>
 
-  font-size: 13px;
+        </div>
 
-  font-weight: 700;
 
-  margin-bottom: 15px;
-}
+        <div class="hero-visual">
 
-.hero h1 {
-  font-size: clamp(30px, 5vw, 52px);
+          <div class="dna-circle">
+            🧬
+          </div>
 
-  line-height: 1.3;
+          <h3>
+            رحلتك في الأحياء
+          </h3>
 
-  margin-bottom: 15px;
-}
+          <p>
+            شرح ← مراجعة ← اختبار
+          </p>
 
-.hero h1 span {
-  color: var(--green);
-}
+          <div class="progress">
 
-.hero p {
-  max-width: 650px;
+            <span></span>
 
-  color: var(--muted);
+          </div>
 
-  font-size: 17px;
-}
+          <small>
+            استمر في المذاكرة 💚
+          </small>
 
-.hero-buttons {
-  display: flex;
+        </div>
 
-  gap: 10px;
+      </section>
 
-  margin-top: 25px;
-}
 
-.hero-btn {
-  display: inline-flex;
+      <!-- SEARCH -->
 
-  align-items: center;
-  justify-content: center;
+      <section class="search-area">
 
-  padding: 12px 22px;
+        <div class="search-box">
 
-  border-radius: 11px;
+          <span>
+            🔎
+          </span>
 
-  font-weight: 700;
+          <input
+            id="siteSearch"
+            type="text"
+            placeholder="ابحث عن درس أو ملخص أو اختبار..."
+          >
 
-  transition: .2s;
-}
+        </div>
 
-.hero-btn.primary {
-  background: var(--green);
-  color: white;
-}
+        <div id="searchResults" class="search-results"></div>
 
-.hero-btn.primary:hover {
-  background: var(--green-dark);
-  transform: translateY(-2px);
-}
+      </section>
 
-.hero-btn.secondary {
-  background: var(--white);
 
-  color: var(--green);
+      <!-- CARDS -->
 
-  border: 1px solid var(--border);
-}
+      <section class="section">
 
-.hero-card {
-  background: var(--white);
+        <div class="section-head">
 
-  border: 1px solid var(--border);
+          <div>
 
-  border-radius: 25px;
+            <span>
+              ابدأ من هنا
+            </span>
 
-  padding: 30px;
+            <h2>
+              أقسام المنصة
+            </h2>
 
-  text-align: center;
+          </div>
 
-  box-shadow: var(--shadow);
-}
+        </div>
 
-.dna-icon {
-  width: 75px;
-  height: 75px;
 
-  margin: auto auto 15px;
+        <div class="cards-grid">
 
-  border-radius: 20px;
 
-  background: var(--green-light);
+          <a href="videos/index.html" class="main-card">
 
-  display: flex;
+            <div class="card-icon green">
+              🎥
+            </div>
 
-  align-items: center;
-  justify-content: center;
+            <h3>
+              شرح الدروس
+            </h3>
 
-  font-size: 38px;
-}
+            <p>
+              شاهد شرح دروس الأحياء للصف الثالث الثانوي.
+            </p>
 
-.hero-card h3 {
-  margin-bottom: 5px;
-}
+            <strong>
+              مشاهدة الشرح ←
+            </strong>
 
-.hero-card p {
-  font-size: 14px;
-  margin: auto;
-}
+          </a>
 
-.hero-progress {
-  height: 8px;
 
-  background: var(--green-light);
+          <a href="notes/index.html" class="main-card">
 
-  border-radius: 20px;
+            <div class="card-icon blue">
+              📚
+            </div>
 
-  overflow: hidden;
+            <h3>
+              الملخصات
+            </h3>
 
-  margin: 20px 0 8px;
-}
+            <p>
+              ملخصات منظمة لأهم أجزاء منهج الأحياء.
+            </p>
 
-.hero-progress span {
-  display: block;
+            <strong>
+              مشاهدة الملخصات ←
+            </strong>
 
-  width: 65%;
-  height: 100%;
+          </a>
 
-  background: var(--green);
 
-  border-radius: inherit;
-}
+          <a href="exams/index.html" class="main-card">
 
-.hero-card small {
-  color: var(--muted);
-  font-size: 11px;
-}
+            <div class="card-icon orange">
+              📝
+            </div>
 
+            <h3>
+              الاختبارات
+            </h3>
 
-/* ================= SEARCH ================= */
+            <p>
+              اختبر نفسك واعرف مستواك في الأحياء.
+            </p>
 
-.search-section {
-  padding: 15px 0 30px;
-}
+            <strong>
+              دخول الاختبارات ←
+            </strong>
 
-.search-box {
-  max-width: 750px;
+          </a>
 
-  margin: auto;
 
-  background: var(--white);
+          <a href="forum/index.html" class="main-card">
 
-  border: 1px solid var(--border);
+            <div class="card-icon purple">
+              💬
+            </div>
 
-  border-radius: 14px;
+            <h3>
+              المنتدى
+            </h3>
 
-  height: 55px;
+            <p>
+              اسأل وشارك وتناقش مع طلاب المنصة.
+            </p>
 
-  display: flex;
+            <strong>
+              دخول المنتدى ←
+            </strong>
 
-  align-items: center;
+          </a>
 
-  gap: 10px;
 
-  padding: 0 17px;
+        </div>
 
-  box-shadow: var(--shadow);
-}
+      </section>
 
-.search-box span {
-  font-size: 19px;
-}
 
-.search-box input {
-  width: 100%;
+      <!-- STATS -->
 
-  border: 0;
+      <section class="stats">
 
-  outline: 0;
+        <div class="stat">
 
-  background: transparent;
+          <div class="stat-icon">
+            🎓
+          </div>
 
-  color: var(--text);
+          <div>
+            <strong>
+              ثالثة ثانوي
+            </strong>
 
-  font-size: 14px;
-}
+            <span>
+              الصف الدراسي
+            </span>
+          </div>
 
-.search-results {
-  max-width: 750px;
+        </div>
 
-  margin: 8px auto 0;
 
-  display: none;
+        <div class="stat">
 
-  background: var(--white);
+          <div class="stat-icon">
+            🎥
+          </div>
 
-  border: 1px solid var(--border);
+          <div>
+            <strong>
+              شرح
+            </strong>
 
-  border-radius: 12px;
+            <span>
+              دروس الأحياء
+            </span>
+          </div>
 
-  overflow: hidden;
-}
+        </div>
 
-.search-result {
-  display: block;
 
-  padding: 11px 15px;
+        <div class="stat">
 
-  border-bottom: 1px solid var(--border);
+          <div class="stat-icon">
+            📝
+          </div>
 
-  color: var(--text);
-}
+          <div>
+            <strong>
+              اختبارات
+            </strong>
 
-.search-result:last-child {
-  border-bottom: 0;
-}
+            <span>
+              قياس مستواك
+            </span>
+          </div>
 
-.search-result:hover {
-  background: var(--green-soft);
-}
+        </div>
 
-.search-result small {
-  display: block;
 
-  color: var(--muted);
+        <div class="stat">
 
-  font-size: 11px;
-}
+          <div class="stat-icon">
+            💬
+          </div>
 
+          <div>
+            <strong>
+              منتدى
+            </strong>
 
-/* ================= SECTIONS ================= */
+            <span>
+              شارك وتناقش
+            </span>
+          </div>
 
-.section {
-  padding: 50px 0;
-}
+        </div>
 
-.section-heading {
-  display: flex;
+      </section>
 
-  align-items: end;
 
-  justify-content: space-between;
+      <!-- ABOUT -->
 
-  margin-bottom: 25px;
-}
+      <section class="about">
 
-.section-label {
-  display: block;
+        <div class="about-icon">
+          🧬
+        </div>
 
-  color: var(--green);
+        <div>
 
-  font-size: 12px;
+          <span>
+            عن المنصة
+          </span>
 
-  font-weight: 800;
+          <h2>
+            منصة أرض الأحياء
+          </h2>
 
-  margin-bottom: 4px;
-}
+          <p>
+            منصة تعليمية مخصصة لطلاب الصف الثالث الثانوي
+            لمساعدتك على مذاكرة الأحياء وتنظيم مراجعتك
+            والوصول إلى الاختبارات والملخصات بسهولة.
+          </p>
 
-.section-heading h2,
-.about-box h2 {
-  font-size: 27px;
-}
+        </div>
 
+      </section>
 
-/* ================= FEATURE CARDS ================= */
 
-.feature-grid {
-  display: grid;
+    </main>
 
-  grid-template-columns: repeat(4, 1fr);
 
-  gap: 17px;
-}
+    <!-- FOOTER -->
 
-.feature-card {
-  background: var(--white);
+    <footer class="footer">
 
-  border: 1px solid var(--border);
+      <div>
 
-  border-radius: 18px;
+        <strong>
+          منصة أرض الأحياء
+        </strong>
 
-  padding: 21px;
+        <p>
+          أحياء الصف الثالث الثانوي
+        </p>
 
-  box-shadow: 0 5px 20px rgba(20, 70, 50, .04);
+      </div>
 
-  transition: .25s;
-}
+      <div class="footer-links">
 
-.feature-card:hover {
-  transform: translateY(-5px);
+        <a href="videos/index.html">الشرح</a>
+        <a href="notes/index.html">الملخصات</a>
+        <a href="exams/index.html">الاختبارات</a>
+        <a href="forum/index.html">المنتدى</a>
 
-  box-shadow: var(--shadow);
+      </div>
 
-  border-color: rgba(8, 127, 85, .25);
-}
+      <div class="copyright">
 
-.feature-icon {
-  width: 52px;
-  height: 52px;
+        © <span id="year"></span>
+        منصة أرض الأحياء
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+      </div>
 
-  border-radius: 14px;
+    </footer>
 
-  font-size: 23px;
+  </div>
 
-  margin-bottom: 17px;
-}
+</div>
 
-.feature-icon.green {
-  background: var(--green-light);
-}
 
-.feature-icon.blue {
-  background: #eaf2ff;
-}
+<script src="script.js"></script>
 
-.feature-icon.orange {
-  background: #fff3e5;
-}
-
-.feature-icon.purple {
-  background: #f1eaff;
-}
-
-.feature-content h3 {
-  font-size: 17px;
-
-  margin-bottom: 5px;
-}
-
-.feature-content p {
-  color: var(--muted);
-
-  font-size: 12px;
-
-  line-height: 1.8;
-
-  min-height: 66px;
-}
-
-.card-link {
-  display: block;
-
-  color: var(--green);
-
-  font-size: 12px;
-
-  font-weight: 800;
-
-  margin-top: 12px;
-}
-
-
-/* ================= STATS ================= */
-
-.stats-section {
-  padding: 10px 0 50px;
-}
-
-.stats-grid {
-  display: grid;
-
-  grid-template-columns: repeat(4, 1fr);
-
-  gap: 15px;
-}
-
-.stat-card {
-  background: var(--white);
-
-  border: 1px solid var(--border);
-
-  border-radius: 15px;
-
-  padding: 17px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 13px;
-}
-
-.stat-icon {
-  width: 45px;
-  height: 45px;
-
-  background: var(--green-light);
-
-  border-radius: 12px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 20px;
-}
-
-.stat-card strong {
-  display: block;
-
-  color: var(--green);
-
-  font-size: 14px;
-}
-
-.stat-card span {
-  color: var(--muted);
-
-  font-size: 11px;
-}
-
-
-/* ================= ABOUT ================= */
-
-.about-box {
-  display: flex;
-
-  align-items: center;
-
-  gap: 25px;
-
-  background: var(--green);
-
-  color: white;
-
-  border-radius: 22px;
-
-  padding: 30px;
-}
-
-.about-icon {
-  width: 70px;
-  height: 70px;
-
-  flex-shrink: 0;
-
-  border-radius: 18px;
-
-  background: rgba(255,255,255,.14);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 35px;
-}
-
-.about-box .section-label {
-  color: #bdf3dd;
-}
-
-.about-box h2 {
-  margin-bottom: 5px;
-}
-
-.about-box p {
-  color: rgba(255,255,255,.85);
-
-  font-size: 14px;
-
-  max-width: 800px;
-}
-
-
-/* ================= FOOTER ================= */
-
-.footer {
-  border-top: 1px solid var(--border);
-
-  background: var(--white);
-
-  margin-top: 20px;
-}
-
-.footer-inner {
-  min-height: 100px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 20px;
-}
-
-.footer strong {
-  color: var(--green);
-
-  font-size: 15px;
-}
-
-.footer p {
-  color: var(--muted);
-
-  font-size: 11px;
-}
-
-.footer-links {
-  display: flex;
-
-  gap: 15px;
-}
-
-.footer-links a {
-  color: var(--muted);
-
-  font-size: 12px;
-}
-
-.footer-links a:hover {
-  color: var(--green);
-}
-
-.copyright {
-  text-align: center;
-
-  border-top: 1px solid var(--border);
-
-  padding: 12px;
-
-  color: var(--muted);
-
-  font-size: 10px;
-}
-
-
-/* ================= RESPONSIVE ================= */
-
-@media (max-width: 950px) {
-
-  .nav {
-    display: none;
-  }
-
-  .mobile-menu-btn {
-    display: block;
-  }
-
-  .top-actions {
-    margin-right: auto;
-  }
-
-  .hero-content {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-card {
-    max-width: 420px;
-    width: 100%;
-    margin: auto;
-  }
-
-  .feature-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-}
-
-
-@media (max-width: 600px) {
-
-  .container {
-    width: min(100% - 22px, 1150px);
-  }
-
-  .topbar-inner {
-    min-height: 65px;
-  }
-
-  .brand-text strong {
-    font-size: 14px;
-  }
-
-  .brand-text span {
-    font-size: 9px;
-  }
-
-  .brand-logo {
-    width: 42px;
-    height: 42px;
-  }
-
-  .logout-btn {
-    padding: 8px;
-    font-size: 10px;
-  }
-
-  .hero {
-    padding: 45px 0 30px;
-  }
-
-  .hero h1 {
-    font-size: 31px;
-  }
-
-  .hero p {
-    font-size: 14px;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-  }
-
-  .hero-btn {
-    width: 100%;
-  }
-
-  .feature-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .section {
-    padding: 35px 0;
-  }
-
-  .section-heading h2 {
-    font-size: 22px;
-  }
-
-  .about-box {
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    padding: 25px;
-  }
-
-  .footer-inner {
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    padding: 25px 0;
-  }
-
-  .footer-links {
-    flex-wrap: wrap;
-  }
-
-  .login-box {
-    padding: 25px 20px;
-  }
-
-}
-
-
-/* ================= DARK MODE ================= */
-
-body.dark .feature-icon.blue {
-  background: #182c45;
-}
-
-body.dark .feature-icon.orange {
-  background: #3b2b18;
-}
-
-body.dark .feature-icon.purple {
-  background: #302347;
-}
-
-body.dark .search-box,
-body.dark .hero-card,
-body.dark .feature-card,
-body.dark .stat-card,
-body.dark .login-box {
-  box-shadow: none;
-}
+</body>
+</html>
