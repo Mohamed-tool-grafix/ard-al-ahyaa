@@ -6,10 +6,13 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>المذكرات والملخصات | منصة أرض الأحياء</title>
+  <title>مذكرات أحياء ثالثة ثانوي | منصة أرض الأحياء</title>
 
   <meta name="description"
-    content="المذكرات والملخصات التعليمية في منصة أرض الأحياء.">
+    content="مذكرات وملخصات ومراجعات مادة الأحياء للصف الثالث الثانوي على منصة أرض الأحياء.">
+
+  <meta name="keywords"
+    content="أحياء ثالثة ثانوي, مذكرات أحياء, ملخص أحياء, مراجعة أحياء, ثانوية عامة, منصة أرض الأحياء">
 
   <link rel="icon" href="../favicon.png">
 
@@ -19,6 +22,11 @@
 
     .page-hero {
       background:
+        radial-gradient(
+          circle at 90% 15%,
+          rgba(255,255,255,.15),
+          transparent 25%
+        ),
         linear-gradient(
           135deg,
           #056344,
@@ -27,7 +35,7 @@
 
       color: white;
 
-      padding: 35px;
+      padding: 38px;
 
       border-radius: 24px;
 
@@ -44,8 +52,8 @@
 
     .page-hero p {
       line-height: 1.9;
-      opacity: .94;
-      max-width: 750px;
+      opacity: .95;
+      max-width: 800px;
     }
 
     .back-btn {
@@ -59,7 +67,7 @@
 
       text-decoration: none;
 
-      padding: 10px 18px;
+      padding: 11px 19px;
 
       border-radius: 10px;
 
@@ -136,17 +144,18 @@
     }
 
     .note-icon {
-      width: 58px;
-      height: 58px;
+      width: 60px;
+      height: 60px;
 
       display: grid;
+
       place-items: center;
 
-      border-radius: 15px;
+      border-radius: 16px;
 
       background: var(--green-light);
 
-      font-size: 28px;
+      font-size: 29px;
 
       margin-bottom: 15px;
     }
@@ -158,7 +167,7 @@
 
       color: var(--green-dark);
 
-      padding: 5px 9px;
+      padding: 5px 10px;
 
       border-radius: 20px;
 
@@ -217,6 +226,32 @@
       font-weight: bold;
 
       font-size: 13px;
+
+      transition: .2s;
+    }
+
+    .note-btn:hover {
+      background: var(--green-dark);
+
+      transform: translateY(-1px);
+    }
+
+    .empty-message {
+      display: none;
+
+      text-align: center;
+
+      background: white;
+
+      border: 1px solid var(--border);
+
+      border-radius: 18px;
+
+      padding: 35px;
+
+      color: var(--muted);
+
+      margin-top: 20px;
     }
 
     @media (max-width: 1000px) {
@@ -231,7 +266,7 @@
     @media (max-width: 600px) {
 
       .page-hero {
-        padding: 25px 20px;
+        padding: 27px 20px;
       }
 
       .page-hero h1 {
@@ -246,22 +281,19 @@
 
     body.dark .filter-btn {
       background: #17221d;
-
       color: white;
-
       border-color: #263b33;
     }
 
     body.dark .filter-btn:hover,
     body.dark .filter-btn.active {
       background: var(--green);
-
       color: white;
     }
 
-    body.dark .note-card {
+    body.dark .note-card,
+    body.dark .empty-message {
       background: #17221d;
-
       border-color: #263b33;
     }
 
@@ -286,7 +318,7 @@
 
       <img
         src="../logo.png"
-        alt="منصة أرض الأحياء"
+        alt="شعار منصة أرض الأحياء"
       >
 
       <div class="brand-text">
@@ -296,7 +328,7 @@
         </strong>
 
         <span>
-          تعلم • راجع • اختبر نفسك
+          أحياء ثالثة ثانوي
         </span>
 
       </div>
@@ -334,7 +366,7 @@
   <aside class="sidebar">
 
     <div class="sidebar-title">
-      القائمة الرئيسية
+      منصة أرض الأحياء
     </div>
 
 
@@ -421,12 +453,12 @@
     <div class="sidebar-card">
 
       <strong>
-        📚 مكتبة أرض الأحياء
+        🎓 ثالثة ثانوي
       </strong>
 
       <p>
-        مجموعة من المذكرات والملخصات
-        لمساعدتك في مراجعة المنهج.
+        كل محتوى المنصة مخصص
+        لطلاب الصف الثالث الثانوي.
       </p>
 
     </div>
@@ -446,13 +478,15 @@
     <section class="page-hero">
 
       <h1>
-        📚 المذكرات والملخصات
+        📚 مذكرات أحياء ثالثة ثانوي
       </h1>
 
       <p>
-        مجموعة من المذكرات والملخصات
-        التي تساعدك على فهم ومراجعة
-        دروس الأحياء بطريقة منظمة.
+        مكتبة منصة أرض الأحياء الخاصة
+        بطلاب الصف الثالث الثانوي.
+        ستجد هنا المذكرات والملخصات
+        والمراجعات التي تساعدك في دراسة
+        مادة الأحياء والاستعداد للامتحان.
       </p>
 
       <a
@@ -476,7 +510,7 @@
       <input
         type="search"
         id="noteSearch"
-        placeholder="ابحث عن مذكرة أو درس..."
+        placeholder="ابحث عن مذكرة أو فصل..."
         oninput="searchNotes()"
       >
 
@@ -491,28 +525,28 @@
         class="filter-btn active"
         onclick="filterNotes('all', this)"
       >
-        الكل
+        📚 الكل
       </button>
 
       <button
         class="filter-btn"
-        onclick="filterNotes('first', this)"
+        onclick="filterNotes('summary', this)"
       >
-        أولى ثانوي
+        📖 ملخصات
       </button>
 
       <button
         class="filter-btn"
-        onclick="filterNotes('second', this)"
+        onclick="filterNotes('revision', this)"
       >
-        ثانية ثانوي
+        🔥 مراجعات
       </button>
 
       <button
         class="filter-btn"
-        onclick="filterNotes('third', this)"
+        onclick="filterNotes('chapter', this)"
       >
-        ثالثة ثانوي
+        🧬 فصول المنهج
       </button>
 
     </div>
@@ -527,8 +561,8 @@
 
       <article
         class="note-card searchable-note"
-        data-grade="first"
-        data-search="أحياء أولى ثانوي الخلية مذكرة"
+        data-type="summary"
+        data-search="ملخص أحياء ثالثة ثانوي المنهج كامل"
       >
 
         <div class="note-icon">
@@ -536,26 +570,27 @@
         </div>
 
         <span class="note-badge">
-          أولى ثانوي
+          ثالثة ثانوي
         </span>
 
         <h3>
-          مذكرة أساسيات الأحياء
+          ملخص منهج الأحياء
         </h3>
 
         <p>
-          ملخص مبسط لأهم المفاهيم
-          الأساسية في مادة الأحياء.
+          ملخص منظم لأهم المفاهيم
+          والمعلومات التي تحتاجها
+          أثناء مذاكرة منهج الأحياء.
         </p>
 
         <div class="note-info">
 
           <span>
-            📄 مذكرة
+            📄 ملخص
           </span>
 
           <span>
-            📚 أحياء
+            🎓 ثالثة ثانوي
           </span>
 
         </div>
@@ -563,7 +598,7 @@
         <a
           href="#"
           class="note-btn"
-          onclick="openNote(event, 'مذكرة أساسيات الأحياء')"
+          onclick="openNote(event, 'ملخص منهج الأحياء')"
         >
           فتح المذكرة
         </a>
@@ -575,35 +610,36 @@
 
       <article
         class="note-card searchable-note"
-        data-grade="first"
-        data-search="الخلية تركيب الخلية أولى ثانوي"
+        data-type="chapter"
+        data-search="الدعامة والحركة أحياء ثالثة ثانوي"
       >
 
         <div class="note-icon">
-          🔬
+          🦴
         </div>
 
         <span class="note-badge">
-          أولى ثانوي
+          فصل من المنهج
         </span>
 
         <h3>
-          ملخص تركيب الخلية
+          الدعامة والحركة
         </h3>
 
         <p>
-          ملخص لأجزاء الخلية ووظيفة
-          كل عضية بطريقة سهلة.
+          مذكرة خاصة بموضوع الدعامة
+          والحركة لمراجعة أهم النقاط
+          والمفاهيم.
         </p>
 
         <div class="note-info">
 
           <span>
-            📄 ملخص
+            📄 مذكرة
           </span>
 
           <span>
-            🔬 الخلية
+            🦴 أحياء
           </span>
 
         </div>
@@ -611,7 +647,7 @@
         <a
           href="#"
           class="note-btn"
-          onclick="openNote(event, 'ملخص تركيب الخلية')"
+          onclick="openNote(event, 'الدعامة والحركة')"
         >
           فتح المذكرة
         </a>
@@ -623,25 +659,25 @@
 
       <article
         class="note-card searchable-note"
-        data-grade="second"
-        data-search="أنسجة ثانية ثانوي مذكرة"
+        data-type="chapter"
+        data-search="التنسيق الهرموني أحياء ثالثة ثانوي"
       >
 
         <div class="note-icon">
-          🧬
+          🧪
         </div>
 
         <span class="note-badge">
-          ثانية ثانوي
+          فصل من المنهج
         </span>
 
         <h3>
-          مذكرة الأنسجة
+          التنسيق الهرموني
         </h3>
 
         <p>
-          مراجعة شاملة لأنواع الأنسجة
-          ووظائفها الأساسية.
+          مراجعة أهم المفاهيم الخاصة
+          بالتنسيق الهرموني والغدد.
         </p>
 
         <div class="note-info">
@@ -651,7 +687,7 @@
           </span>
 
           <span>
-            🧬 أنسجة
+            🧪 هرمونات
           </span>
 
         </div>
@@ -659,7 +695,7 @@
         <a
           href="#"
           class="note-btn"
-          onclick="openNote(event, 'مذكرة الأنسجة')"
+          onclick="openNote(event, 'التنسيق الهرموني')"
         >
           فتح المذكرة
         </a>
@@ -671,35 +707,35 @@
 
       <article
         class="note-card searchable-note"
-        data-grade="second"
-        data-search="التنفس الخلوي ثانية ثانوي"
+        data-type="chapter"
+        data-search="التكاثر أحياء ثالثة ثانوي"
       >
 
         <div class="note-icon">
-          ⚡
+          🌱
         </div>
 
         <span class="note-badge">
-          ثانية ثانوي
+          فصل من المنهج
         </span>
 
         <h3>
-          ملخص التنفس الخلوي
+          التكاثر
         </h3>
 
         <p>
-          أهم المعلومات المتعلقة
-          بالتنفس الخلوي وإنتاج الطاقة.
+          مذكرة مراجعة لموضوع التكاثر
+          وأهم النقاط والأسئلة المتعلقة به.
         </p>
 
         <div class="note-info">
 
           <span>
-            📄 ملخص
+            📄 مذكرة
           </span>
 
           <span>
-            ⚡ طاقة
+            🌱 تكاثر
           </span>
 
         </div>
@@ -707,7 +743,7 @@
         <a
           href="#"
           class="note-btn"
-          onclick="openNote(event, 'ملخص التنفس الخلوي')"
+          onclick="openNote(event, 'التكاثر')"
         >
           فتح المذكرة
         </a>
@@ -719,8 +755,8 @@
 
       <article
         class="note-card searchable-note"
-        data-grade="third"
-        data-search="وراثة ثالثة ثانوي مذكرة"
+        data-type="chapter"
+        data-search="الوراثة أحياء ثالثة ثانوي"
       >
 
         <div class="note-icon">
@@ -728,22 +764,22 @@
         </div>
 
         <span class="note-badge">
-          ثالثة ثانوي
+          فصل من المنهج
         </span>
 
         <h3>
-          مذكرة الوراثة
+          الوراثة
         </h3>
 
         <p>
-          مراجعة أهم مفاهيم الوراثة
-          والقوانين والمصطلحات.
+          ملخص لأهم المصطلحات والمفاهيم
+          الأساسية في الوراثة.
         </p>
 
         <div class="note-info">
 
           <span>
-            📄 مذكرة
+            📄 ملخص
           </span>
 
           <span>
@@ -755,7 +791,7 @@
         <a
           href="#"
           class="note-btn"
-          onclick="openNote(event, 'مذكرة الوراثة')"
+          onclick="openNote(event, 'الوراثة')"
         >
           فتح المذكرة
         </a>
@@ -767,35 +803,35 @@
 
       <article
         class="note-card searchable-note"
-        data-grade="third"
-        data-search="الجهاز العصبي ثالثة ثانوي"
+        data-type="revision"
+        data-search="مراجعة نهائية أحياء ثالثة ثانوي"
       >
 
         <div class="note-icon">
-          🧠
+          🔥
         </div>
 
         <span class="note-badge">
-          ثالثة ثانوي
+          مراجعة نهائية
         </span>
 
         <h3>
-          ملخص الجهاز العصبي
+          المراجعة النهائية
         </h3>
 
         <p>
-          أهم النقاط والمعلومات الخاصة
-          بالجهاز العصبي.
+          مراجعة شاملة لأهم النقاط
+          والأسئلة استعدادًا للامتحان.
         </p>
 
         <div class="note-info">
 
           <span>
-            📄 ملخص
+            📄 مراجعة
           </span>
 
           <span>
-            🧠 الجهاز العصبي
+            🔥 نهائي
           </span>
 
         </div>
@@ -803,7 +839,7 @@
         <a
           href="#"
           class="note-btn"
-          onclick="openNote(event, 'ملخص الجهاز العصبي')"
+          onclick="openNote(event, 'المراجعة النهائية')"
         >
           فتح المذكرة
         </a>
@@ -813,21 +849,42 @@
 
     </section>
 
+
+    <!-- EMPTY -->
+
+    <div
+      id="emptyMessage"
+      class="empty-message"
+    >
+
+      🔎
+
+      <br><br>
+
+      لا توجد مذكرة مطابقة لبحثك.
+
+    </div>
+
+
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- =========================
+       FOOTER
+  ========================== -->
 
   <footer>
 
     © <span id="year"></span>
     منصة أرض الأحياء —
-    جميع الحقوق محفوظة
+    أحياء ثالثة ثانوي
 
   </footer>
 
 
-  <!-- SCRIPT -->
+  <!-- =========================
+       SCRIPT
+  ========================== -->
 
   <script src="../script.js"></script>
 
@@ -852,11 +909,12 @@
           .trim()
           .toLowerCase();
 
-
       const notes =
         document.querySelectorAll(
           ".searchable-note"
         );
+
+      let visibleCount = 0;
 
 
       notes.forEach(function(note) {
@@ -877,6 +935,8 @@
           note.style.display =
             "block";
 
+          visibleCount++;
+
         } else {
 
           note.style.display =
@@ -886,13 +946,16 @@
 
       });
 
+
+      updateEmptyMessage(visibleCount);
+
     }
 
 
     /* الفلترة */
 
     function filterNotes(
-      grade,
+      type,
       button
     ) {
 
@@ -900,7 +963,6 @@
         document.querySelectorAll(
           ".searchable-note"
         );
-
 
       const buttons =
         document.querySelectorAll(
@@ -910,23 +972,37 @@
 
       buttons.forEach(function(btn) {
 
-        btn.classList.remove("active");
+        btn.classList.remove(
+          "active"
+        );
 
       });
 
 
-      button.classList.add("active");
+      button.classList.add(
+        "active"
+      );
+
+
+      document.getElementById(
+        "noteSearch"
+      ).value = "";
+
+
+      let visibleCount = 0;
 
 
       notes.forEach(function(note) {
 
         if (
-          grade === "all" ||
-          note.dataset.grade === grade
+          type === "all" ||
+          note.dataset.type === type
         ) {
 
           note.style.display =
             "block";
+
+          visibleCount++;
 
         } else {
 
@@ -938,9 +1014,41 @@
       });
 
 
-      document.getElementById(
-        "noteSearch"
-      ).value = "";
+      updateEmptyMessage(
+        visibleCount
+      );
+
+    }
+
+
+    /* رسالة عدم وجود نتائج */
+
+    function updateEmptyMessage(
+      count
+    ) {
+
+      const empty =
+        document.getElementById(
+          "emptyMessage"
+        );
+
+
+      if (!empty) {
+        return;
+      }
+
+
+      if (count === 0) {
+
+        empty.style.display =
+          "block";
+
+      } else {
+
+        empty.style.display =
+          "none";
+
+      }
 
     }
 
@@ -954,10 +1062,11 @@
 
       event.preventDefault();
 
+
       alert(
         "مذكرة " +
         noteName +
-        " سيتم إضافة ملفها قريبًا."
+        " سيتم ربط ملف PDF الخاص بها هنا."
       );
 
     }
