@@ -1,608 +1,603 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+/* =====================================================
+   منصة أرض الأحياء
+   النسخة القديمة - بدون Sidebar
+===================================================== */
 
-  <title>منصة أرض الأحياء | أحياء الصف الثالث الثانوي</title>
 
-  <meta name="description" content="منصة أرض الأحياء التعليمية لطلاب الصف الثالث الثانوي - شرح الدروس، الملخصات، الاختبارات والمنتدى.">
-  <meta name="keywords" content="أحياء ثالثة ثانوي, منصة أرض الأحياء, أحياء الثانوية العامة, شرح الأحياء, اختبارات أحياء">
-  <meta name="author" content="منصة أرض الأحياء">
+/* ================= SUPABASE ================= */
 
-  <link rel="icon" href="favicon.png">
+const SUPABASE_URL =
+  "https://gvehygqxjqucxwussaye.supabase.co";
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+const SUPABASE_ANON_KEY =
+  "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
 
-  <link rel="stylesheet" href="style.css">
+let supabaseClient = null;
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
+if (window.supabase) {
+  supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      }
+    }
+  );
+}
 
-<body>
 
-  <!-- ================= LOGIN ================= -->
+/* ================= ELEMENTS ================= */
 
-  <section id="loginScreen" class="login-screen">
+const loginScreen =
+  document.getElementById("loginScreen");
 
-    <div class="login-box">
+const app =
+  document.getElementById("app");
 
-      <div class="login-logo">
-        <img src="logo.png" alt="منصة أرض الأحياء" onerror="this.style.display='none'">
-      </div>
+const loginForm =
+  document.getElementById("loginForm");
 
-      <h1>منصة أرض الأحياء</h1>
+const registerForm =
+  document.getElementById("registerForm");
 
-      <p class="login-subtitle">
-        أحياء الصف الثالث الثانوي
-      </p>
+const loginTab =
+  document.getElementById("loginTab");
 
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="loginTab">
-          تسجيل الدخول
-        </button>
+const registerTab =
+  document.getElementById("registerTab");
 
-        <button class="auth-tab" id="registerTab">
-          إنشاء حساب
-        </button>
-      </div>
+const loginMessage =
+  document.getElementById("loginMessage");
 
-      <!-- LOGIN -->
+const registerMessage =
+  document.getElementById("registerMessage");
 
-      <form id="loginForm">
+const logoutBtn =
+  document.getElementById("logoutBtn");
 
-        <div class="input-group">
-          <label>البريد الإلكتروني</label>
-          <input
-            type="email"
-            id="loginEmail"
-            placeholder="example@email.com"
-            required
-          >
+const darkModeBtn =
+  document.getElementById("darkModeBtn");
+
+const mobileMenuBtn =
+  document.getElementById("mobileMenuBtn");
+
+const mobileNav =
+  document.getElementById("mobileNav");
+
+const siteSearch =
+  document.getElementById("siteSearch");
+
+const searchResults =
+  document.getElementById("searchResults");
+
+const year =
+  document.getElementById("year");
+
+
+/* ================= YEAR ================= */
+
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
+
+
+/* ================= LOGIN / REGISTER TABS ================= */
+
+if (loginTab) {
+
+  loginTab.addEventListener("click", () => {
+
+    loginTab.classList.add("active");
+    registerTab.classList.remove("active");
+
+    loginForm.classList.remove("hidden");
+    registerForm.classList.add("hidden");
+
+    loginMessage.textContent = "";
+    registerMessage.textContent = "";
+
+  });
+
+}
+
+
+if (registerTab) {
+
+  registerTab.addEventListener("click", () => {
+
+    registerTab.classList.add("active");
+    loginTab.classList.remove("active");
+
+    registerForm.classList.remove("hidden");
+    loginForm.classList.add("hidden");
+
+    loginMessage.textContent = "";
+    registerMessage.textContent = "";
+
+  });
+
+}
+
+
+/* ================= SHOW APP ================= */
+
+function showApp() {
+
+  if (loginScreen) {
+    loginScreen.classList.add("hidden");
+  }
+
+  if (app) {
+    app.classList.remove("hidden");
+  }
+
+}
+
+
+/* ================= SHOW LOGIN ================= */
+
+function showLogin() {
+
+  if (app) {
+    app.classList.add("hidden");
+  }
+
+  if (loginScreen) {
+    loginScreen.classList.remove("hidden");
+  }
+
+}
+
+
+/* ================= LOGIN ================= */
+
+if (loginForm) {
+
+  loginForm.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    if (!supabaseClient) {
+      loginMessage.textContent =
+        "تعذر الاتصال بخدمة تسجيل الدخول.";
+      return;
+    }
+
+    const email =
+      document.getElementById("loginEmail").value.trim();
+
+    const password =
+      document.getElementById("loginPassword").value;
+
+    loginMessage.style.color = "";
+    loginMessage.textContent =
+      "جاري تسجيل الدخول...";
+
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) {
+
+      loginMessage.textContent =
+        "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
+      return;
+    }
+
+    loginMessage.style.color = "#087f55";
+
+    loginMessage.textContent =
+      "تم تسجيل الدخول بنجاح.";
+
+    showApp();
+
+  });
+
+}
+
+
+/* ================= REGISTER ================= */
+
+if (registerForm) {
+
+  registerForm.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    if (!supabaseClient) {
+      registerMessage.textContent =
+        "تعذر الاتصال بخدمة التسجيل.";
+      return;
+    }
+
+    const name =
+      document.getElementById("registerName").value.trim();
+
+    const email =
+      document.getElementById("registerEmail").value.trim();
+
+    const password =
+      document.getElementById("registerPassword").value;
+
+    registerMessage.style.color = "";
+
+    registerMessage.textContent =
+      "جاري إنشاء الحساب...";
+
+    const { data, error } =
+      await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name
+          }
+        }
+      });
+
+    if (error) {
+
+      registerMessage.textContent =
+        error.message;
+
+      return;
+    }
+
+    registerMessage.style.color =
+      "#087f55";
+
+    if (data.session) {
+
+      registerMessage.textContent =
+        "تم إنشاء الحساب وتسجيل الدخول.";
+
+      showApp();
+
+    } else {
+
+      registerMessage.textContent =
+        "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا طُلب منك ذلك.";
+
+    }
+
+  });
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+if (logoutBtn) {
+
+  logoutBtn.addEventListener("click", async () => {
+
+    if (supabaseClient) {
+      await supabaseClient.auth.signOut();
+    }
+
+    showLogin();
+
+  });
+
+}
+
+
+/* ================= CHECK SESSION ================= */
+
+async function checkUser() {
+
+  if (!supabaseClient) {
+    showLogin();
+    return;
+  }
+
+  const {
+    data: {
+      session
+    }
+  } = await supabaseClient.auth.getSession();
+
+  if (session) {
+    showApp();
+  } else {
+    showLogin();
+  }
+
+}
+
+
+/* ================= AUTH STATE ================= */
+
+if (supabaseClient) {
+
+  supabaseClient.auth.onAuthStateChange(
+    (event, session) => {
+
+      if (session) {
+        showApp();
+      } else {
+        showLogin();
+      }
+
+    }
+  );
+
+}
+
+
+/* ================= DARK MODE ================= */
+
+function setDarkMode(enabled) {
+
+  if (enabled) {
+
+    document.body.classList.add("dark");
+
+    if (darkModeBtn) {
+      darkModeBtn.textContent = "☀️";
+      darkModeBtn.title = "الوضع النهاري";
+    }
+
+    localStorage.setItem(
+      "ardAlAhyaaDark",
+      "true"
+    );
+
+  } else {
+
+    document.body.classList.remove("dark");
+
+    if (darkModeBtn) {
+      darkModeBtn.textContent = "🌙";
+      darkModeBtn.title = "الوضع الليلي";
+    }
+
+    localStorage.setItem(
+      "ardAlAhyaaDark",
+      "false"
+    );
+
+  }
+
+}
+
+
+const savedDarkMode =
+  localStorage.getItem("ardAlAhyaaDark");
+
+if (savedDarkMode === "true") {
+  setDarkMode(true);
+} else {
+  setDarkMode(false);
+}
+
+
+if (darkModeBtn) {
+
+  darkModeBtn.addEventListener("click", () => {
+
+    const enabled =
+      document.body.classList.contains("dark");
+
+    setDarkMode(!enabled);
+
+  });
+
+}
+
+
+/* ================= MOBILE MENU ================= */
+
+if (mobileMenuBtn) {
+
+  mobileMenuBtn.addEventListener("click", () => {
+
+    if (mobileNav.style.display === "block") {
+
+      mobileNav.style.display = "none";
+
+      mobileMenuBtn.textContent = "☰";
+
+    } else {
+
+      mobileNav.style.display = "block";
+
+      mobileMenuBtn.textContent = "✕";
+
+    }
+
+  });
+
+}
+
+
+/* إغلاق القائمة بعد الضغط على رابط */
+
+if (mobileNav) {
+
+  mobileNav.querySelectorAll("a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+      mobileNav.style.display = "none";
+
+      if (mobileMenuBtn) {
+        mobileMenuBtn.textContent = "☰";
+      }
+
+    });
+
+  });
+
+}
+
+
+/* ================= SEARCH ================= */
+
+const searchData = [
+
+  {
+    title: "شرح دروس الأحياء",
+    type: "الشرح",
+    url: "videos/index.html"
+  },
+
+  {
+    title: "ملخص منهج الأحياء",
+    type: "ملخصات",
+    url: "notes/index.html"
+  },
+
+  {
+    title: "الدعامة والحركة",
+    type: "ملخصات",
+    url: "notes/index.html"
+  },
+
+  {
+    title: "التنسيق الهرموني",
+    type: "ملخصات",
+    url: "notes/index.html"
+  },
+
+  {
+    title: "التكاثر",
+    type: "ملخصات",
+    url: "notes/index.html"
+  },
+
+  {
+    title: "الوراثة",
+    type: "ملخصات",
+    url: "notes/index.html"
+  },
+
+  {
+    title: "المراجعة النهائية",
+    type: "ملخصات",
+    url: "notes/index.html"
+  },
+
+  {
+    title: "اختبارات الأحياء",
+    type: "اختبارات",
+    url: "exams/index.html"
+  },
+
+  {
+    title: "منتدى الطلاب",
+    type: "المنتدى",
+    url: "forum/index.html"
+  }
+
+];
+
+
+if (siteSearch) {
+
+  siteSearch.addEventListener("input", () => {
+
+    const query =
+      siteSearch.value.trim().toLowerCase();
+
+    if (!query) {
+
+      searchResults.innerHTML = "";
+
+      searchResults.style.display = "none";
+
+      return;
+    }
+
+    const results =
+      searchData.filter(item =>
+        item.title.toLowerCase().includes(query)
+      );
+
+    searchResults.innerHTML = "";
+
+    if (results.length === 0) {
+
+      searchResults.innerHTML = `
+        <div class="search-result">
+          لا توجد نتائج مطابقة.
         </div>
+      `;
 
-        <div class="input-group">
-          <label>كلمة المرور</label>
-          <input
-            type="password"
-            id="loginPassword"
-            placeholder="••••••••"
-            required
-          >
-        </div>
+    } else {
 
-        <button type="submit" class="main-btn">
-          دخول إلى المنصة
-        </button>
+      results.forEach(item => {
 
-        <p id="loginMessage" class="form-message"></p>
+        const result =
+          document.createElement("a");
 
-      </form>
+        result.href = item.url;
 
-      <!-- REGISTER -->
+        result.className =
+          "search-result";
 
-      <form id="registerForm" class="hidden">
+        result.innerHTML = `
+          <strong>${item.title}</strong>
+          <small>${item.type}</small>
+        `;
 
-        <div class="input-group">
-          <label>الاسم</label>
-          <input
-            type="text"
-            id="registerName"
-            placeholder="اكتب اسمك"
-            required
-          >
-        </div>
+        searchResults.appendChild(result);
 
-        <div class="input-group">
-          <label>البريد الإلكتروني</label>
-          <input
-            type="email"
-            id="registerEmail"
-            placeholder="example@email.com"
-            required
-          >
-        </div>
+      });
 
-        <div class="input-group">
-          <label>كلمة المرور</label>
-          <input
-            type="password"
-            id="registerPassword"
-            placeholder="••••••••"
-            minlength="6"
-            required
-          >
-        </div>
+    }
 
-        <button type="submit" class="main-btn">
-          إنشاء الحساب
-        </button>
+    searchResults.style.display = "block";
 
-        <p id="registerMessage" class="form-message"></p>
+  });
 
-      </form>
+}
 
-    </div>
 
-  </section>
+/* ================= CLOSE SEARCH ================= */
 
+document.addEventListener("click", (event) => {
 
-  <!-- ================= APP ================= -->
+  if (
+    searchResults &&
+    siteSearch &&
+    !searchResults.contains(event.target) &&
+    !siteSearch.contains(event.target)
+  ) {
 
-  <div id="app" class="app hidden">
+    searchResults.style.display = "none";
 
-    <!-- HEADER -->
+  }
 
-    <header class="topbar">
+});
 
-      <div class="container topbar-inner">
 
-        <a href="#" class="brand">
+/* ================= NAV ACTIVE ================= */
 
-          <div class="brand-logo">
-            <img src="logo.png" alt="شعار منصة أرض الأحياء"
-                 onerror="this.style.display='none'">
-          </div>
+const navLinks =
+  document.querySelectorAll(".nav-link");
 
-          <div class="brand-text">
-            <strong>منصة أرض الأحياء</strong>
-            <span>أحياء الصف الثالث الثانوي</span>
-          </div>
+navLinks.forEach(link => {
 
-        </a>
+  link.addEventListener("click", () => {
 
-        <nav class="nav">
+    navLinks.forEach(item => {
+      item.classList.remove("active");
+    });
 
-          <a href="#home" class="nav-link active">
-            الرئيسية
-          </a>
+    link.classList.add("active");
 
-          <a href="videos/index.html" class="nav-link">
-            الشرح
-          </a>
+  });
 
-          <a href="notes/index.html" class="nav-link">
-            الملخصات
-          </a>
+});
 
-          <a href="exams/index.html" class="nav-link">
-            الاختبارات
-          </a>
 
-          <a href="forum/index.html" class="nav-link">
-            المنتدى
-          </a>
+/* ================= START ================= */
 
-        </nav>
-
-        <div class="top-actions">
-
-          <button id="darkModeBtn" class="icon-btn" title="الوضع الليلي">
-            🌙
-          </button>
-
-          <button id="logoutBtn" class="logout-btn">
-            تسجيل الخروج
-          </button>
-
-        </div>
-
-        <button id="mobileMenuBtn" class="mobile-menu-btn">
-          ☰
-        </button>
-
-      </div>
-
-      <div id="mobileNav" class="mobile-nav">
-
-        <a href="#home">الرئيسية</a>
-        <a href="videos/index.html">الشرح</a>
-        <a href="notes/index.html">الملخصات</a>
-        <a href="exams/index.html">الاختبارات</a>
-        <a href="forum/index.html">المنتدى</a>
-
-      </div>
-
-    </header>
-
-
-    <!-- MAIN -->
-
-    <main id="home">
-
-      <!-- HERO -->
-
-      <section class="hero">
-
-        <div class="container">
-
-          <div class="hero-content">
-
-            <div class="hero-text">
-
-              <span class="hero-badge">
-                🧬 أحياء الصف الثالث الثانوي
-              </span>
-
-              <h1>
-                أهلاً بك في
-                <span>منصة أرض الأحياء</span>
-              </h1>
-
-              <p>
-                مكانك لمذاكرة الأحياء بطريقة منظمة،
-                من خلال الشرح والملخصات والاختبارات والمنتدى.
-              </p>
-
-              <div class="hero-buttons">
-
-                <a href="videos/index.html" class="hero-btn primary">
-                  ابدأ المذاكرة
-                </a>
-
-                <a href="exams/index.html" class="hero-btn secondary">
-                  اختبر نفسك
-                </a>
-
-              </div>
-
-            </div>
-
-            <div class="hero-card">
-
-              <div class="dna-icon">
-                🧬
-              </div>
-
-              <h3>
-                رحلتك في الأحياء
-              </h3>
-
-              <p>
-                شرح → ملخص → اختبار
-              </p>
-
-              <div class="hero-progress">
-                <span></span>
-              </div>
-
-              <small>
-                ذاكر بانتظام وراجع مستواك
-              </small>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- SEARCH -->
-
-      <section class="search-section">
-
-        <div class="container">
-
-          <div class="search-box">
-
-            <span>🔎</span>
-
-            <input
-              type="text"
-              id="siteSearch"
-              placeholder="ابحث عن درس أو ملخص أو اختبار..."
-            >
-
-          </div>
-
-          <div id="searchResults" class="search-results"></div>
-
-        </div>
-
-      </section>
-
-
-      <!-- QUICK CARDS -->
-
-      <section class="section">
-
-        <div class="container">
-
-          <div class="section-heading">
-
-            <div>
-              <span class="section-label">ابدأ من هنا</span>
-
-              <h2>
-                كل ما تحتاجه في مكان واحد
-              </h2>
-            </div>
-
-          </div>
-
-
-          <div class="feature-grid">
-
-            <!-- VIDEOS -->
-
-            <a href="videos/index.html" class="feature-card">
-
-              <div class="feature-icon green">
-                ▶
-              </div>
-
-              <div class="feature-content">
-
-                <h3>
-                  شرح الدروس
-                </h3>
-
-                <p>
-                  شاهد شرح دروس أحياء الصف الثالث الثانوي بطريقة منظمة.
-                </p>
-
-                <span class="card-link">
-                  مشاهدة الشرح ←
-                </span>
-
-              </div>
-
-            </a>
-
-
-            <!-- NOTES -->
-
-            <a href="notes/index.html" class="feature-card">
-
-              <div class="feature-icon blue">
-                📚
-              </div>
-
-              <div class="feature-content">
-
-                <h3>
-                  الملخصات
-                </h3>
-
-                <p>
-                  راجع أهم النقاط والقوانين والمعلومات قبل الاختبار.
-                </p>
-
-                <span class="card-link">
-                  مشاهدة الملخصات ←
-                </span>
-
-              </div>
-
-            </a>
-
-
-            <!-- EXAMS -->
-
-            <a href="exams/index.html" class="feature-card">
-
-              <div class="feature-icon orange">
-                📝
-              </div>
-
-              <div class="feature-content">
-
-                <h3>
-                  الاختبارات
-                </h3>
-
-                <p>
-                  اختبر معلوماتك واعرف مستواك في الأحياء.
-                </p>
-
-                <span class="card-link">
-                  دخول الاختبارات ←
-                </span>
-
-              </div>
-
-            </a>
-
-
-            <!-- FORUM -->
-
-            <a href="forum/index.html" class="feature-card">
-
-              <div class="feature-icon purple">
-                💬
-              </div>
-
-              <div class="feature-content">
-
-                <h3>
-                  المنتدى
-                </h3>
-
-                <p>
-                  شارك الأسئلة والمناقشات مع طلاب المنصة.
-                </p>
-
-                <span class="card-link">
-                  دخول المنتدى ←
-                </span>
-
-              </div>
-
-            </a>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- STATS -->
-
-      <section class="stats-section">
-
-        <div class="container">
-
-          <div class="stats-grid">
-
-            <div class="stat-card">
-
-              <div class="stat-icon">
-                🎓
-              </div>
-
-              <div>
-                <strong>ثالثة ثانوي</strong>
-                <span>الصف الدراسي</span>
-              </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-              <div class="stat-icon">
-                📖
-              </div>
-
-              <div>
-                <strong>شرح</strong>
-                <span>دروس الأحياء</span>
-              </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-              <div class="stat-icon">
-                📝
-              </div>
-
-              <div>
-                <strong>اختبارات</strong>
-                <span>اختبر مستواك</span>
-              </div>
-
-            </div>
-
-
-            <div class="stat-card">
-
-              <div class="stat-icon">
-                💬
-              </div>
-
-              <div>
-                <strong>منتدى</strong>
-                <span>شارك وتناقش</span>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <!-- ABOUT -->
-
-      <section class="section about-section">
-
-        <div class="container">
-
-          <div class="about-box">
-
-            <div class="about-icon">
-              🧬
-            </div>
-
-            <div>
-
-              <span class="section-label">
-                عن المنصة
-              </span>
-
-              <h2>
-                منصة أرض الأحياء
-              </h2>
-
-              <p>
-                منصة تعليمية مخصصة لطلاب الصف الثالث الثانوي،
-                تجمع لك شرح الأحياء والملخصات والاختبارات
-                والمناقشات في مكان واحد.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-    </main>
-
-
-    <!-- FOOTER -->
-
-    <footer class="footer">
-
-      <div class="container footer-inner">
-
-        <div>
-
-          <strong>
-            منصة أرض الأحياء
-          </strong>
-
-          <p>
-            أحياء الصف الثالث الثانوي
-          </p>
-
-        </div>
-
-        <div class="footer-links">
-
-          <a href="videos/index.html">
-            الشرح
-          </a>
-
-          <a href="notes/index.html">
-            الملخصات
-          </a>
-
-          <a href="exams/index.html">
-            الاختبارات
-          </a>
-
-          <a href="forum/index.html">
-            المنتدى
-          </a>
-
-        </div>
-
-      </div>
-
-      <div class="copyright">
-
-        © <span id="year"></span>
-        منصة أرض الأحياء - جميع الحقوق محفوظة
-
-      </div>
-
-    </footer>
-
-  </div>
-
-
-  <script src="script.js"></script>
-
-</body>
-</html>
+checkUser();
