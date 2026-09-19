@@ -1,431 +1,970 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>المذكرات | منصة أرض الأحياء</title>
+  <title>المذكرات والملخصات | منصة أرض الأحياء</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta name="description"
+    content="المذكرات والملخصات التعليمية في منصة أرض الأحياء.">
+
+  <link rel="icon" href="../favicon.png">
+
+  <link rel="stylesheet" href="../style.css">
 
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, Tahoma, sans-serif;
-    }
 
-    body {
-      margin: 0;
-      background: #f4f7fb;
-      color: #172033;
-    }
+    .page-hero {
+      background:
+        linear-gradient(
+          135deg,
+          #056344,
+          #0b9a67
+        );
 
-    header {
-      background: #123c69;
       color: white;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-    }
+      padding: 35px;
 
-    .student {
-      font-size: 14px;
-    }
+      border-radius: 24px;
 
-    .layout {
-      display: flex;
-      min-height: calc(100vh - 70px);
-    }
-
-    aside {
-      width: 230px;
-      background: white;
-      border-left: 1px solid #ddd;
-      padding: 20px 12px;
-    }
-
-    aside a {
-      display: block;
-      text-decoration: none;
-      color: #172033;
-      padding: 13px;
-      margin-bottom: 8px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-
-    aside a:hover,
-    aside a.active {
-      background: #e8f1ff;
-      color: #1261a0;
-    }
-
-    main {
-      flex: 1;
-      padding: 25px;
-    }
-
-    .title {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: #667085;
       margin-bottom: 25px;
+
+      box-shadow:
+        0 14px 35px rgba(8,127,85,.17);
     }
 
-    .search {
-      width: 100%;
-      max-width: 600px;
-      padding: 14px;
-      border: 1px solid #ccd3df;
-      border-radius: 12px;
-      margin-bottom: 25px;
-      font-size: 16px;
-      outline: none;
-    }
-
-    .search:focus {
-      border-color: #1261a0;
-    }
-
-    .notes {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
-    }
-
-    .icon {
-      font-size: 40px;
+    .page-hero h1 {
+      font-size: 30px;
       margin-bottom: 10px;
     }
 
-    .card h3 {
-      margin: 8px 0;
+    .page-hero p {
+      line-height: 1.9;
+      opacity: .94;
+      max-width: 750px;
     }
 
-    .card p {
-      color: #667085;
-      min-height: 45px;
-    }
-
-    .open {
+    .back-btn {
       display: inline-block;
-      background: #1261a0;
-      color: white;
-      text-decoration: none;
-      padding: 11px 18px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
 
-    .open:hover {
-      background: #0d4d82;
-    }
-
-    .loading,
-    .empty,
-    .error {
-      background: white;
-      padding: 25px;
-      border-radius: 14px;
-      text-align: center;
       margin-top: 20px;
+
+      background: white;
+
+      color: #056344;
+
+      text-decoration: none;
+
+      padding: 10px 18px;
+
+      border-radius: 10px;
+
+      font-weight: bold;
+
+      font-size: 14px;
     }
 
-    .error {
-      color: #b42318;
+    .filter-box {
+      display: flex;
+
+      gap: 10px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 25px;
     }
 
-    @media (max-width: 700px) {
-      .layout {
-        display: block;
+    .filter-btn {
+      border: 1px solid var(--border);
+
+      background: white;
+
+      color: var(--text);
+
+      padding: 10px 17px;
+
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      font-weight: bold;
+
+      transition: .2s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--green);
+
+      color: white;
+
+      border-color: var(--green);
+    }
+
+    .notes-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 18px;
+    }
+
+    .note-card {
+      background: white;
+
+      border: 1px solid var(--border);
+
+      border-radius: 18px;
+
+      padding: 22px;
+
+      box-shadow: var(--shadow);
+
+      transition: .2s;
+    }
+
+    .note-card:hover {
+      transform: translateY(-4px);
+
+      box-shadow:
+        0 15px 35px rgba(20,70,50,.12);
+    }
+
+    .note-icon {
+      width: 58px;
+      height: 58px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 15px;
+
+      background: var(--green-light);
+
+      font-size: 28px;
+
+      margin-bottom: 15px;
+    }
+
+    .note-badge {
+      display: inline-block;
+
+      background: var(--green-light);
+
+      color: var(--green-dark);
+
+      padding: 5px 9px;
+
+      border-radius: 20px;
+
+      font-size: 11px;
+
+      font-weight: bold;
+
+      margin-bottom: 10px;
+    }
+
+    .note-card h3 {
+      font-size: 18px;
+
+      margin-bottom: 8px;
+    }
+
+    .note-card p {
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.8;
+
+      margin-bottom: 17px;
+    }
+
+    .note-info {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      color: var(--muted);
+
+      font-size: 11px;
+
+      margin-bottom: 13px;
+    }
+
+    .note-btn {
+      display: block;
+
+      text-align: center;
+
+      background: var(--green);
+
+      color: white;
+
+      text-decoration: none;
+
+      padding: 11px;
+
+      border-radius: 10px;
+
+      font-weight: bold;
+
+      font-size: 13px;
+    }
+
+    @media (max-width: 1000px) {
+
+      .notes-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
       }
 
-      aside {
-        width: 100%;
-        border-left: none;
-        border-bottom: 1px solid #ddd;
+    }
+
+    @media (max-width: 600px) {
+
+      .page-hero {
+        padding: 25px 20px;
       }
 
-      aside a {
-        display: inline-block;
-        margin: 4px;
-      }
-
-      main {
-        padding: 18px;
-      }
-
-      .title {
+      .page-hero h1 {
         font-size: 24px;
       }
+
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+
     }
+
+    body.dark .filter-btn {
+      background: #17221d;
+
+      color: white;
+
+      border-color: #263b33;
+    }
+
+    body.dark .filter-btn:hover,
+    body.dark .filter-btn.active {
+      background: var(--green);
+
+      color: white;
+    }
+
+    body.dark .note-card {
+      background: #17221d;
+
+      border-color: #263b33;
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-<header>
-  <div class="logo">🧬 منصة أرض الأحياء</div>
-  <div class="student" id="studentName">جاري التحميل...</div>
-</header>
 
-<div class="layout">
+  <!-- =========================
+       TOPBAR
+  ========================== -->
 
-  <aside>
-    <a href="../index.html">🏠 الرئيسية</a>
-    <a href="../videos/index.html">🎥 الفيديوهات</a>
-    <a href="#" class="active">📚 المذكرات</a>
-    <a href="#" onclick="return false;">💬 المنتدى</a>
+  <header class="topbar">
+
+    <a
+      href="../index.html"
+      class="brand"
+    >
+
+      <img
+        src="../logo.png"
+        alt="منصة أرض الأحياء"
+      >
+
+      <div class="brand-text">
+
+        <strong>
+          منصة أرض الأحياء
+        </strong>
+
+        <span>
+          تعلم • راجع • اختبر نفسك
+        </span>
+
+      </div>
+
+    </a>
+
+
+    <div class="top-actions">
+
+      <button
+        class="icon-btn"
+        onclick="toggleDarkMode()"
+        title="الوضع الليلي"
+      >
+        🌙
+      </button>
+
+      <a
+        href="../index.html"
+        class="logout-btn"
+        style="text-decoration:none;"
+      >
+        الرئيسية
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+
+  <aside class="sidebar">
+
+    <div class="sidebar-title">
+      القائمة الرئيسية
+    </div>
+
+
+    <a
+      href="../index.html"
+      class="nav-link"
+    >
+
+      <span class="nav-icon">
+        🏠
+      </span>
+
+      <span>
+        الرئيسية
+      </span>
+
+    </a>
+
+
+    <a
+      href="../videos/index.html"
+      class="nav-link"
+    >
+
+      <span class="nav-icon">
+        🎥
+      </span>
+
+      <span>
+        الدروس
+      </span>
+
+    </a>
+
+
+    <a
+      href="index.html"
+      class="nav-link active"
+    >
+
+      <span class="nav-icon">
+        📚
+      </span>
+
+      <span>
+        المذكرات
+      </span>
+
+    </a>
+
+
+    <a
+      href="../exams/index.html"
+      class="nav-link"
+    >
+
+      <span class="nav-icon">
+        📝
+      </span>
+
+      <span>
+        الاختبارات
+      </span>
+
+    </a>
+
+
+    <a
+      href="../forum/index.html"
+      class="nav-link"
+    >
+
+      <span class="nav-icon">
+        💬
+      </span>
+
+      <span>
+        المنتدى
+      </span>
+
+    </a>
+
+
+    <div class="sidebar-card">
+
+      <strong>
+        📚 مكتبة أرض الأحياء
+      </strong>
+
+      <p>
+        مجموعة من المذكرات والملخصات
+        لمساعدتك في مراجعة المنهج.
+      </p>
+
+    </div>
+
   </aside>
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
 
   <main>
 
-    <h1 class="title">📚 المذكرات</h1>
 
-    <p class="subtitle">
-      المذكرات والملفات التعليمية التي يتم رفعها من لوحة الإدارة.
-    </p>
+    <!-- HERO -->
 
-    <input
-      type="text"
-      id="search"
-      class="search"
-      placeholder="🔎 ابحث عن مذكرة..."
-    >
+    <section class="page-hero">
 
-    <div id="status" class="loading">
-      جاري تحميل المذكرات...
-    </div>
-
-    <div id="notes" class="notes"></div>
-
-  </main>
-</div>
-
-<script>
-
-const SUPABASE_URL =
-  "https://gvehygqxjqucxwussaye.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_0Hxtm1KuZQ7paMyZQwRLQQ_NQ2wRaRX";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
-let allNotes = [];
-
-
-/* =========================
-   التحقق من تسجيل الدخول
-========================= */
-
-async function checkUser() {
-
-  const { data } = await supabaseClient.auth.getUser();
-
-  if (!data.user) {
-    window.location.href = "../index.html";
-    return null;
-  }
-
-  const user = data.user;
-
-  const name =
-    user.user_metadata?.name ||
-    user.user_metadata?.full_name ||
-    user.user_metadata?.username ||
-    user.email?.split("@")[0] ||
-    "الطالب";
-
-  document.getElementById("studentName").textContent =
-    "👤 " + name;
-
-  return user;
-}
-
-
-/* =========================
-   تحميل المذكرات
-========================= */
-
-async function loadNotes() {
-
-  const status = document.getElementById("status");
-  const notesContainer = document.getElementById("notes");
-
-  const { data, error } = await supabaseClient
-    .from("content")
-    .select("*")
-    .eq("type", "pdf")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-
-    console.error(error);
-
-    status.className = "error";
-
-    status.textContent =
-      "حدث خطأ أثناء تحميل المذكرات.";
-
-    return;
-  }
-
-  allNotes = data || [];
-
-  renderNotes(allNotes);
-}
-
-
-/* =========================
-   عرض المذكرات
-========================= */
-
-function renderNotes(notes) {
-
-  const status = document.getElementById("status");
-  const container = document.getElementById("notes");
-
-  container.innerHTML = "";
-
-  if (!notes.length) {
-
-    status.style.display = "block";
-    status.className = "empty";
-
-    status.textContent =
-      "📚 لا توجد مذكرات حتى الآن.";
-
-    return;
-  }
-
-  status.style.display = "none";
-
-  notes.forEach(note => {
-
-    const card = document.createElement("div");
-
-    card.className = "card";
-
-    card.innerHTML = `
-
-      <div class="icon">📄</div>
-
-      <h3>${escapeHTML(note.title || "مذكرة أحياء")}</h3>
+      <h1>
+        📚 المذكرات والملخصات
+      </h1>
 
       <p>
-        ${escapeHTML(
-          note.description ||
-          "مذكرة تعليمية من منصة أرض الأحياء."
-        )}
+        مجموعة من المذكرات والملخصات
+        التي تساعدك على فهم ومراجعة
+        دروس الأحياء بطريقة منظمة.
       </p>
 
       <a
-        class="open"
-        href="${note.file_url}"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="../index.html"
+        class="back-btn"
       >
-        📖 فتح المذكرة
+        ← العودة للرئيسية
       </a>
 
-    `;
-
-    container.appendChild(card);
-
-  });
-}
+    </section>
 
 
-/* =========================
-   البحث
-========================= */
+    <!-- SEARCH -->
 
-document.getElementById("search")
-.addEventListener("input", function() {
+    <div class="search-box">
 
-  const value =
-    this.value.trim().toLowerCase();
+      <span>
+        🔎
+      </span>
 
-  if (!value) {
+      <input
+        type="search"
+        id="noteSearch"
+        placeholder="ابحث عن مذكرة أو درس..."
+        oninput="searchNotes()"
+      >
 
-    renderNotes(allNotes);
-    return;
-  }
+    </div>
 
-  const filtered =
-    allNotes.filter(note => {
 
-      const title =
-        (note.title || "").toLowerCase();
+    <!-- FILTER -->
 
-      const description =
-        (note.description || "").toLowerCase();
+    <div class="filter-box">
 
-      return (
-        title.includes(value) ||
-        description.includes(value)
+      <button
+        class="filter-btn active"
+        onclick="filterNotes('all', this)"
+      >
+        الكل
+      </button>
+
+      <button
+        class="filter-btn"
+        onclick="filterNotes('first', this)"
+      >
+        أولى ثانوي
+      </button>
+
+      <button
+        class="filter-btn"
+        onclick="filterNotes('second', this)"
+      >
+        ثانية ثانوي
+      </button>
+
+      <button
+        class="filter-btn"
+        onclick="filterNotes('third', this)"
+      >
+        ثالثة ثانوي
+      </button>
+
+    </div>
+
+
+    <!-- NOTES -->
+
+    <section class="notes-grid">
+
+
+      <!-- NOTE 1 -->
+
+      <article
+        class="note-card searchable-note"
+        data-grade="first"
+        data-search="أحياء أولى ثانوي الخلية مذكرة"
+      >
+
+        <div class="note-icon">
+          📖
+        </div>
+
+        <span class="note-badge">
+          أولى ثانوي
+        </span>
+
+        <h3>
+          مذكرة أساسيات الأحياء
+        </h3>
+
+        <p>
+          ملخص مبسط لأهم المفاهيم
+          الأساسية في مادة الأحياء.
+        </p>
+
+        <div class="note-info">
+
+          <span>
+            📄 مذكرة
+          </span>
+
+          <span>
+            📚 أحياء
+          </span>
+
+        </div>
+
+        <a
+          href="#"
+          class="note-btn"
+          onclick="openNote(event, 'مذكرة أساسيات الأحياء')"
+        >
+          فتح المذكرة
+        </a>
+
+      </article>
+
+
+      <!-- NOTE 2 -->
+
+      <article
+        class="note-card searchable-note"
+        data-grade="first"
+        data-search="الخلية تركيب الخلية أولى ثانوي"
+      >
+
+        <div class="note-icon">
+          🔬
+        </div>
+
+        <span class="note-badge">
+          أولى ثانوي
+        </span>
+
+        <h3>
+          ملخص تركيب الخلية
+        </h3>
+
+        <p>
+          ملخص لأجزاء الخلية ووظيفة
+          كل عضية بطريقة سهلة.
+        </p>
+
+        <div class="note-info">
+
+          <span>
+            📄 ملخص
+          </span>
+
+          <span>
+            🔬 الخلية
+          </span>
+
+        </div>
+
+        <a
+          href="#"
+          class="note-btn"
+          onclick="openNote(event, 'ملخص تركيب الخلية')"
+        >
+          فتح المذكرة
+        </a>
+
+      </article>
+
+
+      <!-- NOTE 3 -->
+
+      <article
+        class="note-card searchable-note"
+        data-grade="second"
+        data-search="أنسجة ثانية ثانوي مذكرة"
+      >
+
+        <div class="note-icon">
+          🧬
+        </div>
+
+        <span class="note-badge">
+          ثانية ثانوي
+        </span>
+
+        <h3>
+          مذكرة الأنسجة
+        </h3>
+
+        <p>
+          مراجعة شاملة لأنواع الأنسجة
+          ووظائفها الأساسية.
+        </p>
+
+        <div class="note-info">
+
+          <span>
+            📄 مذكرة
+          </span>
+
+          <span>
+            🧬 أنسجة
+          </span>
+
+        </div>
+
+        <a
+          href="#"
+          class="note-btn"
+          onclick="openNote(event, 'مذكرة الأنسجة')"
+        >
+          فتح المذكرة
+        </a>
+
+      </article>
+
+
+      <!-- NOTE 4 -->
+
+      <article
+        class="note-card searchable-note"
+        data-grade="second"
+        data-search="التنفس الخلوي ثانية ثانوي"
+      >
+
+        <div class="note-icon">
+          ⚡
+        </div>
+
+        <span class="note-badge">
+          ثانية ثانوي
+        </span>
+
+        <h3>
+          ملخص التنفس الخلوي
+        </h3>
+
+        <p>
+          أهم المعلومات المتعلقة
+          بالتنفس الخلوي وإنتاج الطاقة.
+        </p>
+
+        <div class="note-info">
+
+          <span>
+            📄 ملخص
+          </span>
+
+          <span>
+            ⚡ طاقة
+          </span>
+
+        </div>
+
+        <a
+          href="#"
+          class="note-btn"
+          onclick="openNote(event, 'ملخص التنفس الخلوي')"
+        >
+          فتح المذكرة
+        </a>
+
+      </article>
+
+
+      <!-- NOTE 5 -->
+
+      <article
+        class="note-card searchable-note"
+        data-grade="third"
+        data-search="وراثة ثالثة ثانوي مذكرة"
+      >
+
+        <div class="note-icon">
+          🧬
+        </div>
+
+        <span class="note-badge">
+          ثالثة ثانوي
+        </span>
+
+        <h3>
+          مذكرة الوراثة
+        </h3>
+
+        <p>
+          مراجعة أهم مفاهيم الوراثة
+          والقوانين والمصطلحات.
+        </p>
+
+        <div class="note-info">
+
+          <span>
+            📄 مذكرة
+          </span>
+
+          <span>
+            🧬 وراثة
+          </span>
+
+        </div>
+
+        <a
+          href="#"
+          class="note-btn"
+          onclick="openNote(event, 'مذكرة الوراثة')"
+        >
+          فتح المذكرة
+        </a>
+
+      </article>
+
+
+      <!-- NOTE 6 -->
+
+      <article
+        class="note-card searchable-note"
+        data-grade="third"
+        data-search="الجهاز العصبي ثالثة ثانوي"
+      >
+
+        <div class="note-icon">
+          🧠
+        </div>
+
+        <span class="note-badge">
+          ثالثة ثانوي
+        </span>
+
+        <h3>
+          ملخص الجهاز العصبي
+        </h3>
+
+        <p>
+          أهم النقاط والمعلومات الخاصة
+          بالجهاز العصبي.
+        </p>
+
+        <div class="note-info">
+
+          <span>
+            📄 ملخص
+          </span>
+
+          <span>
+            🧠 الجهاز العصبي
+          </span>
+
+        </div>
+
+        <a
+          href="#"
+          class="note-btn"
+          onclick="openNote(event, 'ملخص الجهاز العصبي')"
+        >
+          فتح المذكرة
+        </a>
+
+      </article>
+
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    © <span id="year"></span>
+    منصة أرض الأحياء —
+    جميع الحقوق محفوظة
+
+  </footer>
+
+
+  <!-- SCRIPT -->
+
+  <script src="../script.js"></script>
+
+
+  <script>
+
+    /* السنة */
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+
+    /* البحث */
+
+    function searchNotes() {
+
+      const input =
+        document.getElementById("noteSearch");
+
+      const query =
+        input.value
+          .trim()
+          .toLowerCase();
+
+
+      const notes =
+        document.querySelectorAll(
+          ".searchable-note"
+        );
+
+
+      notes.forEach(function(note) {
+
+        const text =
+          (
+            note.innerText +
+            " " +
+            (note.dataset.search || "")
+          ).toLowerCase();
+
+
+        if (
+          !query ||
+          text.includes(query)
+        ) {
+
+          note.style.display =
+            "block";
+
+        } else {
+
+          note.style.display =
+            "none";
+
+        }
+
+      });
+
+    }
+
+
+    /* الفلترة */
+
+    function filterNotes(
+      grade,
+      button
+    ) {
+
+      const notes =
+        document.querySelectorAll(
+          ".searchable-note"
+        );
+
+
+      const buttons =
+        document.querySelectorAll(
+          ".filter-btn"
+        );
+
+
+      buttons.forEach(function(btn) {
+
+        btn.classList.remove("active");
+
+      });
+
+
+      button.classList.add("active");
+
+
+      notes.forEach(function(note) {
+
+        if (
+          grade === "all" ||
+          note.dataset.grade === grade
+        ) {
+
+          note.style.display =
+            "block";
+
+        } else {
+
+          note.style.display =
+            "none";
+
+        }
+
+      });
+
+
+      document.getElementById(
+        "noteSearch"
+      ).value = "";
+
+    }
+
+
+    /* فتح المذكرة */
+
+    function openNote(
+      event,
+      noteName
+    ) {
+
+      event.preventDefault();
+
+      alert(
+        "مذكرة " +
+        noteName +
+        " سيتم إضافة ملفها قريبًا."
       );
 
-    });
+    }
 
-  renderNotes(filtered);
+  </script>
 
-});
-
-
-/* =========================
-   حماية النصوص
-========================= */
-
-function escapeHTML(text) {
-
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-/* =========================
-   تشغيل الصفحة
-========================= */
-
-(async function() {
-
-  const user = await checkUser();
-
-  if (!user) return;
-
-  await loadNotes();
-
-})();
-
-</script>
 
 </body>
+
 </html>
