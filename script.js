@@ -1,7 +1,7 @@
-/* =====================================================
+/* =========================================
    منصة أرض الأحياء
-   النسخة القديمة - بدون Sidebar
-===================================================== */
+   Sidebar Version
+========================================= */
 
 
 /* ================= SUPABASE ================= */
@@ -15,17 +15,20 @@ const SUPABASE_ANON_KEY =
 let supabaseClient = null;
 
 if (window.supabase) {
-  supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true
+
+  supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_ANON_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
       }
-    }
-  );
+    );
+
 }
 
 
@@ -61,11 +64,20 @@ const logoutBtn =
 const darkModeBtn =
   document.getElementById("darkModeBtn");
 
-const mobileMenuBtn =
-  document.getElementById("mobileMenuBtn");
+const themeIcon =
+  document.getElementById("themeIcon");
 
-const mobileNav =
-  document.getElementById("mobileNav");
+const themeText =
+  document.getElementById("themeText");
+
+const menuBtn =
+  document.getElementById("menuBtn");
+
+const sidebar =
+  document.getElementById("sidebar");
+
+const studentName =
+  document.getElementById("studentName");
 
 const siteSearch =
   document.getElementById("siteSearch");
@@ -80,23 +92,27 @@ const year =
 /* ================= YEAR ================= */
 
 if (year) {
-  year.textContent = new Date().getFullYear();
+  year.textContent =
+    new Date().getFullYear();
 }
 
 
-/* ================= LOGIN / REGISTER TABS ================= */
+/* ================= LOGIN TABS ================= */
 
 if (loginTab) {
 
   loginTab.addEventListener("click", () => {
 
     loginTab.classList.add("active");
+
     registerTab.classList.remove("active");
 
     loginForm.classList.remove("hidden");
+
     registerForm.classList.add("hidden");
 
     loginMessage.textContent = "";
+
     registerMessage.textContent = "";
 
   });
@@ -109,12 +125,15 @@ if (registerTab) {
   registerTab.addEventListener("click", () => {
 
     registerTab.classList.add("active");
+
     loginTab.classList.remove("active");
 
     registerForm.classList.remove("hidden");
+
     loginForm.classList.add("hidden");
 
     loginMessage.textContent = "";
+
     registerMessage.textContent = "";
 
   });
@@ -126,13 +145,9 @@ if (registerTab) {
 
 function showApp() {
 
-  if (loginScreen) {
-    loginScreen.classList.add("hidden");
-  }
+  loginScreen.classList.add("hidden");
 
-  if (app) {
-    app.classList.remove("hidden");
-  }
+  app.classList.remove("hidden");
 
 }
 
@@ -141,13 +156,9 @@ function showApp() {
 
 function showLogin() {
 
-  if (app) {
-    app.classList.add("hidden");
-  }
+  app.classList.add("hidden");
 
-  if (loginScreen) {
-    loginScreen.classList.remove("hidden");
-  }
+  loginScreen.classList.remove("hidden");
 
 }
 
@@ -156,48 +167,70 @@ function showLogin() {
 
 if (loginForm) {
 
-  loginForm.addEventListener("submit", async (event) => {
+  loginForm.addEventListener(
+    "submit",
+    async function (event) {
 
-    event.preventDefault();
+      event.preventDefault();
 
-    if (!supabaseClient) {
+      if (!supabaseClient) {
+
+        loginMessage.textContent =
+          "تعذر الاتصال بخدمة تسجيل الدخول.";
+
+        return;
+
+      }
+
+      const email =
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("loginPassword")
+          .value;
+
+      loginMessage.style.color = "";
+
       loginMessage.textContent =
-        "تعذر الاتصال بخدمة تسجيل الدخول.";
-      return;
-    }
+        "جاري تسجيل الدخول...";
 
-    const email =
-      document.getElementById("loginEmail").value.trim();
 
-    const password =
-      document.getElementById("loginPassword").value;
+      const { data, error } =
+        await supabaseClient.auth
+          .signInWithPassword({
+            email,
+            password
+          });
 
-    loginMessage.style.color = "";
-    loginMessage.textContent =
-      "جاري تسجيل الدخول...";
 
-    const { error } =
-      await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
+      if (error) {
 
-    if (error) {
+        loginMessage.textContent =
+          "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
+        return;
+
+      }
+
+
+      setStudentName(
+        data.user
+      );
+
+      loginMessage.style.color =
+        "#087f55";
 
       loginMessage.textContent =
-        "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+        "تم تسجيل الدخول بنجاح.";
 
-      return;
+      showApp();
+
     }
-
-    loginMessage.style.color = "#087f55";
-
-    loginMessage.textContent =
-      "تم تسجيل الدخول بنجاح.";
-
-    showApp();
-
-  });
+  );
 
 }
 
@@ -206,67 +239,111 @@ if (loginForm) {
 
 if (registerForm) {
 
-  registerForm.addEventListener("submit", async (event) => {
+  registerForm.addEventListener(
+    "submit",
+    async function (event) {
 
-    event.preventDefault();
+      event.preventDefault();
 
-    if (!supabaseClient) {
+      if (!supabaseClient) {
+
+        registerMessage.textContent =
+          "تعذر الاتصال بخدمة التسجيل.";
+
+        return;
+
+      }
+
+      const name =
+        document
+          .getElementById("registerName")
+          .value
+          .trim();
+
+      const email =
+        document
+          .getElementById("registerEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("registerPassword")
+          .value;
+
+
       registerMessage.textContent =
-        "تعذر الاتصال بخدمة التسجيل.";
-      return;
+        "جاري إنشاء الحساب...";
+
+
+      const { data, error } =
+        await supabaseClient.auth
+          .signUp({
+
+            email,
+
+            password,
+
+            options: {
+              data: {
+                full_name: name
+              }
+            }
+
+          });
+
+
+      if (error) {
+
+        registerMessage.textContent =
+          error.message;
+
+        return;
+
+      }
+
+
+      registerMessage.style.color =
+        "#087f55";
+
+
+      if (data.session) {
+
+        setStudentName(data.user);
+
+        registerMessage.textContent =
+          "تم إنشاء الحساب.";
+
+        showApp();
+
+      } else {
+
+        registerMessage.textContent =
+          "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا طلب منك ذلك.";
+
+      }
+
     }
+  );
 
-    const name =
-      document.getElementById("registerName").value.trim();
+}
 
-    const email =
-      document.getElementById("registerEmail").value.trim();
 
-    const password =
-      document.getElementById("registerPassword").value;
+/* ================= STUDENT NAME ================= */
 
-    registerMessage.style.color = "";
+function setStudentName(user) {
 
-    registerMessage.textContent =
-      "جاري إنشاء الحساب...";
+  if (!studentName || !user) {
+    return;
+  }
 
-    const { data, error } =
-      await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: name
-          }
-        }
-      });
+  const name =
+    user.user_metadata?.full_name ||
+    user.email?.split("@")[0] ||
+    "الطالب";
 
-    if (error) {
-
-      registerMessage.textContent =
-        error.message;
-
-      return;
-    }
-
-    registerMessage.style.color =
-      "#087f55";
-
-    if (data.session) {
-
-      registerMessage.textContent =
-        "تم إنشاء الحساب وتسجيل الدخول.";
-
-      showApp();
-
-    } else {
-
-      registerMessage.textContent =
-        "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا طُلب منك ذلك.";
-
-    }
-
-  });
+  studentName.textContent =
+    name;
 
 }
 
@@ -275,38 +352,53 @@ if (registerForm) {
 
 if (logoutBtn) {
 
-  logoutBtn.addEventListener("click", async () => {
+  logoutBtn.addEventListener(
+    "click",
+    async function () {
 
-    if (supabaseClient) {
-      await supabaseClient.auth.signOut();
+      if (supabaseClient) {
+        await supabaseClient.auth.signOut();
+      }
+
+      showLogin();
+
     }
-
-    showLogin();
-
-  });
+  );
 
 }
 
 
-/* ================= CHECK SESSION ================= */
+/* ================= SESSION ================= */
 
 async function checkUser() {
 
   if (!supabaseClient) {
+
     showLogin();
+
     return;
+
   }
+
 
   const {
     data: {
       session
     }
-  } = await supabaseClient.auth.getSession();
+  } =
+    await supabaseClient.auth.getSession();
+
 
   if (session) {
+
+    setStudentName(session.user);
+
     showApp();
+
   } else {
+
     showLogin();
+
   }
 
 }
@@ -317,12 +409,18 @@ async function checkUser() {
 if (supabaseClient) {
 
   supabaseClient.auth.onAuthStateChange(
-    (event, session) => {
+    function (event, session) {
 
       if (session) {
+
+        setStudentName(session.user);
+
         showApp();
+
       } else {
+
         showLogin();
+
       }
 
     }
@@ -339,9 +437,13 @@ function setDarkMode(enabled) {
 
     document.body.classList.add("dark");
 
-    if (darkModeBtn) {
-      darkModeBtn.textContent = "☀️";
-      darkModeBtn.title = "الوضع النهاري";
+    if (themeIcon) {
+      themeIcon.textContent = "☀️";
+    }
+
+    if (themeText) {
+      themeText.textContent =
+        "الوضع النهاري";
     }
 
     localStorage.setItem(
@@ -353,9 +455,13 @@ function setDarkMode(enabled) {
 
     document.body.classList.remove("dark");
 
-    if (darkModeBtn) {
-      darkModeBtn.textContent = "🌙";
-      darkModeBtn.title = "الوضع الليلي";
+    if (themeIcon) {
+      themeIcon.textContent = "🌙";
+    }
+
+    if (themeText) {
+      themeText.textContent =
+        "الوضع الليلي";
     }
 
     localStorage.setItem(
@@ -368,74 +474,78 @@ function setDarkMode(enabled) {
 }
 
 
-const savedDarkMode =
-  localStorage.getItem("ardAlAhyaaDark");
+if (
+  localStorage.getItem("ardAlAhyaaDark")
+  === "true"
+) {
 
-if (savedDarkMode === "true") {
   setDarkMode(true);
+
 } else {
+
   setDarkMode(false);
+
 }
 
 
 if (darkModeBtn) {
 
-  darkModeBtn.addEventListener("click", () => {
+  darkModeBtn.addEventListener(
+    "click",
+    function () {
 
-    const enabled =
-      document.body.classList.contains("dark");
+      const enabled =
+        document.body.classList
+          .contains("dark");
 
-    setDarkMode(!enabled);
-
-  });
-
-}
-
-
-/* ================= MOBILE MENU ================= */
-
-if (mobileMenuBtn) {
-
-  mobileMenuBtn.addEventListener("click", () => {
-
-    if (mobileNav.style.display === "block") {
-
-      mobileNav.style.display = "none";
-
-      mobileMenuBtn.textContent = "☰";
-
-    } else {
-
-      mobileNav.style.display = "block";
-
-      mobileMenuBtn.textContent = "✕";
+      setDarkMode(!enabled);
 
     }
-
-  });
+  );
 
 }
 
 
-/* إغلاق القائمة بعد الضغط على رابط */
+/* ================= MOBILE SIDEBAR ================= */
 
-if (mobileNav) {
+if (menuBtn) {
 
-  mobileNav.querySelectorAll("a").forEach(link => {
+  menuBtn.addEventListener(
+    "click",
+    function () {
 
-    link.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
 
-      mobileNav.style.display = "none";
+    }
+  );
 
-      if (mobileMenuBtn) {
-        mobileMenuBtn.textContent = "☰";
+}
+
+
+/* إغلاق الشريط عند اختيار رابط على الهاتف */
+
+document
+  .querySelectorAll(".side-link")
+  .forEach(function (link) {
+
+    link.addEventListener(
+      "click",
+      function () {
+
+        if (
+          window.innerWidth <= 750
+        ) {
+
+          sidebar.classList.remove(
+            "open"
+          );
+
+        }
+
       }
-
-    });
+    );
 
   });
-
-}
 
 
 /* ================= SEARCH ================= */
@@ -450,43 +560,43 @@ const searchData = [
 
   {
     title: "ملخص منهج الأحياء",
-    type: "ملخصات",
+    type: "الملخصات",
     url: "notes/index.html"
   },
 
   {
     title: "الدعامة والحركة",
-    type: "ملخصات",
+    type: "الملخصات",
     url: "notes/index.html"
   },
 
   {
     title: "التنسيق الهرموني",
-    type: "ملخصات",
+    type: "الملخصات",
     url: "notes/index.html"
   },
 
   {
     title: "التكاثر",
-    type: "ملخصات",
+    type: "الملخصات",
     url: "notes/index.html"
   },
 
   {
     title: "الوراثة",
-    type: "ملخصات",
+    type: "الملخصات",
     url: "notes/index.html"
   },
 
   {
     title: "المراجعة النهائية",
-    type: "ملخصات",
+    type: "الملخصات",
     url: "notes/index.html"
   },
 
   {
     title: "اختبارات الأحياء",
-    type: "اختبارات",
+    type: "الاختبارات",
     url: "exams/index.html"
   },
 
@@ -501,101 +611,113 @@ const searchData = [
 
 if (siteSearch) {
 
-  siteSearch.addEventListener("input", () => {
+  siteSearch.addEventListener(
+    "input",
+    function () {
 
-    const query =
-      siteSearch.value.trim().toLowerCase();
+      const query =
+        siteSearch.value
+          .trim()
+          .toLowerCase();
 
-    if (!query) {
+
+      if (!query) {
+
+        searchResults.innerHTML = "";
+
+        searchResults.style.display =
+          "none";
+
+        return;
+
+      }
+
+
+      const results =
+        searchData.filter(
+          function (item) {
+
+            return item.title
+              .toLowerCase()
+              .includes(query);
+
+          }
+        );
+
 
       searchResults.innerHTML = "";
 
-      searchResults.style.display = "none";
 
-      return;
-    }
+      if (results.length === 0) {
 
-    const results =
-      searchData.filter(item =>
-        item.title.toLowerCase().includes(query)
-      );
-
-    searchResults.innerHTML = "";
-
-    if (results.length === 0) {
-
-      searchResults.innerHTML = `
-        <div class="search-result">
-          لا توجد نتائج مطابقة.
-        </div>
-      `;
-
-    } else {
-
-      results.forEach(item => {
-
-        const result =
-          document.createElement("a");
-
-        result.href = item.url;
-
-        result.className =
-          "search-result";
-
-        result.innerHTML = `
-          <strong>${item.title}</strong>
-          <small>${item.type}</small>
+        searchResults.innerHTML = `
+          <div class="search-result">
+            لا توجد نتائج مطابقة.
+          </div>
         `;
 
-        searchResults.appendChild(result);
+      } else {
 
-      });
+        results.forEach(
+          function (item) {
+
+            const result =
+              document.createElement("a");
+
+            result.href =
+              item.url;
+
+            result.className =
+              "search-result";
+
+            result.innerHTML = `
+              <strong>${item.title}</strong>
+              <small>${item.type}</small>
+            `;
+
+            searchResults.appendChild(
+              result
+            );
+
+          }
+        );
+
+      }
+
+
+      searchResults.style.display =
+        "block";
 
     }
-
-    searchResults.style.display = "block";
-
-  });
+  );
 
 }
 
 
 /* ================= CLOSE SEARCH ================= */
 
-document.addEventListener("click", (event) => {
+document.addEventListener(
+  "click",
+  function (event) {
 
-  if (
-    searchResults &&
-    siteSearch &&
-    !searchResults.contains(event.target) &&
-    !siteSearch.contains(event.target)
-  ) {
+    if (
+      searchResults &&
+      siteSearch &&
+      !searchResults.contains(
+        event.target
+      ) &&
+      !siteSearch.contains(
+        event.target
+      )
+    ) {
 
-    searchResults.style.display = "none";
+      searchResults.style.display =
+        "none";
+
+    }
 
   }
-
-});
-
-
-/* ================= NAV ACTIVE ================= */
-
-const navLinks =
-  document.querySelectorAll(".nav-link");
-
-navLinks.forEach(link => {
-
-  link.addEventListener("click", () => {
-
-    navLinks.forEach(item => {
-      item.classList.remove("active");
-    });
-
-    link.classList.add("active");
-
-  });
-
-});
+);
 
 
 /* ================= START ================= */
