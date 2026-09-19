@@ -1,814 +1,29 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>منصة أرض الأحياء | المنصة التعليمية</title>
+  <title>منصة أرض الأحياء | أحياء الصف الثالث الثانوي</title>
 
-  <meta name="description" content="منصة أرض الأحياء التعليمية للمحاضرات والمذكرات والاختبارات والمنتدى وطلاب الأحياء.">
-  <meta name="author" content="منصة أرض الأحياء">
+  <meta
+    name="description"
+    content="منصة أرض الأحياء التعليمية لطلاب الصف الثالث الثانوي. شرح الأحياء، الفيديوهات، الملخصات، الاختبارات والمراجعات."
+  >
+
+  <meta
+    name="keywords"
+    content="أحياء ثالثة ثانوي, أحياء الصف الثالث الثانوي, منصة أرض الأحياء, شرح أحياء, مراجعة أحياء"
+  >
+
   <meta name="robots" content="index, follow">
 
-  <link rel="canonical" href="https://mohamed-tool-grafix.github.io/ard-al-ahyaa/">
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon" href="logo.png">
+  <link rel="icon" href="favicon.png">
 
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="منصة أرض الأحياء">
-  <meta property="og:description" content="منصة تعليمية متخصصة في مادة الأحياء.">
-  <meta property="og:url" content="https://mohamed-tool-grafix.github.io/ard-al-ahyaa/">
-  <meta property="og:image" content="https://mohamed-tool-grafix.github.io/ard-al-ahyaa/logo.png">
-  <meta property="og:site_name" content="منصة أرض الأحياء">
-  <meta property="og:locale" content="ar_AR">
-
-  <meta name="theme-color" content="#0b7a53">
-
-  <!-- Supabase -->
+  <link rel="stylesheet" href="style.css">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --green: #087f55;
-      --green-dark: #056344;
-      --green-light: #e8f7f0;
-      --green-soft: #f2fbf7;
-      --text: #17221d;
-      --muted: #718078;
-      --border: #e5ece8;
-      --bg: #f5f8f7;
-      --white: #ffffff;
-      --danger: #d64545;
-      --shadow: 0 10px 35px rgba(20, 70, 50, 0.08);
-    }
-
-    body {
-      font-family: Tahoma, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    button,
-    input {
-      font-family: inherit;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    /* =========================
-       LOGIN
-    ========================== */
-
-    #loginScreen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 25px;
-      background:
-        radial-gradient(circle at top right, #dff7eb 0, transparent 35%),
-        radial-gradient(circle at bottom left, #e5f4ee 0, transparent 35%),
-        #f5faf8;
-    }
-
-    .login-box {
-      width: 100%;
-      max-width: 440px;
-      background: white;
-      padding: 38px;
-      border-radius: 26px;
-      box-shadow: 0 20px 60px rgba(15, 70, 48, .12);
-      text-align: center;
-      border: 1px solid var(--border);
-    }
-
-    .login-logo {
-      width: 95px;
-      height: 95px;
-      object-fit: contain;
-      border-radius: 22px;
-      margin-bottom: 15px;
-    }
-
-    .login-box h1 {
-      color: var(--green-dark);
-      font-size: 27px;
-      margin-bottom: 8px;
-    }
-
-    .login-subtitle {
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 25px;
-    }
-
-    .input-group {
-      text-align: right;
-      margin-bottom: 13px;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 7px;
-      color: #405048;
-    }
-
-    .login-box input {
-      width: 100%;
-      padding: 14px 15px;
-      border: 1px solid #d9e3de;
-      border-radius: 12px;
-      font-size: 15px;
-      outline: none;
-      background: #fbfdfc;
-      transition: .2s;
-    }
-
-    .login-box input:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(8, 127, 85, .09);
-    }
-
-    .primary-btn {
-      width: 100%;
-      border: 0;
-      background: linear-gradient(135deg, var(--green), #10a66e);
-      color: white;
-      padding: 14px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      margin-top: 5px;
-      transition: .2s;
-    }
-
-    .primary-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(8, 127, 85, .18);
-    }
-
-    .switch-btn {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      color: var(--green);
-      padding: 12px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    #message {
-      margin-top: 12px;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    /* =========================
-       APP
-    ========================== */
-
-    #site {
-      display: none;
-      min-height: 100vh;
-    }
-
-    .topbar {
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      height: 72px;
-      background: rgba(255,255,255,.96);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 28px;
-      z-index: 1000;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      text-decoration: none;
-    }
-
-    .brand img {
-      width: 45px;
-      height: 45px;
-      object-fit: contain;
-      border-radius: 12px;
-    }
-
-    .brand-text strong {
-      display: block;
-      color: var(--green-dark);
-      font-size: 19px;
-    }
-
-    .brand-text span {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      margin-top: 2px;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-    }
-
-    .icon-btn {
-      border: 1px solid var(--border);
-      background: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 11px;
-      cursor: pointer;
-      font-size: 17px;
-    }
-
-    .logout-btn {
-      border: 0;
-      background: #edf7f2;
-      color: var(--green-dark);
-      padding: 10px 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    /* =========================
-       SIDEBAR
-    ========================== */
-
-    .sidebar {
-      position: fixed;
-      top: 72px;
-      right: 0;
-      bottom: 0;
-      width: 245px;
-      background: white;
-      border-left: 1px solid var(--border);
-      padding: 22px 14px;
-      z-index: 900;
-      overflow-y: auto;
-    }
-
-    .sidebar-title {
-      color: #91a098;
-      font-size: 12px;
-      font-weight: bold;
-      padding: 0 13px 10px;
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: #46534d;
-      padding: 13px 14px;
-      border-radius: 12px;
-      margin-bottom: 5px;
-      font-size: 14px;
-      transition: .2s;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      background: var(--green-light);
-      color: var(--green-dark);
-      font-weight: bold;
-    }
-
-    .nav-icon {
-      width: 25px;
-      text-align: center;
-      font-size: 18px;
-    }
-
-    .sidebar-card {
-      margin-top: 25px;
-      padding: 15px;
-      border-radius: 16px;
-      background: linear-gradient(145deg, #087f55, #11a66e);
-      color: white;
-    }
-
-    .sidebar-card strong {
-      display: block;
-      margin-bottom: 7px;
-    }
-
-    .sidebar-card p {
-      font-size: 12px;
-      line-height: 1.7;
-      opacity: .9;
-    }
-
-    /* =========================
-       MAIN
-    ========================== */
-
-    main {
-      margin-right: 245px;
-      padding: 105px 35px 45px;
-      max-width: 1500px;
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      border-radius: 24px;
-      padding: 35px;
-      color: white;
-      background:
-        radial-gradient(circle at 90% 20%, rgba(255,255,255,.18), transparent 25%),
-        linear-gradient(135deg, #056344, #0b9a67);
-      box-shadow: 0 14px 35px rgba(8, 127, 85, .17);
-      margin-bottom: 25px;
-    }
-
-    .hero h1 {
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      max-width: 720px;
-      line-height: 1.9;
-      opacity: .94;
-      font-size: 15px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .hero-btn {
-      display: inline-block;
-      text-decoration: none;
-      padding: 11px 18px;
-      border-radius: 10px;
-      background: white;
-      color: var(--green-dark);
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .hero-btn.secondary {
-      background: rgba(255,255,255,.14);
-      color: white;
-      border: 1px solid rgba(255,255,255,.25);
-    }
-
-    /* =========================
-       SEARCH
-    ========================== */
-
-    .search-box {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 25px;
-      box-shadow: var(--shadow);
-    }
-
-    .search-box span {
-      font-size: 20px;
-      padding-right: 8px;
-    }
-
-    .search-box input {
-      border: 0;
-      outline: 0;
-      width: 100%;
-      font-size: 15px;
-      background: transparent;
-    }
-
-    /* =========================
-       SECTION
-    ========================== */
-
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-    }
-
-    .section-head h2 {
-      font-size: 20px;
-    }
-
-    .section-head span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    /* =========================
-       STATS
-    ========================== */
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 28px;
-    }
-
-    .stat {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .stat-icon {
-      font-size: 23px;
-      margin-bottom: 8px;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 24px;
-      color: var(--green-dark);
-    }
-
-    .stat span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    /* =========================
-       CARDS
-    ========================== */
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 17px;
-      margin-bottom: 30px;
-    }
-
-    .card {
-      display: block;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px;
-      text-decoration: none;
-      box-shadow: var(--shadow);
-      transition: .22s;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: #bde4d2;
-      box-shadow: 0 15px 35px rgba(20,70,50,.11);
-    }
-
-    .card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .card-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: var(--green-light);
-      font-size: 24px;
-    }
-
-    .arrow {
-      color: #9ba8a1;
-      font-size: 18px;
-    }
-
-    .card h3 {
-      color: var(--text);
-      font-size: 17px;
-      margin-bottom: 7px;
-    }
-
-    .card p {
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: 13px;
-    }
-
-    /* =========================
-       GRADES
-    ========================== */
-
-    .grades {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    .grade {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      padding: 20px;
-      text-decoration: none;
-      box-shadow: var(--shadow);
-      transition: .2s;
-    }
-
-    .grade:hover {
-      transform: translateY(-3px);
-    }
-
-    .grade-number {
-      display: inline-flex;
-      padding: 5px 10px;
-      border-radius: 20px;
-      background: var(--green-light);
-      color: var(--green-dark);
-      font-size: 11px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    .grade h3 {
-      margin-bottom: 6px;
-    }
-
-    .grade p {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    /* =========================
-       DASHBOARD
-    ========================== */
-
-    .dashboard {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 18px;
-      margin-bottom: 30px;
-    }
-
-    .dashboard-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-
-    .progress-wrap {
-      margin-top: 18px;
-    }
-
-    .progress-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      margin-bottom: 7px;
-      color: var(--muted);
-    }
-
-    .progress {
-      height: 9px;
-      background: #eaf0ed;
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .progress span {
-      display: block;
-      width: 65%;
-      height: 100%;
-      background: linear-gradient(90deg, #087f55, #18b879);
-      border-radius: inherit;
-    }
-
-    .notice {
-      background: var(--green-soft);
-      border: 1px solid #d9eee4;
-      border-radius: 14px;
-      padding: 15px;
-      color: #38564a;
-      line-height: 1.8;
-      font-size: 13px;
-      margin-top: 15px;
-    }
-
-    /* =========================
-       FOOTER
-    ========================== */
-
-    footer {
-      text-align: center;
-      color: #89968f;
-      font-size: 12px;
-      padding: 20px;
-      margin-right: 245px;
-    }
-
-    /* =========================
-       DARK MODE
-    ========================== */
-
-    body.dark {
-      --text: #edf5f1;
-      --muted: #a6b7ae;
-      --border: #263b33;
-      --bg: #101815;
-      --white: #17221d;
-      --green-light: #17382c;
-      --green-soft: #14271f;
-      background: #101815;
-      color: var(--text);
-    }
-
-    body.dark .topbar,
-    body.dark .sidebar,
-    body.dark .card,
-    body.dark .grade,
-    body.dark .stat,
-    body.dark .dashboard-card,
-    body.dark .search-box,
-    body.dark .login-box {
-      background: #17221d;
-      color: var(--text);
-      border-color: #263b33;
-    }
-
-    body.dark .nav-link {
-      color: #c2d0c9;
-    }
-
-    body.dark .nav-link:hover,
-    body.dark .nav-link.active {
-      background: #17382c;
-      color: #7ce2b6;
-    }
-
-    body.dark .search-box input,
-    body.dark .login-box input {
-      color: white;
-    }
-
-    body.dark .icon-btn {
-      background: #17221d;
-      color: white;
-      border-color: #263b33;
-    }
-
-    /* =========================
-       MOBILE
-    ========================== */
-
-    @media (max-width: 1100px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .dashboard {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 850px) {
-      .topbar {
-        padding: 0 13px;
-      }
-
-      .sidebar {
-        top: auto;
-        right: 0;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 68px;
-        padding: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        overflow: hidden;
-        border-left: 0;
-        border-top: 1px solid var(--border);
-      }
-
-      .sidebar-title,
-      .sidebar-card {
-        display: none;
-      }
-
-      .nav-link {
-        margin: 0;
-        padding: 7px 9px;
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        font-size: 10px;
-      }
-
-      .nav-icon {
-        font-size: 18px;
-      }
-
-      main {
-        margin-right: 0;
-        padding: 95px 15px 90px;
-      }
-
-      footer {
-        margin-right: 0;
-        padding-bottom: 85px;
-      }
-
-      .brand-text span {
-        display: none;
-      }
-
-      .brand-text strong {
-        font-size: 16px;
-      }
-
-      .logout-btn {
-        padding: 8px 10px;
-        font-size: 11px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hero {
-        padding: 25px 20px;
-        border-radius: 20px;
-      }
-
-      .hero h1 {
-        font-size: 23px;
-      }
-
-      .cards,
-      .grades {
-        grid-template-columns: 1fr;
-      }
-
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-
-      .stat {
-        padding: 14px;
-      }
-
-      .stat strong {
-        font-size: 20px;
-      }
-
-      .login-box {
-        padding: 28px 20px;
-      }
-    }
-  </style>
-
 </head>
 
 <body>
@@ -817,438 +32,505 @@
        LOGIN
   ========================== -->
 
-  <section id="loginScreen">
+  <div id="loginScreen" class="login-screen">
 
-```
-<div class="login-box">
+    <div class="login-box">
 
-  <img src="logo.png" alt="شعار منصة أرض الأحياء" class="login-logo">
+      <img
+        src="logo.png"
+        alt="منصة أرض الأحياء"
+        class="login-logo"
+      >
 
-  <h1>منصة أرض الأحياء</h1>
+      <h1>منصة أرض الأحياء</h1>
 
-  <p class="login-subtitle">
-    منصتك التعليمية لتعلّم الأحياء بطريقة منظمة وسهلة.
-  </p>
+      <p>
+        منصة أحياء الصف الثالث الثانوي
+      </p>
 
-  <div class="input-group">
-    <label for="email">البريد الإلكتروني</label>
-    <input
-      type="email"
-      id="email"
-      placeholder="اكتب بريدك الإلكتروني"
-      autocomplete="email"
-    >
+      <div class="login-tabs">
+        <button
+          class="login-tab active"
+          id="loginTab"
+          onclick="showLogin()"
+        >
+          تسجيل الدخول
+        </button>
+
+        <button
+          class="login-tab"
+          id="registerTab"
+          onclick="showRegister()"
+        >
+          إنشاء حساب
+        </button>
+      </div>
+
+      <!-- تسجيل الدخول -->
+
+      <form id="loginForm">
+
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="البريد الإلكتروني"
+          required
+        >
+
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="كلمة المرور"
+          required
+        >
+
+        <button type="submit" class="main-btn">
+          تسجيل الدخول
+        </button>
+
+      </form>
+
+      <!-- إنشاء الحساب -->
+
+      <form id="registerForm" style="display:none;">
+
+        <input
+          id="registerName"
+          type="text"
+          placeholder="اسم الطالب"
+          required
+        >
+
+        <input
+          id="registerEmail"
+          type="email"
+          placeholder="البريد الإلكتروني"
+          required
+        >
+
+        <input
+          id="registerPassword"
+          type="password"
+          placeholder="كلمة المرور"
+          minlength="6"
+          required
+        >
+
+        <button type="submit" class="main-btn">
+          إنشاء الحساب
+        </button>
+
+      </form>
+
+      <p id="authMessage" class="auth-message"></p>
+
+    </div>
+
   </div>
 
-  <div class="input-group">
-    <label for="password">كلمة المرور</label>
-    <input
-      type="password"
-      id="password"
-      placeholder="اكتب كلمة المرور"
-      autocomplete="current-password"
-    >
-  </div>
-
-  <button class="primary-btn" onclick="login()">
-    تسجيل الدخول
-  </button>
-
-  <button class="switch-btn" onclick="register()">
-    إنشاء حساب جديد
-  </button>
-
-  <div id="message"></div>
-
-</div>
-```
-
-  </section>
 
   <!-- =========================
-       SITE
+       APP
   ========================== -->
 
-  <div id="site">
+  <div id="app" class="app" style="display:none;">
 
-```
-<!-- HEADER -->
+    <!-- الشريط العلوي -->
 
-<header class="topbar">
+    <header class="topbar">
 
-  <a class="brand" href="index.html">
+      <div class="brand">
 
-    <img src="logo.png" alt="شعار منصة أرض الأحياء">
+        <img
+          src="logo.png"
+          alt="أرض الأحياء"
+        >
 
-    <div class="brand-text">
-      <strong>منصة أرض الأحياء</strong>
-      <span>منصة تعليمية متخصصة في الأحياء</span>
-    </div>
+        <div>
+          <strong>منصة أرض الأحياء</strong>
 
-  </a>
-
-  <div class="top-actions">
-
-    <button
-      class="icon-btn"
-      onclick="toggleDarkMode()"
-      title="الوضع الليلي"
-      aria-label="الوضع الليلي"
-    >
-      🌙
-    </button>
-
-    <button class="logout-btn" onclick="logout()">
-      تسجيل الخروج
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-  <div class="sidebar-title">
-    القائمة الرئيسية
-  </div>
-
-  <a href="index.html" class="nav-link active">
-    <span class="nav-icon">🏠</span>
-    <span>الرئيسية</span>
-  </a>
-
-  <a href="videos/index.html" class="nav-link">
-    <span class="nav-icon">🎥</span>
-    <span>المحاضرات</span>
-  </a>
-
-  <a href="notes/index.html" class="nav-link">
-    <span class="nav-icon">📚</span>
-    <span>المذكرات</span>
-  </a>
-
-  <a href="exams/index.html" class="nav-link">
-    <span class="nav-icon">📝</span>
-    <span>الاختبارات</span>
-  </a>
-
-  <a href="forum/index.html" class="nav-link">
-    <span class="nav-icon">💬</span>
-    <span>المنتدى</span>
-  </a>
-
-  <div class="sidebar-card">
-    <strong>🧬 تعلّم بذكاء</strong>
-    <p>
-      تابع دروسك واختباراتك وراجع المذكرات من مكان واحد.
-    </p>
-  </div>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main>
-
-  <!-- HERO -->
-
-  <section class="hero">
-
-    <h1 id="welcomeText">
-      أهلاً بك في منصة أرض الأحياء 👋
-    </h1>
-
-    <p>
-      كل ما تحتاجه في مادة الأحياء في مكان واحد:
-      محاضرات، مذكرات، اختبارات، ومناقشات مع الطلاب.
-    </p>
-
-    <div class="hero-buttons">
-
-      <a href="videos/index.html" class="hero-btn">
-        🎥 ابدأ المحاضرات
-      </a>
-
-      <a href="exams/index.html" class="hero-btn secondary">
-        📝 ابدأ اختبارًا
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- SEARCH -->
-
-  <div class="search-box">
-
-    <span>🔎</span>
-
-    <input
-      type="search"
-      id="searchInput"
-      placeholder="ابحث عن محاضرة، مذكرة، اختبار أو قسم..."
-      oninput="searchContent()"
-    >
-
-  </div>
-
-
-  <!-- STATS -->
-
-  <section class="stats">
-
-    <div class="stat">
-      <div class="stat-icon">🎥</div>
-      <strong>0</strong>
-      <span>محاضرات متاحة</span>
-    </div>
-
-    <div class="stat">
-      <div class="stat-icon">📚</div>
-      <strong>0</strong>
-      <span>مذكرات تعليمية</span>
-    </div>
-
-    <div class="stat">
-      <div class="stat-icon">📝</div>
-      <strong>0</strong>
-      <span>اختبارات</span>
-    </div>
-
-    <div class="stat">
-      <div class="stat-icon">💬</div>
-      <strong>0</strong>
-      <span>مناقشات المنتدى</span>
-    </div>
-
-  </section>
-
-
-  <!-- MAIN SERVICES -->
-
-  <div class="section-head">
-    <h2>أقسام المنصة</h2>
-    <span>اختر القسم الذي تريد زيارته</span>
-  </div>
-
-  <section class="cards" id="contentCards">
-
-    <a
-      href="videos/index.html"
-      class="card searchable"
-      data-search="المحاضرات الفيديو الدروس شرح أحياء"
-    >
-
-      <div class="card-top">
-        <div class="card-icon">🎥</div>
-        <div class="arrow">←</div>
-      </div>
-
-      <h3>المحاضرات</h3>
-
-      <p>
-        شاهد المحاضرات التعليمية وتابع شرح دروس الأحياء خطوة بخطوة.
-      </p>
-
-    </a>
-
-
-    <a
-      href="notes/index.html"
-      class="card searchable"
-      data-search="المذكرات الكتب الملفات مراجعة أحياء"
-    >
-
-      <div class="card-top">
-        <div class="card-icon">📚</div>
-        <div class="arrow">←</div>
-      </div>
-
-      <h3>المذكرات</h3>
-
-      <p>
-        راجع المذكرات والملفات التعليمية الخاصة بمادة الأحياء.
-      </p>
-
-    </a>
-
-
-    <a
-      href="exams/index.html"
-      class="card searchable"
-      data-search="الاختبارات امتحانات اسئلة اختبار أحياء"
-    >
-
-      <div class="card-top">
-        <div class="card-icon">📝</div>
-        <div class="arrow">←</div>
-      </div>
-
-      <h3>الاختبارات</h3>
-
-      <p>
-        اختبر معلوماتك وتابع مستواك من خلال الاختبارات التعليمية.
-      </p>
-
-    </a>
-
-
-    <a
-      href="forum/index.html"
-      class="card searchable"
-      data-search="المنتدى نقاش أسئلة طلاب مناقشة"
-    >
-
-      <div class="card-top">
-        <div class="card-icon">💬</div>
-        <div class="arrow">←</div>
-      </div>
-
-      <h3>المنتدى</h3>
-
-      <p>
-        اطرح أسئلتك وشارك في المناقشات التعليمية مع باقي الطلاب.
-      </p>
-
-    </a>
-
-
-    <a
-      href="videos/index.html"
-      class="card searchable"
-      data-search="المراجعة مراجعات أحياء شرح"
-    >
-
-      <div class="card-top">
-        <div class="card-icon">🧬</div>
-        <div class="arrow">←</div>
-      </div>
-
-      <h3>مراجعة الأحياء</h3>
-
-      <p>
-        راجع أهم أفكار ومعلومات مادة الأحياء قبل الاختبارات.
-      </p>
-
-    </a>
-
-
-    <a
-      href="forum/index.html"
-      class="card searchable"
-      data-search="المساعدة سؤال مساعدة طالب"
-    >
-
-      <div class="card-top">
-        <div class="card-icon">🙋</div>
-        <div class="arrow">←</div>
-      </div>
-
-      <h3>اسأل وشارك</h3>
-
-      <p>
-        شارك سؤالك واستفد من المناقشات والمعلومات الموجودة في المنتدى.
-      </p>
-
-    </a>
-
-  </section>
-
-
-  <!-- GRADES -->
-
-  <div class="section-head">
-    <h2>الصفوف الدراسية</h2>
-    <span>اختر الصف للوصول إلى المحتوى</span>
-  </div>
-
-  <section class="grades">
-
-    <a href="videos/index.html" class="grade">
-      <span class="grade-number">الصف الأول</span>
-      <h3>أحياء الصف الأول</h3>
-      <p>محاضرات ومذكرات واختبارات الصف الأول.</p>
-    </a>
-
-    <a href="videos/index.html" class="grade">
-      <span class="grade-number">الصف الثاني</span>
-      <h3>أحياء الصف الثاني</h3>
-      <p>محاضرات ومذكرات واختبارات الصف الثاني.</p>
-    </a>
-
-    <a href="videos/index.html" class="grade">
-      <span class="grade-number">الصف الثالث</span>
-      <h3>أحياء الصف الثالث</h3>
-      <p>محاضرات ومذكرات واختبارات الصف الثالث.</p>
-    </a>
-
-  </section>
-
-
-  <!-- STUDENT DASHBOARD -->
-
-  <div class="section-head">
-    <h2>لوحة الطالب</h2>
-    <span>ملخص سريع لتقدمك</span>
-  </div>
-
-  <section class="dashboard">
-
-    <div class="dashboard-card">
-
-      <h3>📊 تقدمك في المنصة</h3>
-
-      <div class="progress-wrap">
-
-        <div class="progress-label">
-          <span>التقدم العام</span>
-          <span>65%</span>
-        </div>
-
-        <div class="progress">
-          <span></span>
+          <span>
+            أحياء الصف الثالث الثانوي
+          </span>
         </div>
 
       </div>
 
-      <div class="notice">
-        💡 استمر في متابعة المحاضرات وحل الاختبارات
-        حتى تحافظ على تقدمك في المنصة.
+      <div class="top-actions">
+
+        <button
+          id="darkModeBtn"
+          class="icon-btn"
+          title="الوضع الليلي"
+        >
+          🌙
+        </button>
+
+        <button
+          class="logout-btn"
+          onclick="logout()"
+        >
+          تسجيل الخروج
+        </button>
+
       </div>
 
-    </div>
+    </header>
 
 
-    <div class="dashboard-card">
+    <!-- المحتوى -->
 
-      <h3>🏆 آخر نشاط</h3>
+    <main class="main-content">
 
-      <div class="notice">
-        لم يتم تسجيل نشاط دراسي بعد.
-        ابدأ الآن من قسم المحاضرات أو الاختبارات.
+      <!-- الترحيب -->
+
+      <section class="hero">
+
+        <div class="hero-text">
+
+          <span class="badge">
+            الصف الثالث الثانوي
+          </span>
+
+          <h1>
+            أهلاً بك في
+            <br>
+            منصة أرض الأحياء 🧬
+          </h1>
+
+          <p>
+            مكانك لمذاكرة أحياء الصف الثالث الثانوي
+            من خلال الشرح والملخصات والاختبارات والمراجعات.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="videos/index.html" class="main-btn">
+              🎥 ابدأ الشرح
+            </a>
+
+            <a href="exams/index.html" class="secondary-btn">
+              🧪 اختبر نفسك
+            </a>
+
+          </div>
+
+        </div>
+
+        <div class="hero-image">
+
+          <img
+            src="logo.png"
+            alt="منصة أرض الأحياء"
+          >
+
+        </div>
+
+      </section>
+
+
+      <!-- البحث -->
+
+      <section class="search-section">
+
+        <div class="section-title">
+
+          <h2>ابحث في المنصة</h2>
+
+          <p>
+            ابحث عن درس أو ملخص أو اختبار
+          </p>
+
+        </div>
+
+        <div class="search-box">
+
+          <span>🔎</span>
+
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="اكتب اسم الدرس..."
+          >
+
+        </div>
+
+        <div id="searchResults"></div>
+
+      </section>
+
+
+      <!-- الأقسام -->
+
+      <section class="section">
+
+        <div class="section-title">
+
+          <h2>أقسام المنصة</h2>
+
+          <p>
+            كل ما تحتاجه في أحياء الصف الثالث الثانوي
+          </p>
+
+        </div>
+
+
+        <div class="cards-grid">
+
+          <!-- الفيديوهات -->
+
+          <a
+            href="videos/index.html"
+            class="feature-card"
+          >
+
+            <div class="card-icon">
+              🎥
+            </div>
+
+            <h3>
+              شرح الدروس
+            </h3>
+
+            <p>
+              شاهد شرح دروس أحياء الصف الثالث الثانوي.
+            </p>
+
+            <span>
+              دخول القسم ←
+            </span>
+
+          </a>
+
+
+          <!-- الملخصات -->
+
+          <a
+            href="notes/index.html"
+            class="feature-card"
+          >
+
+            <div class="card-icon">
+              📝
+            </div>
+
+            <h3>
+              الملخصات
+            </h3>
+
+            <p>
+              ملخصات ومراجعات تساعدك على تثبيت المعلومات.
+            </p>
+
+            <span>
+              دخول القسم ←
+            </span>
+
+          </a>
+
+
+          <!-- الاختبارات -->
+
+          <a
+            href="exams/index.html"
+            class="feature-card"
+          >
+
+            <div class="card-icon">
+              🧪
+            </div>
+
+            <h3>
+              الاختبارات
+            </h3>
+
+            <p>
+              اختبر نفسك بأسئلة أحياء الصف الثالث الثانوي.
+            </p>
+
+            <span>
+              دخول القسم ←
+            </span>
+
+          </a>
+
+
+          <!-- المنتدى -->
+
+          <a
+            href="forum/index.html"
+            class="feature-card"
+          >
+
+            <div class="card-icon">
+              💬
+            </div>
+
+            <h3>
+              المنتدى
+            </h3>
+
+            <p>
+              ناقش الأسئلة وتبادل المعلومات مع الطلاب.
+            </p>
+
+            <span>
+              دخول المنتدى ←
+            </span>
+
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <!-- ماذا ستجد -->
+
+      <section class="study-section">
+
+        <div class="section-title">
+
+          <h2>
+            ماذا ستجد في المنصة؟
+          </h2>
+
+        </div>
+
+        <div class="study-grid">
+
+          <div class="study-item">
+            <span>01</span>
+            <div>
+              <h3>شرح واضح</h3>
+              <p>
+                شرح دروس المنهج بطريقة منظمة وسهلة.
+              </p>
+            </div>
+          </div>
+
+          <div class="study-item">
+            <span>02</span>
+            <div>
+              <h3>مراجعة مستمرة</h3>
+              <p>
+                ملخصات ومراجعات تساعدك قبل الامتحان.
+              </p>
+            </div>
+          </div>
+
+          <div class="study-item">
+            <span>03</span>
+            <div>
+              <h3>اختبر نفسك</h3>
+              <p>
+                اختبارات للتدريب على أسئلة الأحياء.
+              </p>
+            </div>
+          </div>
+
+          <div class="study-item">
+            <span>04</span>
+            <div>
+              <h3>مجتمع الطلاب</h3>
+              <p>
+                منتدى لمناقشة الأسئلة والمعلومات.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- رسالة -->
+
+      <section class="quote-box">
+
+        <div>
+          <span class="quote-icon">
+            🧬
+          </span>
+        </div>
+
+        <div>
+
+          <h2>
+            ذاكر بذكاء... وراجع باستمرار
+          </h2>
+
+          <p>
+            منصة أرض الأحياء تساعدك على تنظيم مذاكرتك
+            في أحياء الصف الثالث الثانوي.
+          </p>
+
+        </div>
+
+      </section>
+
+    </main>
+
+
+    <!-- الفوتر -->
+
+    <footer class="footer">
+
+      <div class="footer-brand">
+
+        <img
+          src="logo.png"
+          alt="أرض الأحياء"
+        >
+
+        <div>
+
+          <strong>
+            منصة أرض الأحياء
+          </strong>
+
+          <p>
+            منصة تعليمية لأحياء الصف الثالث الثانوي
+          </p>
+
+        </div>
+
       </div>
 
-    </div>
+      <div class="footer-links">
 
-  </section>
+        <a href="videos/index.html">
+          الفيديوهات
+        </a>
 
-</main>
+        <a href="notes/index.html">
+          الملخصات
+        </a>
 
+        <a href="exams/index.html">
+          الاختبارات
+        </a>
 
-<footer>
-  © <span id="year"></span> منصة أرض الأحياء — جميع الحقوق محفوظة
-</footer>
-```
+        <a href="forum/index.html">
+          المنتدى
+        </a>
+
+      </div>
+
+      <div class="copyright">
+
+        © 2026 منصة أرض الأحياء —
+        جميع الحقوق محفوظة
+
+      </div>
+
+    </footer>
 
   </div>
+
 
   <!-- =========================
-       SUPABASE
+       SCRIPT
   ========================== -->
 
   <script>
@@ -1274,226 +556,265 @@
 
 
     /* =========================
-       SHOW SITE
+       LOGIN / REGISTER
     ========================== */
 
-    function showSite(user) {
+    const loginForm =
+      document.getElementById("loginForm");
 
-      document.getElementById("loginScreen").style.display = "none";
-      document.getElementById("site").style.display = "block";
+    const registerForm =
+      document.getElementById("registerForm");
 
-      const name =
-        user.user_metadata?.full_name ||
-        user.user_metadata?.name ||
-        user.email?.split("@")[0] ||
-        "الطالب";
+    const authMessage =
+      document.getElementById("authMessage");
 
-      document.getElementById("welcomeText").textContent =
-        "أهلاً بك يا " + name + " 👋";
-
-      document.getElementById("year").textContent =
-        new Date().getFullYear();
-
-    }
-
-
-    /* =========================
-       SHOW LOGIN
-    ========================== */
 
     function showLogin() {
 
-      document.getElementById("loginScreen").style.display = "flex";
-      document.getElementById("site").style.display = "none";
+      loginForm.style.display = "block";
+      registerForm.style.display = "none";
+
+      document
+        .getElementById("loginTab")
+        .classList.add("active");
+
+      document
+        .getElementById("registerTab")
+        .classList.remove("active");
+
+      authMessage.textContent = "";
 
     }
 
 
-    /* =========================
-       MESSAGE
-    ========================== */
+    function showRegister() {
 
-    function setMessage(text, color) {
+      loginForm.style.display = "none";
+      registerForm.style.display = "block";
 
-      const message =
-        document.getElementById("message");
+      document
+        .getElementById("registerTab")
+        .classList.add("active");
 
-      message.textContent = text;
-      message.style.color = color;
+      document
+        .getElementById("loginTab")
+        .classList.remove("active");
+
+      authMessage.textContent = "";
 
     }
 
 
-    /* =========================
-       LOGIN
-    ========================== */
+    loginForm.addEventListener(
+      "submit",
+      async function(e) {
 
-    async function login() {
+        e.preventDefault();
 
-      const email =
-        document.getElementById("email").value.trim();
+        authMessage.textContent =
+          "جاري تسجيل الدخول...";
 
-      const password =
-        document.getElementById("password").value;
+        const email =
+          document.getElementById("loginEmail").value.trim();
 
-      if (!email || !password) {
+        const password =
+          document.getElementById("loginPassword").value;
 
-        setMessage(
-          "اكتب البريد الإلكتروني وكلمة المرور.",
-          "#d64545"
-        );
-
-        return;
-      }
-
-      setMessage(
-        "جاري تسجيل الدخول...",
-        "#087f55"
-      );
-
-      const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
+        const {
+          error
+        } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
         });
 
-      if (error) {
+        if (error) {
 
-        setMessage(
-          "تعذر تسجيل الدخول: " + error.message,
-          "#d64545"
-        );
+          authMessage.textContent =
+            "بيانات تسجيل الدخول غير صحيحة.";
 
-        return;
+          return;
+
+        }
+
+        authMessage.textContent = "";
+
       }
-
-      showSite(data.user);
-
-    }
+    );
 
 
-    /* =========================
-       REGISTER
-    ========================== */
+    registerForm.addEventListener(
+      "submit",
+      async function(e) {
 
-    async function register() {
+        e.preventDefault();
 
-      const email =
-        document.getElementById("email").value.trim();
+        authMessage.textContent =
+          "جاري إنشاء الحساب...";
 
-      const password =
-        document.getElementById("password").value;
+        const name =
+          document.getElementById("registerName").value.trim();
 
-      if (!email || !password) {
+        const email =
+          document.getElementById("registerEmail").value.trim();
 
-        setMessage(
-          "اكتب البريد الإلكتروني وكلمة المرور أولاً.",
-          "#d64545"
-        );
+        const password =
+          document.getElementById("registerPassword").value;
 
-        return;
-      }
+        const {
+          data,
+          error
+        } = await supabaseClient.auth.signUp({
 
-      if (password.length < 6) {
+          email,
 
-        setMessage(
-          "كلمة المرور يجب أن تكون 6 أحرف على الأقل.",
-          "#d64545"
-        );
+          password,
 
-        return;
-      }
+          options: {
+            data: {
+              full_name: name,
+              grade: "الثالث الثانوي"
+            }
+          }
 
-      setMessage(
-        "جاري إنشاء الحساب...",
-        "#087f55"
-      );
-
-      const { data, error } =
-        await supabaseClient.auth.signUp({
-          email: email,
-          password: password
         });
 
-      if (error) {
 
-        setMessage(
-          "تعذر إنشاء الحساب: " + error.message,
-          "#d64545"
-        );
+        if (error) {
 
-        return;
+          authMessage.textContent =
+            error.message;
+
+          return;
+
+        }
+
+
+        if (!data.session) {
+
+          authMessage.textContent =
+            "تم إنشاء الحساب. راجع بريدك الإلكتروني لتأكيد الحساب.";
+
+        } else {
+
+          authMessage.textContent =
+            "تم إنشاء الحساب بنجاح.";
+
+        }
+
       }
-
-      if (data.session) {
-
-        showSite(data.user);
-
-      } else {
-
-        setMessage(
-          "تم إنشاء الحساب. تحقق من بريدك الإلكتروني لتأكيد الحساب.",
-          "#087f55"
-        );
-
-      }
-
-    }
+    );
 
 
     /* =========================
-       LOGOUT
-    ========================== */
-
-    async function logout() {
-
-      await supabaseClient.auth.signOut();
-
-      showLogin();
-
-    }
-
-
-    /* =========================
-       SESSION
+       CHECK USER
     ========================== */
 
     async function checkUser() {
 
       const {
-        data: { session },
-        error
-      } =
-        await supabaseClient.auth.getSession();
+        data
+      } = await supabaseClient.auth.getSession();
 
-      if (error || !session) {
+      if (data.session) {
 
-        showLogin();
+        showApp();
 
-        return;
+      } else {
+
+        showLoginScreen();
+
       }
-
-      showSite(session.user);
 
     }
 
 
-    /* =========================
-       AUTH STATE
-    ========================== */
+    function showApp() {
+
+      document
+        .getElementById("loginScreen")
+        .style.display = "none";
+
+      document
+        .getElementById("app")
+        .style.display = "block";
+
+    }
+
+
+    function showLoginScreen() {
+
+      document
+        .getElementById("loginScreen")
+        .style.display = "flex";
+
+      document
+        .getElementById("app")
+        .style.display = "none";
+
+    }
+
+
+    async function logout() {
+
+      await supabaseClient.auth.signOut();
+
+      showLoginScreen();
+
+    }
+
 
     supabaseClient.auth.onAuthStateChange(
-      (event, session) => {
+      function(event, session) {
 
         if (session) {
 
-          showSite(session.user);
+          showApp();
 
-        } else if (event === "SIGNED_OUT") {
+        } else {
 
-          showLogin();
+          showLoginScreen();
 
         }
+
+      }
+    );
+
+
+    /* =========================
+       DARK MODE
+    ========================== */
+
+    const darkModeBtn =
+      document.getElementById("darkModeBtn");
+
+
+    if (
+      localStorage.getItem("ardDarkMode") === "true"
+    ) {
+
+      document.body.classList.add("dark");
+
+      darkModeBtn.textContent = "☀️";
+
+    }
+
+
+    darkModeBtn.addEventListener(
+      "click",
+      function() {
+
+        document.body.classList.toggle("dark");
+
+        const dark =
+          document.body.classList.contains("dark");
+
+        localStorage.setItem(
+          "ardDarkMode",
+          dark
+        );
+
+        darkModeBtn.textContent =
+          dark ? "☀️" : "🌙";
 
       }
     );
@@ -1503,76 +824,110 @@
        SEARCH
     ========================== */
 
-    function searchContent() {
+    const searchInput =
+      document.getElementById("searchInput");
 
-      const input =
-        document.getElementById("searchInput");
+    const searchResults =
+      document.getElementById("searchResults");
 
-      const query =
-        input.value.trim().toLowerCase();
 
-      const cards =
-        document.querySelectorAll(".searchable");
+    const sections = [
 
-      cards.forEach(card => {
+      {
+        title: "شرح الدروس",
+        text: "فيديوهات شرح أحياء الصف الثالث الثانوي",
+        url: "videos/index.html"
+      },
 
-        const text =
-          (
-            card.innerText +
-            " " +
-            card.dataset.search
-          ).toLowerCase();
+      {
+        title: "الملخصات",
+        text: "ملخصات ومراجعات أحياء ثالثة ثانوي",
+        url: "notes/index.html"
+      },
 
-        if (!query || text.includes(query)) {
+      {
+        title: "الاختبارات",
+        text: "اختبارات وأسئلة أحياء الصف الثالث الثانوي",
+        url: "exams/index.html"
+      },
 
-          card.style.display = "block";
+      {
+        title: "المنتدى",
+        text: "منتدى طلاب أحياء الصف الثالث الثانوي",
+        url: "forum/index.html"
+      }
 
-        } else {
+    ];
 
-          card.style.display = "none";
+
+    searchInput.addEventListener(
+      "input",
+      function() {
+
+        const value =
+          searchInput.value
+            .trim()
+            .toLowerCase();
+
+
+        if (!value) {
+
+          searchResults.innerHTML = "";
+
+          return;
 
         }
 
-      });
 
-    }
-
-
-    /* =========================
-       DARK MODE
-    ========================== */
-
-    function toggleDarkMode() {
-
-      document.body.classList.toggle("dark");
-
-      const isDark =
-        document.body.classList.contains("dark");
-
-      localStorage.setItem(
-        "ard_al_ahyaa_dark",
-        isDark ? "1" : "0"
-      );
-
-    }
+        const results =
+          sections.filter(item =>
+            (
+              item.title +
+              " " +
+              item.text
+            )
+              .toLowerCase()
+              .includes(value)
+          );
 
 
-    /* =========================
-       LOAD DARK MODE
-    ========================== */
+        if (!results.length) {
 
-    if (
-      localStorage.getItem("ard_al_ahyaa_dark") === "1"
-    ) {
+          searchResults.innerHTML =
+            `<div class="no-results">
+              لا توجد نتائج مطابقة.
+            </div>`;
 
-      document.body.classList.add("dark");
+          return;
 
-    }
+        }
 
 
-    /* =========================
-       START
-    ========================== */
+        searchResults.innerHTML =
+          results.map(item => `
+
+            <a
+              href="${item.url}"
+              class="search-result"
+            >
+
+              <strong>
+                ${item.title}
+              </strong>
+
+              <span>
+                ${item.text}
+              </span>
+
+            </a>
+
+          `).join("");
+
+      }
+    );
+
+
+    /* تشغيل المنصة */
 
     checkUser();
 
